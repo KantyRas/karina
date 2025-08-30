@@ -1,0 +1,59 @@
+<?php
+
+use App\Http\Controllers\maintenance\admin\EmployeController;
+use App\Http\Controllers\maintenance\admin\FonctionController;
+use App\Http\Controllers\maintenance\admin\RoleController;
+use App\Http\Controllers\maintenance\admin\UserController;
+use App\Http\Controllers\maintenance\carnet\CarnetController;
+use App\Http\Controllers\maintenance\demande\DemandeController;
+use App\Http\Controllers\maintenance\gestion\DepotController;
+use App\Http\Controllers\maintenance\gestion\EmplacementController;
+use App\Http\Controllers\maintenance\gestion\FamilleController;
+use App\Http\Controllers\maintenance\gestion\FrequenceController;
+use App\Http\Controllers\maintenance\gestion\TypeDemandeController;
+use App\Http\Controllers\maintenance\gestion\TypeInterventionController;
+use App\Http\Controllers\maintenance\gestion\UniteController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('maintenance.basefront');
+})->name('index.dashboard');
+
+Route::prefix('admin')->name('admin.personnel.')->group(function(){
+    Route::resource('employe',EmployeController::class)->except(['show']);
+    Route::resource('role',RoleController::class)->except(['show']);
+    Route::resource('user',UserController::class)->except(['show']);
+    Route::resource('fonction',FonctionController::class)->except(['show']);
+});
+
+Route::prefix('gestions')->name('util.gestion.')->group(function(){
+    Route::resource('emplacement',EmplacementController::class)->except(['show']);
+    Route::resource('frequence',FrequenceController::class)->except(['show']);
+    Route::resource('depot',DepotController::class)->except(['show']);
+    Route::resource('famille', FamilleController::class)->except(['show']);
+    Route::resource('unite', UniteController::class)->except(['show']);
+    Route::resource('typeDemande',TypeDemandeController::class)->except(['show']);
+    Route::resource('typeIntervention',TypeInterventionController::class)->except(['show']);
+});
+
+Route::prefix('carnets')->name('carnet.')->group(function () {
+    Route::get('/',[CarnetController::class,'index'])->name('liste_carnet');
+    Route::get('/create',[CarnetController::class,'create'])->name('create_carnet');
+    Route::get('/fiche/historique',[CarnetController::class,'fiche_index'])->name('fiche_carnet_historique');
+    Route::get('/fiche/saisie',[CarnetController::class,'fiche_create'])->name('fiche_saisie');
+});
+
+Route::prefix('demandes')->group(function(){
+    Route::resource('demande', DemandeController::class)->except(['show']);
+});
