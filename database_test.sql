@@ -20,6 +20,7 @@ create table employes(
 create table users(
     idUser serial primary key,
     idEmploye int references employes(idEmploye) default 0,
+    username varchar(75) unique not null,
     email varchar(75) unique not null,
     password varchar(255) not null,
     role int references roles(idRole)
