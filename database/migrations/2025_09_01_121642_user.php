@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id('idUser');
-            $table->foreignIdFor(\App\Models\Employe::class, 'idEmploye')
+            $table->id('iduser');
+            $table->foreignIdFor(\App\Models\Employe::class, 'idemploye')
                   ->nullable()
-                  ->constrained('employes', 'idEmploye')
+                  ->constrained('employes', 'idemploye')
                   ->nullOnDelete();
             $table->string('username', 75)->unique();
             $table->string('email', 75)->unique();
             $table->string('password', 255);
             $table->foreignIdFor(\App\Models\Role::class, 'role')
                   ->nullable()
-                  ->constrained('roles', 'idRole')
+                  ->constrained('roles', 'idrole')
                   ->nullOnDelete();
         });
     }
