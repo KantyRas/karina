@@ -18,7 +18,7 @@ return new class extends Migration
                   ->constrained('employes', 'idemploye')
                   ->nullOnDelete();
             $table->string('username', 75)->unique();
-            $table->string('email', 75)->unique();
+            $table->string('email', 75)->unique()->nullable();
             $table->string('password', 255);
             $table->foreignIdFor(\App\Models\Role::class, 'role')
                   ->nullable()

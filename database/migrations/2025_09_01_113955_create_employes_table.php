@@ -20,7 +20,7 @@ return new class extends Migration
                   ->nullable()
                   ->constrained('fonctions', 'idfonction')
                   ->cascadeOnDelete();
-            $table->string('email', 75)->unique();
+            $table->string('email', 75)->unique()->nullable();
             $table->string('telephone', 10)->nullable();
             $table->boolean('estactif')->default(1);
         });

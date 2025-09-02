@@ -209,13 +209,9 @@ INSERT INTO users (idemploye, username, email, password, role) VALUES
 (0, 'pdurand', 'paul.durand@example.com', 'huhu', 3); -- Employé
 
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'Noum', 'jea.dupont@example.com', '$2y$10$aAKKRyhOaSBA6Vlh2PKp4OzWXW6k68dXcr7NThw2oMjV8ix45bfeC', 1);
+(null, 'Noum', 'jea.dupont@example.com', '$2y$10$wzl6wgFwGtva/.k.kfSxmuIDOzecRxvaMTFqmU.Op.28o.bISbZA.', 1);
 
 INSERT INTO users (idemploye, username, email, password, role) VALUES
 (null, 'Cloud', 'ja.dupont@example.com', '$2y$10$zXSc3z1N7mBL2PkBRbupo.DVBQORCCb7T92CuezXINVAGm4vxE1WG', 2);
-
-UPDATE roles SET role = 'SuperAdmin' WHERE idrole = 1;
-UPDATE roles SET role = 'Admin' WHERE idrole = 2;
-UPDATE roles SET role = 'Compliance' WHERE idrole = 3;
 
 php -r "echo password_hash('12345', PASSWORD_BCRYPT);"
