@@ -12,7 +12,7 @@ class TypeDemandeController extends Controller
      */
     public function index()
     {
-        //
+        return view('maintenance.gestion.list_type_demande');
     }
 
     /**

@@ -12,7 +12,7 @@ class FrequenceController extends Controller
      */
     public function index()
     {
-        //
+        return view('maintenance.gestion.list_frequence');
     }
 
     /**

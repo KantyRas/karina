@@ -204,7 +204,7 @@ INSERT INTO employes (nom, prenom, matricule, idfonction, email, telephone, estA
 -- Users
 -- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(1, 'kanty', 'jean.dupont@example.com', 'kanty', 1), -- Admin
+(null, 'kanty', 'jean.dupont@example.com', 'kanty', 1), -- Admin
 (2, 'noumts', 'claire.martin@example.com', 'noumts', 2), -- Manager
 (0, 'pdurand', 'paul.durand@example.com', 'huhu', 3); -- Employé
 
@@ -214,4 +214,4 @@ INSERT INTO users (idemploye, username, email, password, role) VALUES
 INSERT INTO users (idemploye, username, email, password, role) VALUES
 (null, 'Cloud', 'ja.dupont@example.com', '$2y$10$zXSc3z1N7mBL2PkBRbupo.DVBQORCCb7T92CuezXINVAGm4vxE1WG', 2);
 
-php -r "echo password_hash('12345', PASSWORD_BCRYPT);"
+php -r "echo password_hash('kanty', PASSWORD_BCRYPT);"

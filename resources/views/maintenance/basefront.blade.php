@@ -144,37 +144,36 @@
                         </li>
                     </ul>
                 </li>
-                <li>
                 @endif
+                <li @class(['','active' => str_contains($routeName, 'util.gestion.')])>
                 @if(Auth::user()->role == 1)
                     <a href="#"><i class="fa fa-archive fa-fw"></i> Gestions utiles<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">Emplacements</a>
+                            <a href="{{ route('util.gestion.emplacement.index') }}">Emplacements</a>
                         </li>
                         <li>
-                            <a href="#">Dépôts</a>
+                            <a href="{{ route('util.gestion.depot.index') }}">Dépôts</a>
                         </li>
                         <li>
-                            <a href="#">Familles</a>
+                            <a href="{{ route('util.gestion.famille.index') }}">Familles</a>
                         </li>
                         <li>
-                            <a href="#">Unités</a>
+                            <a href="{{ route('util.gestion.unite.index') }}">Unités</a>
                         </li>
                         <li>
-                            <a href="#">Fréquence suivie tâches</a>
+                            <a href="{{ route('util.gestion.frequence.index') }}">Fréquence suivie tâches</a>
                         </li>
                         <li>
-                            <a href="#">Type demandes existants</a>
+                            <a href="{{ route('util.gestion.typeDemande.index') }}">Type demandes existants</a>
                         </li>
                         <li>
-                            <a href="#">Type interventions</a>
+                            <a href="{{ route('util.gestion.typeIntervention.index') }}">Type interventions</a>
                         </li>
                     </ul>
                 </li>
                 @endif
                 @if(Auth::user()->role == 1 || Auth::user()->role == 2)
-                    <!-- L’utilisateur a le rôle 1 ET 2 -->
                     <li>
                         <a href="#"><i class="fa fa-archive fa-fw"></i>Stocks<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">

@@ -12,7 +12,7 @@ class DepotController extends Controller
      */
     public function index()
     {
-        //
+        return view('maintenance.gestion.list_depot');
     }
 
     /**

@@ -1,14 +1,14 @@
 @extends('maintenance.basefront')
-@section('title','Listes employés')
+@section('title','unités')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Localisations</h1>
+        <h1 class="page-header">Tous les unités</h1>
     </div>
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Aperçu des différents localisations
+                    Unités utilisés
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -16,14 +16,14 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Emplacement</th>
+                                <th>Unité</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr class="odd gradeX">
                                 <td>1</td>
-                                <td>Bâtiment A</td>
+                                <td>Kg</td>
                                 <td class="text-center">
                                     <a href="#"
                                        class="btn btn-success btn-circle"
@@ -50,7 +50,7 @@
         <div class="col-lg-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Formulaires Ajouts Emplacements
+                    Formulaires Ajouts Unités
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -58,7 +58,7 @@
                             <form action="#">
                                 @csrf
                                 <div class="form-group">
-                                    <label>Emplacement</label>
+                                    <label>Unité</label>
                                     <input class="form-control" placeholder="...">
                                 </div>
                                 <button type="submit" class="btn btn-success" style="width:100px;">Validez</button>
