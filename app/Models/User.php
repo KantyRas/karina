@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     protected $table = 'users';
-    protected $primaryKey = 'idUser';
+    protected $primaryKey = 'iduser';
     public $timestamps = false;
 
     protected $fillable = [
