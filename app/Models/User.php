@@ -15,7 +15,7 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
-        'idEmploye',
+        'idemploye',
         'username',
         'email',
         'password',
@@ -28,11 +28,11 @@ class User extends Authenticatable
 
     public function employe()
     {
-        return $this->belongsTo(Employe::class, 'idEmploye', 'idEmploye');
+        return $this->belongsTo(Employe::class, 'idemploye', 'idemploye');
     }
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role', 'idRole');
+        return $this->belongsTo(Role::class, 'role', 'idrole');
     }
 }

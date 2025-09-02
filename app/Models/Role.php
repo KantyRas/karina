@@ -10,7 +10,7 @@ class Role extends Model
     use HasFactory;
 
     protected $table = 'roles';
-    protected $primaryKey = 'idRole';
+    protected $primaryKey = 'idrole';
     public $timestamps = false;
 
     protected $fillable = [
@@ -19,6 +19,6 @@ class Role extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'role', 'idRole');
+        return $this->hasMany(User::class, 'role', 'idrole');
     }
 }

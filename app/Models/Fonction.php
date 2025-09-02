@@ -10,7 +10,7 @@ class Fonction extends Model
     use HasFactory;
 
     protected $table = 'fonctions';
-    protected $primaryKey = 'idFonction';
+    protected $primaryKey = 'idfonction';
     public $timestamps = false;
 
     protected $fillable = [
@@ -19,6 +19,6 @@ class Fonction extends Model
 
     public function employes()
     {
-        return $this->hasMany(Employe::class, 'idFonction', 'idFonction');
+        return $this->hasMany(Employe::class, 'idfonction', 'idfonction');
     }
 }

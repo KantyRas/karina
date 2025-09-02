@@ -17,7 +17,7 @@ class Employe extends Model
         'nom',
         'prenom',
         'matricule',
-        'idFonction',
+        'idfonction',
         'email',
         'telephone',
         'estActif',
@@ -25,11 +25,11 @@ class Employe extends Model
 
     public function fonction()
     {
-        return $this->belongsTo(Fonction::class, 'idFonction', 'idFonction');
+        return $this->belongsTo(Fonction::class, 'idfonction', 'idfonction');
     }
 
     public function user()
     {
-        return $this->hasOne(User::class, 'idEmploye', 'idEmploye');
+        return $this->hasOne(User::class, 'idemploye', 'idemploye');
     }
 }
