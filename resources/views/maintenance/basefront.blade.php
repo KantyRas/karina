@@ -74,7 +74,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="{{ route('logout.auth')}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -104,20 +104,25 @@
                 <li @class(['','active' => str_contains($routeName, 'admin.personnel.')])>
                     <a href="#"><i class="fa fa-users fa-fw"></i> Utilisateurs<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
+                        @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                         <li>
                             <a href="{{ route('admin.personnel.employe.index') }}">Employés</a>
                         </li>
                         <li>
                             <a href="{{ route('admin.personnel.fonction.index') }}">Fonctions</a>
                         </li>
+                        @endif
+                        @if(Auth::user()->role == 1)
                         <li>
                             <a href="{{ route('admin.personnel.role.index') }}">Rôles</a>
                         </li>
                         <li>
                             <a href="{{ route('admin.personnel.user.index') }}">Comptes</a>
                         </li>
+                        @endif
                     </ul>
                 </li>
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 3)
                 <li @class(['','active' => str_contains($routeName, 'carnet.')])>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Entreprises<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -126,6 +131,8 @@
                         </li>
                     </ul>
                 </li>
+                @endif
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                 <li @class(['','active' => str_contains($routeName, 'demande.')])>
                     <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Demandes<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -138,6 +145,8 @@
                     </ul>
                 </li>
                 <li>
+                @endif
+                @if(Auth::user()->role == 1)
                     <a href="#"><i class="fa fa-archive fa-fw"></i> Gestions utiles<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -163,14 +172,18 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-archive fa-fw"></i>Stocks<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#">Articles</a>
-                        </li>
-                    </ul>
-                </li>
+                @endif
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                    <!-- L’utilisateur a le rôle 1 ET 2 -->
+                    <li>
+                        <a href="#"><i class="fa fa-archive fa-fw"></i>Stocks<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Articles</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
             <!-- /#side-menu -->
         </div>

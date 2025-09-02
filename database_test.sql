@@ -179,3 +179,49 @@ FROM carnets c
                    ON cem.idEmploye = emp.idEmploye
          LEFT JOIN fonctions fs
                    ON emp.idFontion = fs.idFonction;
+
+
+-- Roles
+INSERT INTO roles (role) VALUES
+('SuperAdmin'),
+('Admin'),
+('Compliance'),
+('Achat'),
+('Technicien');
+
+-- Fonctions
+INSERT INTO fonctions (fonction) VALUES
+('Développeur'),
+('Analyste'),
+('Chef de projet');
+
+-- Employés
+INSERT INTO employes (nom, prenom, matricule, idFonction, email, telephone, estActif) VALUES
+('Dupont', 'Jean', '6906', 1, 'jean.dupont@example.com', '0601020304', 1);
+('Martin', 'Claire', '5642', 2, 'claire.martin@example.com', '0605060708', 1),
+('Durand', 'Paul', '7854', 3, 'paul.durand@example.com', '0608091011', 0);
+
+-- Users
+-- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
+INSERT INTO users (idEmploye, username, email, password, role) VALUES
+(1, 'kanty', 'jean.dupont@example.com', 'kanty', 1), -- Admin
+(2, 'noumts', 'claire.martin@example.com', 'noumts', 2), -- Manager
+(0, 'pdurand', 'paul.durand@example.com', 'huhu', 3); -- Employé
+
+
+INSERT INTO users ("idEmploye", username, email, password, role) VALUES
+(null, 'Noum', 'jea.dupont@example.com', '$2y$10$aAKKRyhOaSBA6Vlh2PKp4OzWXW6k68dXcr7NThw2oMjV8ix45bfeC', 1);
+
+INSERT INTO users ("idEmploye", username, email, password, role) VALUES
+(null, 'Cloud', 'ja.dupont@example.com', '$2y$10$zXSc3z1N7mBL2PkBRbupo.DVBQORCCb7T92CuezXINVAGm4vxE1WG', 2);
+
+UPDATE roles SET role = 'SuperAdmin' WHERE "idRole" = 1;
+UPDATE roles SET role = 'Admin' WHERE "idRole" = 2;
+UPDATE roles SET role = 'Compliance' WHERE "idRole" = 3;
+
+
+
+
+
+
+php -r "echo password_hash('12345', PASSWORD_BCRYPT);"
