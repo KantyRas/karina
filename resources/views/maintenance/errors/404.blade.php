@@ -12,7 +12,7 @@
             padding: 50px;
         }
         img {
-            max-width: 400px;
+            /* max-width: 400px; */
             width: 100%;
             height: auto;
             margin-top: 30px;
