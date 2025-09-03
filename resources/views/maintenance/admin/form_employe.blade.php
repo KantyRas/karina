@@ -12,43 +12,48 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form action="#">
+                        <form action="{{isset($employe) && $employe->exists 
+                            ? route('admin.personnel.employe.update', $employe->idemploye) 
+                            : route('admin.personnel.employe.store') }}" method="post">
                             @csrf
+                            @method($employe->exists ? 'PUT' : 'POST')
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Nom</label>
-                                    <input class="form-control" placeholder="Entrez le nom">
+                                    <input class="form-control" name="nom" placeholder="Entrez le nom" value={{ $employe->nom ?? ''}}>
                                 </div>
                                 <div class="form-group">
                                     <label>Prénom</label>
-                                    <input class="form-control" placeholder="Entrez le prénom">
+                                    <input class="form-control" name="prenom" placeholder="Entrez le prénom" value={{ $employe->prenom ?? ''}}>
                                 </div>
                                 <div class="form-group">
                                     <label>Matricule nº</label>
-                                    <input type="text" class="form-control" placeholder="ex: 6906">
+                                    <input type="text" class="form-control" name="matricule" placeholder="ex: 6906" value={{ $employe->matricule ?? ''}}>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" placeholder="ex: rakoto@gmail.com">
+                                    <input type="email" class="form-control" name="email" placeholder="ex: rakoto@gmail.com" value={{ $employe->email ?? ''}}>
                                 </div>
                                 <div class="form-group">
                                     <label>Téléphone</label>
-                                    <input type="tel" class="form-control" placeholder="ex: 0348945621">
+                                    <input type="tel" class="form-control" name="telephone" placeholder="ex: 0348945621" value={{ $employe->telephone ?? ''}}>
                                 </div>
                                 <div class="form-group">
                                     <label>Fonction</label>
-                                    <select class="form-control">
-                                        <option>--Choisir--</option>
-                                        <option>Agent de maintenance</option>
-                                        <option>Électricien</option>
-                                        <option>Plombier</option>
+                                    <select class="form-control" name="idfonction">
+                                        <option value="">--Choisir--</option>
+                                        @foreach ($fonction as $f)
+                                        <option value="{{ $f->idfonction }}" {{ $employe->idfonction == $f->idfonction ? 'selected' : '' }} >
+                                            {{ $f->fonction }}
+                                        </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <button type="submit" class="btn btn-success" style="width:200px;">Validez</button>
+                                <button type="submit" class="btn btn-success" style="width:200px;">Valider</button>
                             </div>
                         </form>
                     </div>

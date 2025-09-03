@@ -214,4 +214,6 @@ INSERT INTO users (idemploye, username, email, password, role) VALUES
 INSERT INTO users (idemploye, username, email, password, role) VALUES
 (null, 'cloud', 'ja.dupont@example.com', '$2y$10$HyLD9mx3B0L7O.0B8TYBmuBBnncFXVPCXx0cpZgdwpQVVf/sorQeW', 2);
 
+INSERT INTO fonctions (fonction) VALUES ('electricien');
+
 php -r "echo password_hash('cloud', PASSWORD_BCRYPT);"

@@ -30,34 +30,36 @@
                             </tr>
                             </thead>
                             <tbody>
+                                @foreach ($employe as $e)
                                 <tr class="odd gradeX">
-                                    <td>6906</td>
-                                    <td>RASOLOFOMANANA Tanjoniaina Kanty</td>
-                                    <td>rasolofomananakanty@gmail.com</td>
-                                    <td>+261 34 87 645 40</td>
-                                    <td>Développeur</td>
-                                    <th>
-                                        <span class="label label-success" style="padding:6px 10px; border-radius:20px;">
-                                            Actif
-                                        </span>
-                                    </th>
-                                    <td class="text-center">
-                                        <a href="#"
-                                           class="btn btn-success btn-circle"
-                                           title="Modifier">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                        <form action="" method="POST" style="display:inline-block; margin-left:3px;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                    class="btn btn-danger btn-circle"
-                                                    title="Supprimer">
-                                                <i class="fa fa-trash-o"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+                                        <td>{{$e->matricule}}</td>
+                                        <td>{{$e->nom}} {{$e->prenom}}</td>
+                                        <td>{{$e->email}}</td>
+                                        <td>{{$e->telephone}}</td>
+                                        <td>{{$e->fonction->fonction ?? ''}}</td>
+                                        <th>
+                                            <span class="label label-success" style="padding:6px 10px; border-radius:20px;">
+                                                Actif
+                                            </span>
+                                        </th>
+                                        <td class="text-center">
+                                            <a href="{{ route('admin.personnel.employe.edit', $e) }}"
+                                               class="btn btn-success btn-circle"
+                                               title="Modifier">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <form action="{{ route('admin.personnel.employe.destroy', $e) }}" method="POST" style="display:inline-block; margin-left:3px;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-circle"
+                                                        title="Supprimer">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
                             </tbody>
                         </table>
                     </div>
