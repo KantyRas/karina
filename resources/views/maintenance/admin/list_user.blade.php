@@ -4,9 +4,9 @@
     <div class="col-lg-12">
         <h1 class="page-header">Tous les utilisateurs</h1>
         <div class="text-right" style="margin-bottom:15px;">
-            <a href="{{ route('admin.personnel.user.create') }}" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Ajout comptes utilisateurs
-            </a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
+                <i class="fa fa-plus"></i>  Ajout comptes utilisateurs
+            </button>
         </div>
     </div>
     <div class="row">
@@ -60,6 +60,56 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{-- modal --}}
+    <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFonctionLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Formulaire Ajout Compte
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="modal-body">
+                            <form action="#">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Matricule</label>
+                                    <select class="form-control">
+                                        <option value="0">--Choisir--</option>
+                                        <option value="idEmploye">6906</option>
+                                        <option value="idEmploye">6907</option>
+                                        <option value="idEmploye">6908</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Mot de passe</label>
+                                    <input type="password" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Rôle</label>
+                                    <select class="form-control">
+                                        <option value="1">Super admin</option>
+                                        <option value="2">Admin</option>
+                                        <option value="3">Simple utilisateur</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-success">Valider</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
