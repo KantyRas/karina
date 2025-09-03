@@ -2,10 +2,15 @@
 @section('title','Listes employés')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Tous les dépôts</h1>
+        <h1 class="page-header">Dépôts</h1>
+        <div class="text-right" style="margin-bottom:15px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
+                <i class="fa fa-plus"></i> Ajouter Dépôt
+            </button>
+        </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Aperçu des dépôts existants
@@ -47,26 +52,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Formulaires Ajouts Dépôts
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form action="#">
-                                @csrf
-                                <div class="form-group">
-                                    <label>Dépôt</label>
-                                    <input class="form-control" placeholder="...">
-                                </div>
-                                <button type="submit" class="btn btn-success" style="width:100px;">Validez</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+    @include('maintenance.shared.modal', [
+        'id' => 'ajoutModal',
+        'labelId' => 'ajoutDepotLabel',
+        'title' => 'Ajout Dépôt',
+        'action' => '#',
+        'body' => '
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Nom dépôt</label>
+                <input type="text" class="form-control" placeholder="..." required>
+            </div>
+        '
+    ])
 @endsection
