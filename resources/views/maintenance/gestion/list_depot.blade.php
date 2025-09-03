@@ -2,17 +2,10 @@
 @section('title','Listes employés')
 @section('content')
     <div class="col-lg-12">
-<<<<<<< HEAD
-        <h1 class="page-header">Tous les dépôts</h1>
-        <div class="text-right" style="margin-bottom:15px;">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
-                <i class="fa fa-plus"></i> Ajouter dépôt
-=======
         <h1 class="page-header">Dépôts</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
                 <i class="fa fa-plus"></i> Ajouter Dépôt
->>>>>>> 49ae70af4909c4011d24075da5f1f8c347b62672
             </button>
         </div>
     </div>
