@@ -29,9 +29,10 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach ($fonction as $f)
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Responsable Maintenance</td>
+                                <td>{{ $f->idfonction }}</td>
+                                <td>{{ $f->fonction }}</td>
                                 <td class="text-center">
                                     <a href="#"
                                        class="btn btn-success btn-circle"
@@ -49,6 +50,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -61,7 +63,7 @@
     <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFonctionLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action=" {{ route('index.dashboard') }}" method="GET">
+                <form action=" {{ route('admin.personnel.fonction.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="ajoutFonctionLabel">Ajouter une fonction</h5>
@@ -73,7 +75,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Nom fonction</label>
-                            <input name="nom" class="form-control" placeholder="..." required>
+                            <input name="fonction" class="form-control" placeholder="..." required>
                         </div>
                     </div>
 
