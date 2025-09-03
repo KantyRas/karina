@@ -26,11 +26,12 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($roles as $role)
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Super admin</td>
+                                <td>{{ $role->idrole }}</td>
+                                <td>{{ $role->role }}</td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('admin.personnel.role.edit', $role->idrole) }}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
@@ -46,6 +47,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -53,29 +55,42 @@
             </div>
         </div>
     </div>
-
+    @if(isset($editRole))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                $('#ajoutModal').modal('show');
+            });
+        </script>
+    @endif
 <!-- Modal Ajout Fonction -->
 <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFonctionLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action=" {{ route('index.dashboard') }}" method="GET">
+            <form action="{{ isset($editRole) ? route('admin.personnel.role.update', $editRole->idrole) : route('admin.personnel.role.store') }}"
+                  method="post">
                 @csrf
+                @if(isset($editRole))
+                    @method('PUT')
+                @endif
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ajoutFonctionLabel">Formulaire ajout rôles</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                    <h5 class="modal-title" id="ajoutFonctionLabel">
+                        {{ isset($editRole) ? 'Modifier rôle' : 'Ajouter rôle' }}
+                    </h5>
+                    <a href="{{ route('admin.personnel.role.index') }}" class="close" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </a>
                 </div>
 
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nom rôle</label>
-                        <input name="nom" class="form-control" placeholder="..." required>
+                        <input name="role" class="form-control" placeholder="..."
+                               value="{{ old('role', $editRole->role ?? '') }}" required>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <a href="{{ route('admin.personnel.role.index') }}" class="btn btn-secondary">Annuler</a>
                     <button type="submit" class="btn btn-success">Valider</button>
                 </div>
             </form>
