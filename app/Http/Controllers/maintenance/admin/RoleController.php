@@ -29,7 +29,8 @@ class RoleController extends Controller
     }
     public function update(RoleRequest $request, Role $role)
     {
-        //
+        $role->update($request->validated());
+        return to_route('admin.personnel.role.index')->with('success','Modifié avec succès');
     }
     public function destroy(Role $role)
     {
