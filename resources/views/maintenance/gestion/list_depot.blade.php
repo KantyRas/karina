@@ -2,10 +2,17 @@
 @section('title','Listes employés')
 @section('content')
     <div class="col-lg-12">
+<<<<<<< HEAD
         <h1 class="page-header">Tous les dépôts</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
                 <i class="fa fa-plus"></i> Ajouter dépôt
+=======
+        <h1 class="page-header">Dépôts</h1>
+        <div class="text-right" style="margin-bottom:15px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
+                <i class="fa fa-plus"></i> Ajouter Dépôt
+>>>>>>> 49ae70af4909c4011d24075da5f1f8c347b62672
             </button>
         </div>
     </div>
@@ -53,32 +60,16 @@
             </div>
         </div>
     </div>
-<!-- Modal -->
-<div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFonctionLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form action=" {{ route('index.dashboard') }}" method="GET">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ajoutFonctionLabel">Formulaires ajout dépôts</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Dépôt</label>
-                        <input name="nom" class="form-control" placeholder="..." required>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-success">Valider</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+    @include('maintenance.shared.modal', [
+        'id' => 'ajoutModal',
+        'labelId' => 'ajoutDepotLabel',
+        'title' => 'Ajout Dépôt',
+        'action' => '#',
+        'body' => '
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Nom dépôt</label>
+                <input type="text" class="form-control" placeholder="..." required>
+            </div>
+        '
+    ])
 @endsection

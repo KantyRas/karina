@@ -2,10 +2,15 @@
 @section('title','unités')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Tous les unités</h1>
+        <h1 class="page-header">Fréquences</h1>
+        <div class="text-right" style="margin-bottom:15px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
+                <i class="fa fa-plus"></i> Ajouter Fréquence
+            </button>
+        </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Unités utilisés
@@ -47,26 +52,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Formulaires Ajouts Unités
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form action="#">
-                                @csrf
-                                <div class="form-group">
-                                    <label>Unité</label>
-                                    <input class="form-control" placeholder="...">
-                                </div>
-                                <button type="submit" class="btn btn-success" style="width:100px;">Validez</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+    @include('maintenance.shared.modal', [
+        'id' => 'ajoutModal',
+        'labelId' => 'ajoutFrequenceLabel',
+        'title' => 'Ajout Unité',
+        'action' => '#',
+        'body' => '
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Unité</label>
+                <input type="text" class="form-control" placeholder="..." required>
+            </div>
+        '
+    ])
 @endsection

@@ -2,10 +2,15 @@
 @section('title','Toutes les familles')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Familles</h1>
+        <h1 class="page-header">Familles existants</h1>
+        <div class="text-right" style="margin-bottom:15px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
+                <i class="fa fa-plus"></i> Ajouter une famille
+            </button>
+        </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Aperçu des familles maintenance
@@ -49,35 +54,28 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Formulaires Ajouts Familles
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form action="#">
-                                @csrf
-                                <div class="form-group">
-                                    <label>Depôt</label>
-                                    <select class="form-control">
-                                        <option value="0">--Choisir--</option>
-                                        <option value="idEmploye">Depot 1</option>
-                                        <option value="idEmploye">Depot 2</option>
-                                        <option value="idEmploye">Depot 3</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nom famille</label>
-                                    <input class="form-control" placeholder="...">
-                                </div>
-                                <button type="submit" class="btn btn-success" style="width:100px;">Validez</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+    @include('maintenance.shared.modal', [
+    'id' => 'ajoutModal',
+    'labelId' => 'ajoutFamilleLabel',
+    'title' => 'Ajout Famille',
+    'action' => '#',
+    'body' => '
+        <div class="form-group mb-3">
+            <label class="font-weight-bold">Dépôt</label>
+            <select class="form-control">
+                <option value="">-- Choisir un dépôt --</option>
+                <option value="1">Dépôt 1</option>
+                <option value="2">Dépôt 2</option>
+                <option value="3">Dépôt 3</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="font-weight-bold">Nom de la famille</label>
+            <input type="text" class="form-control" placeholder="..." required>
+        </div>
+    '
+])
+
 @endsection
