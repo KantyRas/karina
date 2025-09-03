@@ -31,8 +31,9 @@ class RoleController extends Controller
     {
         //
     }
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+        return to_route('admin.personnel.role.index')->with('success','Ligne supprimée');
     }
 }

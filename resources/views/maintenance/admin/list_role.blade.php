@@ -36,7 +36,7 @@
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <form action="" method="POST" style="display:inline-block; margin-left:3px;">
+                                    <form action="{{ route('admin.personnel.role.destroy',$role) }}" method="POST" style="display:inline-block; margin-left:3px;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -59,6 +59,10 @@
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 $('#ajoutModal').modal('show');
+
+                $('#ajoutModal').on('hidden.bs.modal', function () {
+                    window.location.href = '{{ route("admin.personnel.role.index") }}';
+                });
             });
         </script>
     @endif
@@ -76,9 +80,9 @@
                     <h5 class="modal-title" id="ajoutFonctionLabel">
                         {{ isset($editRole) ? 'Modifier rôle' : 'Ajouter rôle' }}
                     </h5>
-                    <a href="{{ route('admin.personnel.role.index') }}" class="close" aria-label="Fermer">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                         <span aria-hidden="true">&times;</span>
-                    </a>
+                    </button>
                 </div>
 
                 <div class="modal-body">
@@ -90,7 +94,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <a href="{{ route('admin.personnel.role.index') }}" class="btn btn-secondary">Annuler</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                     <button type="submit" class="btn btn-success">Valider</button>
                 </div>
             </form>
