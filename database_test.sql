@@ -212,6 +212,6 @@ INSERT INTO users (idemploye, username, email, password, role) VALUES
 (null, 'Noum', 'jea.dupont@example.com', '$2y$10$wzl6wgFwGtva/.k.kfSxmuIDOzecRxvaMTFqmU.Op.28o.bISbZA.', 1);
 
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'Cloud', 'ja.dupont@example.com', '$2y$10$zXSc3z1N7mBL2PkBRbupo.DVBQORCCb7T92CuezXINVAGm4vxE1WG', 2);
+(null, 'cloud', 'ja.dupont@example.com', '$2y$10$HyLD9mx3B0L7O.0B8TYBmuBBnncFXVPCXx0cpZgdwpQVVf/sorQeW', 2);
 
-php -r "echo password_hash('kanty', PASSWORD_BCRYPT);"
+php -r "echo password_hash('cloud', PASSWORD_BCRYPT);"
