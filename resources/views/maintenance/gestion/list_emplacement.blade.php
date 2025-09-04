@@ -65,7 +65,7 @@
             });
         });
     </script>
-@endif
+    @endif
 <!-- Modal -->
 <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFonctionLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
