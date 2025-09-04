@@ -2,10 +2,10 @@
 @section('title','unités')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Fréquences</h1>
+        <h1 class="page-header">Unités</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
-                <i class="fa fa-plus"></i> Ajouter Fréquence
+                <i class="fa fa-plus"></i> Ajouter Unité
             </button>
         </div>
     </div>
@@ -26,11 +26,12 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($unites as $index => $u)
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Kg</td>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $u->unite }}</td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('util.gestion.unite.edit',$u) }}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
@@ -46,6 +47,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -53,15 +55,27 @@
             </div>
         </div>
     </div>
+    @if(isset($editUnite))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                $('#ajoutModal').modal('show');
+
+                $('#ajoutModal').on('hidden.bs.modal', function () {
+                    window.location.href = '{{ route("util.gestion.unite.index") }}';
+                });
+            });
+        </script>
+    @endif
     @include('maintenance.shared.modal', [
         'id' => 'ajoutModal',
-        'labelId' => 'ajoutFrequenceLabel',
+        'labelId' => 'ajoutUniteLabel',
         'title' => 'Ajout Unité',
-        'action' => '#',
+        'action' => isset($editUnite) ? route('util.gestion.unite.update', $editUnite) : route('util.gestion.unite.store'),
+        'parametre' => '$editUnite',
         'body' => '
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Unité</label>
-                <input type="text" class="form-control" placeholder="..." required>
+                <input type="text" class="form-control" name="unite" placeholder="..." required value="' . old('unite', $editUnite->unite ?? '') . '">
             </div>
         '
     ])
