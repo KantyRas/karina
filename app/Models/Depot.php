@@ -9,13 +9,15 @@ class Depot extends Model
 {
     use HasFactory;
 
+    use HasFactory;
+
     protected $table = 'depots';
     protected $primaryKey = 'iddepot';
-    public $incrementing = true;
+    protected $fillable = ['nom'];
+    public $timestamps = false;
 
-    public $timestamps = false; // Ne gère pas created_at / updated_at
-
-    protected $fillable = [
-        'nom',
-    ];
+    public function familles()
+    {
+        return $this->hasMany(Famille::class, 'iddepot', 'iddepot');
+    }
 }
