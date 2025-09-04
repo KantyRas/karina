@@ -71,7 +71,7 @@
         'labelId' => 'ajoutUniteLabel',
         'title' => 'Ajout Unité',
         'action' => isset($editUnite) ? route('util.gestion.unite.update', $editUnite) : route('util.gestion.unite.store'),
-        'parametre' => '$editUnite',
+        'parametre' => $editUnite ?? null,
         'body' => '
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Unité</label>
