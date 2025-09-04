@@ -34,12 +34,12 @@
                                 <td>{{ $f->idfonction }}</td>
                                 <td>{{ $f->fonction }}</td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('admin.personnel.fonction.edit', $f->idfonction)}}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <form action="" method="POST" style="display:inline-block; margin-left:3px;">
+                                    <form action="{{ route('admin.personnel.fonction.destroy', $f) }}" method="POST" style="display:inline-block; margin-left:3px;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -58,6 +58,17 @@
             </div>
         </div>
     </div>
+    @if(isset($editFonction))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                $('#ajoutModal').modal('show');
+
+                $('#ajoutModal').on('hidden.bs.modal', function () {
+                    window.location.href = '{{ route("admin.personnel.fonction.index") }}';
+                });
+            });
+        </script>
+    @endif
 
     <!-- Modal Ajout Fonction -->
     <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFonctionLabel" aria-hidden="true">
@@ -66,7 +77,7 @@
                 <form action=" {{ route('admin.personnel.fonction.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="ajoutFonctionLabel">Ajouter une fonction</h5>
+                        <h5 class="modal-title" id="ajoutFonctionLabel"> {{ isset($editFonction) ? 'Modifier fonction' : 'Ajouter une fonction' }}</h5>  
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -75,7 +86,9 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Nom fonction</label>
-                            <input name="fonction" class="form-control" placeholder="..." required>
+                            <input name="fonction" class="form-control"
+                            value="{{ old('fonction', $editFonction->fonction ?? '') }}" placeholder="..." required>
+
                         </div>
                     </div>
 
