@@ -27,16 +27,21 @@ class FonctionController extends Controller
         $fonction = Fonction::create($request->validated());
         return to_route('admin.personnel.fonction.index')->with('success','Fomction créer avec succès');
     }
-    public function edit(string $id)
+    public function edit(Fonction $fonction)
     {
-        //
+        return view('maintenance.admin.list_fonction' ,[
+            'fonction' => Fonction::all(),
+            'editFonction' => $fonction,
+        ]);
+        
     }
     public function update(Request $request, string $id)
     {
         //
     }
-    public function destroy(string $id)
+    public function destroy(Fonction $fonction)
     {
-        //
+        $fonction->delete();
+        return to_route('admin.personnel.fonction.index')->with('success','Ligne supprimée');
     }
 }
