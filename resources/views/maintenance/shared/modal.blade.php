@@ -3,6 +3,9 @@
         <div class="modal-content border-0 shadow-lg rounded-3">
             <form action="{{ $action ?? '#' }}" method="{{ $method ?? 'POST' }}">
                 @csrf
+                @if(isset($parametre))
+                    @method('PUT')
+                @endif
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="{{ $labelId ?? 'defaultLabel' }}">
                         <i class="fa fa-plus-circle"></i> {{ $title ?? 'Titre Modal' }}
