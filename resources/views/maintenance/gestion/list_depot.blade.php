@@ -72,7 +72,7 @@
         'labelId' => 'ajoutDepotLabel',
         'title' => 'Ajout Dépôt',
         'action' => isset($editDepot) ? route('util.gestion.depot.update', $editDepot->iddepot) : route('util.gestion.depot.store'),
-        'parametre' => '$editDepot',
+        'parametre' => $editDepot ?? null,
         'body' => ' 
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Nom dépôt</label>
