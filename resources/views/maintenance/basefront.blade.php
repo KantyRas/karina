@@ -134,7 +134,7 @@
                 @endif
                 @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                 <li @class(['','active' => str_contains($routeName, 'demande.')])>
-                    <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Demandes<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-folder"></i> Demandes<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="{{ route('demande.index') }}">Achats</a>
@@ -147,7 +147,7 @@
                 @endif
                 <li @class(['','active' => str_contains($routeName, 'util.gestion.')])>
                 @if(Auth::user()->role == 1)
-                    <a href="#"><i class="fa fa-archive fa-fw"></i> Gestions utiles<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-gears"></i> Gestions utiles<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="{{ route('util.gestion.emplacement.index') }}">Emplacements</a>

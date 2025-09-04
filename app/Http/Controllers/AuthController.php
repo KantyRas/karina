@@ -14,7 +14,6 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('/home');
         }
-
         return back()->withErrors([
             'username' => "Nom d'utilisateur ou mot de passse invalide",
         ]);

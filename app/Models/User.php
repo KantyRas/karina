@@ -26,13 +26,13 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function roleRelation()
+    {
+        return $this->belongsTo(Role::class, 'role', 'idrole');
+    }
+
     public function employe()
     {
         return $this->belongsTo(Employe::class, 'idemploye', 'idemploye');
-    }
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role', 'idrole');
     }
 }

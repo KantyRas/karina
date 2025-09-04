@@ -26,12 +26,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($roles as $role)
+                            @foreach($roles as $index => $role)
                             <tr class="odd gradeX">
-                                <td>{{ $role->idrole }}</td>
+                                <td>{{ $index + 1 }}</td>
                                 <td>{{ $role->role }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.personnel.role.edit', $role->idrole) }}"
+                                    <a href="{{ route('admin.personnel.role.edit', $role) }}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>

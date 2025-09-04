@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('username', 75)->unique();
             $table->string('email', 75)->unique()->nullable();
             $table->string('password', 255);
-            $table->foreignIdFor(\App\Models\Role::class, 'role')
+            $table->foreignIdFor(\App\Models\Role::class, 'idrole')
                   ->nullable()
                   ->constrained('roles', 'idrole')
                   ->nullOnDelete();
