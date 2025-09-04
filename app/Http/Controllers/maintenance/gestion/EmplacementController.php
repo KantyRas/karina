@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\maintenance\gestion;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmplacementRequest;
+use App\Models\Emplacement;
 use Illuminate\Http\Request;
 
 class EmplacementController extends Controller
@@ -12,7 +14,9 @@ class EmplacementController extends Controller
      */
     public function index()
     {
-        return view('maintenance.gestion.list_emplacement');
+        return view('maintenance.gestion.list_emplacement',[
+            'emplacements' => Emplacement::all(),
+        ]);
     }
 
     /**
@@ -26,9 +30,10 @@ class EmplacementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmplacementRequest $request)
     {
-        //
+        $emplacements = Emplacement::create($request->validated());
+        return to_route('util.gestion.emplacement.index')->with('success','Emplacement créer avec succès');
     }
 
     /**
@@ -42,24 +47,29 @@ class EmplacementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Emplacement $emplacement)
     {
-        //
+        return view('maintenance.gestion.list_emplacement', [
+            'emplacements' => Emplacement::all(),
+            'editEmplacement' => $emplacement,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EmplacementRequest $request, Emplacement $emplacement)
     {
-        //
+        $emplacement->update($request->validated());
+        return to_route('util.gestion.emplacement.index')->with('success','Modifié avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Emplacement $emplacement)
     {
-        //
+        $emplacement->delete();
+        return to_route('util.gestion.emplacement.index')->with('success','Ligne supprimée');
     }
 }
