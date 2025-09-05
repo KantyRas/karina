@@ -217,3 +217,5 @@ INSERT INTO users (idemploye, username, email, password, role) VALUES
 INSERT INTO fonctions (fonction) VALUES ('electricien');
 
 php -r "echo password_hash('cloud', PASSWORD_BCRYPT);"
+
+INSERT INTO type_demandes (idtypedemande, nomtype) VALUES (4, 'teste');

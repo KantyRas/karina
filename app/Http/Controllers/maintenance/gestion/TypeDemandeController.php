@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\maintenance\gestion;
 
 use App\Http\Controllers\Controller;
+use App\Models\TypeDemande;
+use App\Http\Requests\TypeDemandeRequest;
 use Illuminate\Http\Request;
 
 class TypeDemandeController extends Controller
@@ -12,7 +14,9 @@ class TypeDemandeController extends Controller
      */
     public function index()
     {
-        return view('maintenance.gestion.list_type_demande');
+        return view('maintenance.gestion.list_type_demande' ,[
+            'typedemandes' => TypeDemande::all(),
+        ]);
     }
 
     /**
@@ -20,15 +24,16 @@ class TypeDemandeController extends Controller
      */
     public function create()
     {
-        //
+        return view('maintenance.gestion.list_type_demande');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TypeDemandeRequest $request)
     {
-        //
+        $typedemande = TypeDemande::create($request->validated());
+        return to_route('util.gestion.typedemande.index')->with('success','Frequence créer avec succès');
     }
 
     /**
@@ -42,24 +47,30 @@ class TypeDemandeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(TypeDemande $typedemande)
     {
-        //
+        
+        return view('maintenance.gestion.list_type_demande' ,[
+            'typedemandes' => TypeDemande::all(),
+            'editType' => $typedemande,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TypeDemandeRequest $request, TypeDemande $typedemande)
     {
-        //
+        $typedemande->update($request->validated());
+        return to_route('util.gestion.typedemande.index')->with('success','Modifié avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(TypeDemande $typedemande)
     {
-        //
+        $typedemande->delete();
+        return to_route('util.gestion.typedemande.index')->with('success','Ligne supprimée');
     }
 }

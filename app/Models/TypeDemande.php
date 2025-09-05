@@ -10,9 +10,14 @@ class TypeDemande extends Model
     use HasFactory;
     protected $table = 'type_demandes';
     protected $primaryKey = 'idtypedemande';
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'nomtype',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'idtypedemande';
+    }
 }

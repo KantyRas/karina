@@ -10,7 +10,7 @@ class Frequence extends Model
     use HasFactory;
     protected $table = 'frequences';
     protected $primaryKey = 'idfrequence';
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'frequence',
