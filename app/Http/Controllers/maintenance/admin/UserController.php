@@ -47,7 +47,6 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $data = $request->validated();
-        // Si le champ password est rempli, on le hash, sinon on le supprime du tableau pour ne pas écraser
         if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {

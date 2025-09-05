@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\maintenance\gestion;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FamilleRequest;
+use App\Models\{Depot, Famille};
 use Illuminate\Http\Request;
 
 class FamilleController extends Controller
@@ -12,54 +14,38 @@ class FamilleController extends Controller
      */
     public function index()
     {
-        return view('maintenance.gestion.list_famille');
+        $depots = Depot::all();
+        return view('maintenance.gestion.list_famille',[
+            'depots' => $depots,
+            'familles' => Famille::all(),
+        ]);
+    }
+    public function store(FamilleRequest $request)
+    {
+        $data = $request->validated();
+        $famille = Famille::create($data);
+        return to_route('util.gestion.famille.index')
+            ->with('success', 'Famille créé avec succès.');
+    }
+    public function edit(Famille $famille)
+    {
+        return view('maintenance.gestion.list_famille',[
+            'depots' => Depot::all(),
+            'familles' => Famille::all(),
+            'editFamille' => $famille,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(FamilleRequest $request, Famille $famille)
     {
-        //
+        $data = $request->validated();
+        $famille->update($data);
+        return to_route('util.gestion.famille.index')
+            ->with('success', 'Famille modifié avec succès.');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function destroy(Famille $famille)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $famille->delete();
+        return to_route('util.gestion.famille.index')->with('success','Ligne supprimée');
     }
 }

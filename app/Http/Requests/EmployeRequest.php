@@ -23,7 +23,7 @@ class EmployeRequest extends FormRequest
     {
         return [
             'nom' => ['required'],
-            'prenom' => ['required'],
+            'prenom' => ['nullable'],
             'matricule' => ['nullable'],
             'idfonction' => ['nullable'],
             'email' => ['nullable'],

@@ -74,10 +74,10 @@
     <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFonctionLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action=" {{ route('admin.personnel.fonction.store') }}" method="POST">
+                <form action="{{ route('admin.personnel.fonction.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="ajoutFonctionLabel"> {{ isset($editFonction) ? 'Modifier fonction' : 'Ajouter une fonction' }}</h5>  
+                        <h5 class="modal-title" id="ajoutFonctionLabel"> {{ isset($editFonction) ? 'Modifier fonction' : 'Ajouter une fonction' }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                             <span aria-hidden="true">&times;</span>
                         </button>

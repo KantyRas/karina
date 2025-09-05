@@ -27,17 +27,18 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($familles as $index => $f)
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Fournitures</td>
-                                <td>Famille 1</td>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $f->depot->nom }}</td>
+                                <td>{{ $f->nom }}</td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('util.gestion.famille.edit', $f) }}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <form action="" method="POST" style="display:inline-block; margin-left:3px;">
+                                    <form action="{{ route('util.gestion.depot.destroy', $f) }}" method="POST" style="display:inline-block; margin-left:3px;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -48,6 +49,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -55,27 +57,59 @@
             </div>
         </div>
     </div>
-    @include('maintenance.shared.modal', [
-    'id' => 'ajoutModal',
-    'labelId' => 'ajoutFamilleLabel',
-    'title' => 'Ajout Famille',
-    'action' => '#',
-    'body' => '
-        <div class="form-group mb-3">
-            <label class="font-weight-bold">Dépôt</label>
-            <select class="form-control">
-                <option value="">-- Choisir un dépôt --</option>
-                <option value="1">Dépôt 1</option>
-                <option value="2">Dépôt 2</option>
-                <option value="3">Dépôt 3</option>
-            </select>
-        </div>
+    @if(isset($editFamille))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                $('#ajoutModal').modal('show');
 
-        <div class="form-group mb-3">
-            <label class="font-weight-bold">Nom de la famille</label>
-            <input type="text" class="form-control" placeholder="..." required>
-        </div>
-    '
-])
+                $('#ajoutModal').on('hidden.bs.modal', function () {
+                    window.location.href = '{{ route("util.gestion.famille.index") }}';
+                });
+            });
+        </script>
+    @endif
+    <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFamilleLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Formulaire Ajout Compte
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="modal-body">
+                            <form action="{{ isset($editFamille) ? route('util.gestion.famille.update', $editFamille) : route('util.gestion.famille.store') }}" method="post">
+                                @csrf
+                                @if(isset($editFamille))
+                                    @method('PUT')
+                                @endif
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold">Dépôt</label>
+                                    <select class="form-control" name="iddepot" required>
+                                        <option value="">-- Choisir un dépôt --</option>
+                                        @foreach($depots as $d)
+                                            <option value="{{ $d->iddepot }}"
+                                                {{ old("iddepot", $editFamille->iddepot ?? "") == $d->iddepot ? "selected" : "" }}>
+                                                {{ $d->nom }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold">Nom de la famille</label>
+                                    <input type="text" name="nom" class="form-control" placeholder="..."
+                                           value="{{ old('nom', $editFamille->nom ?? '') }}" required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                    <button type="submit" class="btn btn-success">Valider</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
