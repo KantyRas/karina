@@ -26,16 +26,17 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach ($frequences as $frequence)
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Hebdomadaire</td>
+                                <td>{{ $frequence->idfrequence}}</td>
+                                <td>{{ $frequence->frequence}}</td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('util.gestion.frequence.edit', $frequence) }}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <form action="" method="POST" style="display:inline-block; margin-left:3px;">
+                                    <form action="{{ route('util.gestion.frequence.destroy', $frequence) }}" method="POST" style="display:inline-block; margin-left:3px;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -46,6 +47,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -53,48 +55,27 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutFrequenceLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content border-0 shadow-lg rounded-3">
-                <form action="#" method="#">
-                    @csrf
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="ajoutFrequenceLabel">
-                            <i class="fa fa-plus-circle"></i> Ajout Frequence
-                        </h5>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fermer">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+    @if(isset($editFrequence))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#ajoutModal').modal('show');
 
-                    <div class="modal-body">
-                        <div class="form-group mb-3">
-                            <label class="font-weight-bold">Fréquence</label>
-                            <input type="text" class="form-control" placeholder="..." required>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
-                            <i class="fa fa-times"></i> Annuler
-                        </button>
-                        <button type="submit" class="btn btn-success">
-                            <i class="fa fa-check"></i> Valider
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+            $('#ajoutModal').on('hidden.bs.modal', function () {
+                window.location.href = '{{ route("util.gestion.frequence.index") }}';
+            });
+        });
+    </script>
+    @endif
     @include('maintenance.shared.modal', [
         'id' => 'ajoutModal',
         'labelId' => 'ajoutFrequenceLabel',
         'title' => 'Ajout Frequence',
-        'action' => '#',
+        'action' => isset($editFrequence) ? route('util.gestion.frequence.update', $editFrequence->idfrequence) : route('util.gestion.frequence.store'),
+        'parametre' => $editFrequence ?? null,
         'body' => '
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Fréquence</label>
-                <input type="text" class="form-control" placeholder="..." required>
+                <input type="text" name="frequence" class="form-control" placeholder="..." value="'.old('frequence', $editFrequence->frequence ?? ''). '" required>
             </div>
         '
     ])

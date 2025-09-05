@@ -26,16 +26,17 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach ($typedemandes as $type)
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Achats</td>
+                                <td>{{$type->idtypedemande}}</td>
+                                <td>{{$type->nomtype}}</td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('util.gestion.typedemande.edit', $type) }}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <form action="" method="POST" style="display:inline-block; margin-left:3px;">
+                                    <form action="{{ route('util.gestion.typedemande.destroy', $type) }}" method="POST" style="display:inline-block; margin-left:3px;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -46,6 +47,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -53,15 +55,27 @@
             </div>
         </div>
     </div>
+    @if(isset($editType))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#ajoutModal').modal('show');
+
+            $('#ajoutModal').on('hidden.bs.modal', function () {
+                window.location.href = '{{ route("util.gestion.typedemande.index") }}';
+            });
+        });
+    </script>
+    @endif
     @include('maintenance.shared.modal', [
         'id' => 'ajoutModal',
         'labelId' => 'ajoutTypeDemandeLabel',
-        'title' => 'Ajout Unité',
-        'action' => '#',
+        'title' => 'Ajout type Demande',
+        'action' => isset($editType) ? route('util.gestion.typedemande.update', $editType) : route('util.gestion.typedemande.store'),
+        'parametre' => $editType ?? null,
         'body' => '
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Types Demandes</label>
-                <input type="text" class="form-control" placeholder="..." required>
+                <input type="text" class="form-control" name="nomtype" placeholder="..."  value="'.old('frequence', $editType->nomtype ?? ''). '" required>
             </div>
         '
     ])

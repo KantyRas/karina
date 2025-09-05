@@ -207,7 +207,6 @@ INSERT INTO users (idemploye, username, email, password, role) VALUES
 (null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$qy7i6zSRvbvRLm5NJqNLr.dz0tntorjfF1f5DUKUI3lxHbH5aZ5E2', 1),
 (null, 'usertest', 'test@gmail.com', '$2y$10$sNt.k.Fu1cY1xqfkNCVoxe1VrLT3TjSZBG5.qLbioC8C8LI4wZuvi', 2);
 
-
-INSERT INTO fonctions (fonction) VALUES ('electricien');
+INSERT INTO type_demandes (idtypedemande, nomtype) VALUES (4, 'teste');
 
 php -r "echo password_hash('usertest', PASSWORD_BCRYPT);"

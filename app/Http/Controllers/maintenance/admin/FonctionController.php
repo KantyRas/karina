@@ -35,9 +35,10 @@ class FonctionController extends Controller
         ]);
         
     }
-    public function update(Request $request, string $id)
+    public function update(FonctionRequest $request, Fonction $fonction)
     {
-        //
+        $fonction->update($request->validated());
+        return to_route('admin.personnel.fonction.index')->with('success','Modifié avec succès');
     }
     public function destroy(Fonction $fonction)
     {

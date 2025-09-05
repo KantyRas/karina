@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\maintenance\gestion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Frequence;
+use App\Http\Requests\FrequenceRequest;
 use Illuminate\Http\Request;
 
 class FrequenceController extends Controller
@@ -12,7 +14,9 @@ class FrequenceController extends Controller
      */
     public function index()
     {
-        return view('maintenance.gestion.list_frequence');
+        return view('maintenance.gestion.list_frequence' ,[
+            'frequences' => Frequence::all(),
+        ]);
     }
 
     /**
@@ -20,15 +24,16 @@ class FrequenceController extends Controller
      */
     public function create()
     {
-        //
+        return view('maintenance.gestion.list_frequence');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FrequenceRequest $request)
     {
-        //
+        $frequence = Frequence::create($request->validated());
+        return to_route('util.gestion.frequence.index')->with('success','Frequence créer avec succès');
     }
 
     /**
@@ -42,24 +47,31 @@ class FrequenceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Frequence $frequence)
     {
-        //
+        dd($frequence->idfrequence);
+
+        return view('maintenance.gestion.list_frequence' ,[
+            'frequences' => Frequence::all(),
+            'editFrequence' => $frequence,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(FrequenceRequest $request, Frequence $frequence)
     {
-        //
+        $frequence->update($request->validated());
+        return to_route('util.gestion.frequence.index')->with('success','Modifié avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Frequence $frequence)
     {
-        //
+        $frequence->delete();
+        return to_route('util.gestion.frequence.index')->with('success','Ligne supprimée');
     }
 }

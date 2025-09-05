@@ -58,8 +58,8 @@ Route::middleware(['auth', 'role:1'])->group(function () {
         Route::resource('depot',DepotController::class)->except(['show']);
         Route::resource('famille', FamilleController::class)->except(['show']);
         Route::resource('unite', UniteController::class)->except(['show']);
-        Route::resource('typeDemande',TypeDemandeController::class)->except(['show']);
-        Route::resource('typeIntervention',TypeInterventionController::class)->except(['show']);
+        Route::resource('typedemande',TypeDemandeController::class)->except(['show']);
+        Route::resource('typeintervention',TypeInterventionController::class)->except(['show']);
     });
     
     Route::prefix('carnets')->name('carnet.')->group(function () {
