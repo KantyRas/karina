@@ -11,8 +11,6 @@ class Famille extends Model
 
     protected $table = 'familles';
     protected $primaryKey = 'idfamille';
-    public $incrementing = true;
-    protected $keyType = 'int';
 
     public $timestamps = false;
 
@@ -23,6 +21,6 @@ class Famille extends Model
 
     public function depot()
     {
-        return $this->belongsTo(Depot::class, 'iddepot');
+        return $this->belongsTo(Depot::class, 'iddepot','iddepot');
     }
 }

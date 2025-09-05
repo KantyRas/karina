@@ -204,18 +204,9 @@ INSERT INTO employes (nom, prenom, matricule, idfonction, email, telephone, estA
 -- Users
 -- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'kanty', 'jean.dupont@example.com', 'kanty', 1), -- Admin
-(2, 'noumts', 'claire.martin@example.com', 'noumts', 2), -- Manager
-(0, 'pdurand', 'paul.durand@example.com', 'huhu', 3); -- Employé
-
-INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'Noum', 'jea.dupont@example.com', '$2y$10$wzl6wgFwGtva/.k.kfSxmuIDOzecRxvaMTFqmU.Op.28o.bISbZA.', 1);
-
-INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'cloud', 'ja.dupont@example.com', '$2y$10$HyLD9mx3B0L7O.0B8TYBmuBBnncFXVPCXx0cpZgdwpQVVf/sorQeW', 2);
-
-INSERT INTO fonctions (fonction) VALUES ('electricien');
-
-php -r "echo password_hash('cloud', PASSWORD_BCRYPT);"
+(null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$qy7i6zSRvbvRLm5NJqNLr.dz0tntorjfF1f5DUKUI3lxHbH5aZ5E2', 1),
+(null, 'usertest', 'test@gmail.com', '$2y$10$sNt.k.Fu1cY1xqfkNCVoxe1VrLT3TjSZBG5.qLbioC8C8LI4wZuvi', 2);
 
 INSERT INTO type_demandes (idtypedemande, nomtype) VALUES (4, 'teste');
+
+php -r "echo password_hash('usertest', PASSWORD_BCRYPT);"

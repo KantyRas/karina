@@ -37,7 +37,7 @@
                                 <td>Petite description</td>
                                 <td>Achat</td>
                                 <td>{{ date('Y-m-d') }}</td>
-                                <td>@include('maintenance.shared.status', ['status' => 1])</td>
+                                <td>@include('maintenance.shared.status', ['status' => 0])</td>
                                 <td class="text-center">
                                     <a href="#"
                                        class="btn btn-primary btn-circle"

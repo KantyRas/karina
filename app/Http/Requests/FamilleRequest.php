@@ -22,7 +22,6 @@ class FamilleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'iddepot' => ['nullable'],
             'nom' => ['required'],
         ];
     }
