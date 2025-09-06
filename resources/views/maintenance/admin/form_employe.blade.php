@@ -12,9 +12,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form action="{{isset($employe) && $employe->exists 
-                            ? route('admin.personnel.employe.update', $employe->idemploye) 
-                            : route('admin.personnel.employe.store') }}" method="post">
+                        <form action="{{ route($employe->exists ? 'admin.personnel.employe.update' : 'admin.personnel.employe.store', $employe) }}" method="post">
                             @csrf
                             @method($employe->exists ? 'PUT' : 'POST')
                             <div class="col-lg-6">
