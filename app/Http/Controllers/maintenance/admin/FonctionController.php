@@ -16,11 +16,7 @@ class FonctionController extends Controller
         return view('maintenance.admin.list_fonction' ,[
             'fonction' => $fonction,
         ]);
-        
-    }
-    public function create()
-    {
-        return view('maintenance.admin.form_fonction');
+
     }
     public function store(FonctionRequest $request)
     {
@@ -33,7 +29,7 @@ class FonctionController extends Controller
             'fonction' => Fonction::all(),
             'editFonction' => $fonction,
         ]);
-        
+
     }
     public function update(FonctionRequest $request, Fonction $fonction)
     {
