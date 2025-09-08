@@ -178,7 +178,7 @@
                         <a href="#"><i class="fa fa-archive fa-fw"></i>Stocks<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">Articles</a>
+                                <a href="{{ route('article.index') }}">Articles</a>
                             </li>
                         </ul>
                     </li>
