@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\maintenance\admin\EmployeController;
 use App\Http\Controllers\maintenance\admin\FonctionController;
 use App\Http\Controllers\maintenance\admin\RoleController;
@@ -40,18 +41,18 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     Route::get('/home', function () {
         return view('maintenance.basefront');
     })->name('index.dashboard');
-    
+
 });
 
 Route::middleware(['auth', 'role:1'])->group(function () {
-    
+
     Route::prefix('admin')->name('admin.personnel.')->group(function(){
         Route::resource('employe',EmployeController::class)->except(['show']);
         Route::resource('role',RoleController::class)->except(['show']);
         Route::resource('user',UserController::class)->except(['show']);
         Route::resource('fonction',FonctionController::class)->except(['show']);
     });
-    
+
     Route::prefix('gestions')->name('util.gestion.')->group(function(){
         Route::resource('emplacement',EmplacementController::class)->except(['show']);
         Route::resource('frequence',FrequenceController::class)->except(['show']);
@@ -61,17 +62,21 @@ Route::middleware(['auth', 'role:1'])->group(function () {
         Route::resource('typedemande',TypeDemandeController::class)->except(['show']);
         Route::resource('typeintervention',TypeInterventionController::class)->except(['show']);
     });
-    
+
     Route::prefix('carnets')->name('carnet.')->group(function () {
         Route::get('/',[CarnetController::class,'index'])->name('liste_carnet');
         Route::get('/create',[CarnetController::class,'create'])->name('create_carnet');
         Route::get('/fiche/historique',[CarnetController::class,'fiche_index'])->name('fiche_carnet_historique');
         Route::get('/fiche/saisie',[CarnetController::class,'fiche_create'])->name('fiche_saisie');
     });
-    
+
     Route::prefix('demandes')->group(function(){
         Route::resource('demande', DemandeController::class)->except(['show']);
     });
         
+
+    Route::prefix('articles')->group(function(){
+        Route::resource('article', ArticleController::class)->except(['show']);
+    });
 
 });
