@@ -14,6 +14,7 @@ use App\Http\Controllers\maintenance\gestion\FrequenceController;
 use App\Http\Controllers\maintenance\gestion\TypeDemandeController;
 use App\Http\Controllers\maintenance\gestion\TypeInterventionController;
 use App\Http\Controllers\maintenance\gestion\UniteController;
+use App\Http\Controllers\maintenance\ImportController;
 use App\Http\Controllers\AuthController;
 
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,7 @@ Route::middleware(['auth', 'role:1'])->group(function () {
 
     Route::prefix('articles')->group(function(){
         Route::resource('article', ArticleController::class)->except(['show']);
+        Route::post('/importAction', [ImportController::class,'import'])->name('importAction');
     });
 
 });
