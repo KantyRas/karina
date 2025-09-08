@@ -78,7 +78,7 @@ Route::middleware(['auth', 'role:1'])->group(function () {
 
     Route::prefix('articles')->group(function(){
         Route::resource('article', ArticleController::class)->except(['show']);
-        Route::post('/importAction', [ImportController::class,'import'])->name('importAction');
+        Route::post('/importAction', [ImportController::class,'importAction'])->name('importAction');
     });
 
 });

@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <h1 class="page-header">Toutes les Articles</h1>
         <div class="text-left">
-            <form action="#" method="POST" enctype="multipart/form-data" class="form-inline">
+            <form action="{{ route('importAction') }}" method="POST" enctype="multipart/form-data" class="form-inline">
                 @csrf
                 <div class="form-group mr-2">
                     <input type="file" name="file" class="form-control" required>
@@ -39,19 +39,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($articles as $a)
+                            @foreach ($articles as $index => $a)
                                 <tr class="odd gradeX">
-                                    <th>#</th>
-                                    <th>Code Article</th>
-                                    <th>Désignation</th>
-                                    <th>Unités</th>
+                                    <th>{{ $index + 1 }}</th>
+                                    <th>{{ $a->code }}</th>
+                                    <th>{{ $a->designation }}</th>
+                                    <th>{{ $a->unite }}</th>
                                     <td class="text-center">
-                                        <a href=""
+                                        <a href="{{ route('article.edit', $a) }}"
                                            class="btn btn-success btn-circle"
                                            title="Modifier">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <form action="" method="POST" style="display:inline-block; margin-left:3px;">
+                                        <form action="{{ route('article.destroy', $a)}}" method="POST" style="display:inline-block; margin-left:3px;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
@@ -86,12 +86,12 @@
         'id' => 'ajoutModal',
         'labelId' => 'ajoutArticleLabel',
         'title' => 'Ajout article',
-        'action' => isset($editArticle) ? route('article.update', $editType) : route('article.store'),
+        'action' => isset($editArticle) ? route('article.update', $editArticle) : route('article.store'),
         'parametre' => $editArticle ?? null,
         'body' => '
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Code Article</label>
-                <input type="text" class="form-control" name="nomtype" placeholder="..."  value="'.old('code', $editArticle->code ?? ''). '" required>
+                <input type="text" class="form-control" name="code" placeholder="..."  value="'.old('code', $editArticle->code ?? ''). '" required>
             </div>
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Designation</label>
