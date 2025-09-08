@@ -3,6 +3,17 @@
 @section('content')
     <div class="col-lg-12">
         <h1 class="page-header">Toutes les Articles</h1>
+        <div class="text-left">
+            <form action="#" method="POST" enctype="multipart/form-data" class="form-inline">
+                @csrf
+                <div class="form-group mr-2">
+                    <input type="file" name="file" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-upload"></i> Importer
+                </button>
+            </form>
+        </div>
         <div class="text-right" style="margin-bottom:15px;">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutModal">
                 <i class="fa fa-plus"></i> Ajouter article
@@ -70,6 +81,7 @@
             });
         </script>
     @endif
+
     @include('maintenance.shared.modal', [
         'id' => 'ajoutModal',
         'labelId' => 'ajoutArticleLabel',
@@ -78,8 +90,24 @@
         'parametre' => $editArticle ?? null,
         'body' => '
             <div class="form-group mb-3">
-                <label class="font-weight-bold">Types Demandes</label>
-                <input type="text" class="form-control" name="nomtype" placeholder="..."  value="'.old('frequence', $editType->nomtype ?? ''). '" required>
+                <label class="font-weight-bold">Code Article</label>
+                <input type="text" class="form-control" name="nomtype" placeholder="..."  value="'.old('code', $editArticle->code ?? ''). '" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Designation</label>
+                <input type="text" class="form-control" name="designation" placeholder="..."  value="'.old('designation', $editArticle->designation ?? ''). '" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Dépots</label>
+                <input type="text" class="form-control" name="depot" placeholder="..."  value="'.old('depot', $editArticle->depot ?? ''). '" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Famille</label>
+                <input type="text" class="form-control" name="famille" placeholder="..."  value="'.old('famille', $editArticle->famille ?? ''). '" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Unité</label>
+                <input type="text" class="form-control" name="unite" placeholder="..."  value="'.old('unite', $editArticle->unite ?? ''). '" required>
             </div>
         '
     ])

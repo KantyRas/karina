@@ -9,8 +9,6 @@ class Depot extends Model
 {
     use HasFactory;
 
-    use HasFactory;
-
     protected $table = 'depots';
     protected $primaryKey = 'iddepot';
     protected $fillable = ['nom'];

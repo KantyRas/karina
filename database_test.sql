@@ -149,9 +149,9 @@ create table articles(
     idarticle serial primary key,
     code varchar(20) unique,
     designation text,
-    depots varchar(255),
-    familles varchar(255),
-    unites varchar(50)
+    depot varchar(255),
+    famille varchar(255),
+    unite varchar(50)
 );
 -- 1 carnet = 1 tâche dans la departement maintenance (ex: Verification machine, reparation filtres, suivie compresseur, relevé consommation electricité)
 -- 1 tâche est localisé par des emplacements définis à l'avance pour que les employés les effectuent sans problème

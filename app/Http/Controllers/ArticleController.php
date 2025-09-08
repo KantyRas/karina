@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-
-        return view('maintenance.article.list_article');
+        $articles = Article::all();
+        return view('maintenance.article.list_article',[
+            'articles' => $articles
+        ]);
     }
     public function create()
     {
@@ -24,21 +25,20 @@ class ArticleController extends Controller
         //
     }
 
-    public function edit(string $id)
+    public function edit(Article $article)
     {
-        //
+        return view('maintenance.gestion.list_depot',[
+            'articles' => Article::all(),
+            'editArticle' => $article,
+        ]);
     }
 
     public function update(Request $request, string $id)
     {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    }
     public function destroy(string $id)
     {
-        //
+
     }
 }
