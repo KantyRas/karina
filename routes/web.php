@@ -72,5 +72,6 @@ Route::middleware(['auth', 'role:1'])->group(function () {
     Route::prefix('demandes')->group(function(){
         Route::resource('demande', DemandeController::class)->except(['show']);
     });
+        
 
 });
