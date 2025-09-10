@@ -17,14 +17,15 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Département</label>
-                                    <select class="form-control" name="iddepartement">
-                                        <option value="#">--Choisir--</option>
-                                        <option value="#">Test</option>
+                                    <select class="form-control" name="iddepartement" id="DeptSelect">
+                                        @foreach ($departements as $departement)
+                                            <option value="{{ $departement->iddepartement }}">{{ $departement->nom }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Responsable</label>
-                                    <input class="form-control" name="responsable" disabled>
+                                    <input class="form-control" name="responsable" id="RespInput" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label>Demandeur</label>
@@ -43,7 +44,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Section</label>
-                                    <select class="form-control" name="idsection">
+                                    <select class="form-control" name="idsection" id="SectionSelect">
                                         <option value="#">--Choisir--</option>
                                         <option value="#">Test section</option>
                                     </select>
@@ -52,7 +53,9 @@
                                     <label>Type de demande</label>
                                     <select class="form-control" name="idtypedemande">
                                         <option value="#">--Choisir--</option>
-                                        <option value="#">Test</option>
+                                        @foreach ($typedemandes as $typedemande)
+                                        <option value="{{ $typedemande->idtypedemande }}">{{ $typedemande->nomtype }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -94,4 +97,42 @@
             </div>
         </div>
     </div>
+<script>
+     //  Déclenche automatiquement le changement dès le chargement de la page
+     window.addEventListener('DOMContentLoaded', function () {
+            const DeptSelect = document.getElementById('DeptSelect');
+            if (DeptSelect.value) {
+                DeptSelect.dispatchEvent(new Event('change'));
+            }
+    });
+
+    document.getElementById('DeptSelect').addEventListener('change', function () {
+        const deptId = this.value;
+    
+        // console.log("miditra2");
+        if (deptId) {
+            fetch(`/demandes/get_responsable/${deptId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data);
+                    const RespInput = document.getElementById('RespInput');
+                    RespInput.innerHTML = ''; // reset
+
+                    RespInput.value = data.responsable.responsable;
+
+                    const SectionSelect = document.getElementById('SectionSelect');
+                    SectionSelect.innerHTML = ''; // reset                   
+
+                    data.section.forEach(sec => {
+                        console.log(sec.nomsection);
+                        const option = document.createElement('option');
+                        option.value = sec.idsection;
+                        option.textContent = sec.nomsection;
+                        SectionSelect.appendChild(option);
+                    });
+
+                });
+        }
+    });
+</script>
 @endsection

@@ -4,6 +4,11 @@ namespace App\Http\Controllers\maintenance\demande;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Departement;
+use App\Models\TypeTravaux;
+use App\Models\TypeDemande;
+use App\Models\Section;
+use App\Http\Requests\TypeDemandeRequest;
 
 class DemandeController extends Controller
 {
@@ -18,9 +23,28 @@ class DemandeController extends Controller
         return view('maintenance.demande.list_travaux');
     }
     public function ajout_travaux(){
-        return view('maintenance.demande.form_travaux');
+        return view('maintenance.demande.form_travaux',[
+            'departements' => Departement::all(),
+            'typetravaux' => TypeTravaux::all(),
+            'typedemandes' => TypeDemande::all(),
+        ]);
     }
     public function get_detail_travaux(){
         return view('maintenance.demande.detail_travaux');
+    }
+
+    public function getResponsable($iddepartement){
+        $responsable = Departement::select('responsable')
+        ->where('iddepartement', $iddepartement)
+        ->first(); 
+
+        $section = Section::select('*')
+        ->where('iddepartement', $iddepartement)
+        ->get(); 
+
+        return response()->json([
+            'responsable' => $responsable,
+            'section' => $section
+        ]);
     }
 }
