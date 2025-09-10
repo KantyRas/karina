@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('demande_travaux', function (Blueprint $table) {
             $table->id('iddemandetravaux');
             $table->foreignIdFor(\App\Models\Section::class, 'idsection')
-            ->constrained('sections', 'idsection') // table et colonne de clé primaire spécifiées
+            ->constrained('sections', 'idsection')
             ->onDelete('cascade');
             $table->foreignIdFor(\App\Models\TypeDemande::class, 'idtypedemande')
-            ->constrained('type_demandes', 'idtypedemande') // table et colonne de clé primaire spécifiées
+            ->constrained('type_demandes', 'idtypedemande')
             ->onDelete('cascade');
             $table->foreignIdFor(\App\Models\TypeTravaux::class, 'idtypetravaux')
-            ->constrained('type_travaux', 'idtypetravaux') // table et colonne de clé primaire spécifiées
+            ->constrained('type_travaux', 'idtypetravaux')
             ->onDelete('cascade');
             $table->foreignIdFor(\App\Models\User::class, 'iddemandeur')
-            ->constrained('users', 'iduser') // table et colonne de clé primaire spécifiées
+            ->constrained('users', 'iduser') 
             ->onDelete('cascade');
 
             $table->date('datedemande');
