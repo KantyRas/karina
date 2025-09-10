@@ -85,28 +85,69 @@ create table equipements(
 -- Demande achats ou sorties -> stocks --
 create table type_demandes(
     idtypedemande serial primary key,
-    nomtype varchar(75)
+    nomtype varchar(75),
+    id_receveur int references users(iduser)
 );
-create table demandes(
-    iddemande serial primary key,
+
+create table type_travaux(
+    idtypetravaux serial primary key,
+    type varchar(55)
+);
+
+create table departements(
+    iddepartement serial primary key,
+    nom varchar(75),
+    responsable varchar(75)
+);
+
+create table sections(
+    idsection serial primary key,
+    iddepartement int references departements(iddepartement),
+    nomsection varchar(75)
+);
+
+create table demande_travaux(
+    iddemandetravaux serial primary key,
+    idsection int references sections(idsection),
+    idtypedemande int references type_demandes(idtypedemande),
+    idtypetravaux int references type_travaux(idtypetravaux),
+    iddemandeur int references users(idUser),
+    datedemande date,
+    datesouhaite date,
+    numeroserie varchar(100),
+    statut int,
+    motif text,
+    description text
+);
+
+create table fiche_joints_travaux(
+    idfichejoint serial primary key,
+    fichier varchar(155),
+    iddemandetravaux int references demande_travaux(idtypedemande),
+);
+
+create table demande_achats(
+    iddemandeachat serial primary key,
     iddemandeur int references users(idUser),   -- demandeur --
     idreceveur int references users(idUser),    -- receveur (achat -> responsable achat & sortie -> responsable magasin) --
     idtypedemande int references type_demandes(idTypeDemande),
     datedemande date,
-    description text,
-    statut int default 0  -- statut:0 = En attente / statut:1 = Reçu na validé / statut:2 = Rejeté --
+    description text
 );
-create table detail_article_demandes(
+
+create table detail_articles(
     idarticledemande serial primary key,
-    iddemande int references demandes(idDemande),
+    iddemandeachat int references demandes(idDemande),
     idarticle int references articles(idArticle),
     quantitedemande double precision
 );
+
 -- Interventions --
 create table type_interventions(
     idtypeintervention serial primary key,
     type varchar(75) default 'Autres'
 );
+
 create table demande_interventions(  -- demande en cours --
     iddemandeintervention serial primary key,
     iddemandeur int references users(idUser), -- celui qui a besoin de l'intervention de la maintenance

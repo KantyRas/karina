@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_demandes', function (Blueprint $table) {
-            $table->id('idtypedemande'); 
-            $table->string('nomtype', 75);
-            $table->foreignIdFor(\App\Models\User::class, 'id_receveur')
-                  ->constrained('users', 'iduser') 
-                  ->onDelete('cascade'); 
+        Schema::create('type_travaux', function (Blueprint $table) {
+            $table->id('idtypetravaux'); 
+            $table->string('type', 55); 
 
             $table->timestamps(); 
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_demandes');
+        Schema::dropIfExists('type_travaux');
     }
 };

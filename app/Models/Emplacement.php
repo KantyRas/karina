@@ -14,7 +14,7 @@ class Emplacement extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
-    public $timestamps = false; // Ne gère pas created_at / updated_at
+    public $timestamps = false; 
 
     protected $fillable = [
         'emplacement',
