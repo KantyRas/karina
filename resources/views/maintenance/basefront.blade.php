@@ -137,7 +137,10 @@
                     <a href="#"><i class="fa fa-folder"></i> Demandes<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="{{ route('demande.index') }}">Achats</a>
+                            <a href="{{ route('demande.liste_demande_travaux') }}">Travaux</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('demande.index') }}">Achats (sans demande travaux)</a>
                         </li>
                         <li>
                             <a href="#">Interventions</a>

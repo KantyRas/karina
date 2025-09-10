@@ -1,10 +1,10 @@
 @extends('maintenance.basefront')
-@section('title', "Demandes achats")
+@section('title', "Demandes de travaux")
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Mes demandes d'achats en cours</h1>
+        <h1 class="page-header">Mes demandes de travaux en cours</h1>
         <div class="text-right" style="margin-bottom:15px;">
-            <a href="{{ route('demande.create') }}" class="btn btn-primary">
+            <a href="{{ route('demande.form_demande_travaux') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Nouvelle demande
             </a>
         </div>
@@ -13,7 +13,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    LISTE DES DEMANDES D'ACHATS
+                    Listes des demandes
                 </div>
                 <div class="panel-body">
                     <div class="text-right" style="margin-bottom:10px;">
@@ -23,10 +23,10 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Description</th>
-                                <th>Type</th>
-                                <th>Date</th>
+                                <th>Nº demande</th>
+                                <th>Département</th>
+                                <th>Demandeur</th>
+                                <th>Date demande</th>
                                 <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
@@ -34,14 +34,14 @@
                             <tbody>
                             <tr class="odd gradeX">
                                 <td>1</td>
-                                <td>Petite description</td>
-                                <td>Achat</td>
+                                <td>Montage</td>
+                                <td>JEEBUN Artee</td>
                                 <td>{{ date('Y-m-d') }}</td>
                                 <td>@include('maintenance.shared.status', ['status' => 0])</td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('demande.detail_demande_travaux') }}"
                                        class="btn btn-primary btn-circle"
-                                       title="Détails">
+                                       title="Détails demandes">
                                         <i class="fa fa-file"></i>
                                     </a>
                                     <a href="#"
