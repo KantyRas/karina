@@ -331,11 +331,11 @@ INSERT INTO employes (nom, prenom, matricule, idfonction, email, telephone, estA
 -- Users
 -- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$dX/Z7wYY4OqHsRUDZ37xi.Jxn8TdZyQB5ByUbEJUjC5OCzu8Fi5Wi', 1);
-(null, 'Noum', 'raso@gmail.com', '$2y$10$5d4yR68Knforo87LmCwQu.0zYGkyeB68pbKfNfFkH/PPEIM9GRHfe', 1);
+(null, 'Noum', 'raso@gmail.com', '$2y$10$pEHfUUPRX0GaEQ0gvYWBDegqXcf6J3WIYqD9JC63BtLIKg74jWM7q', 1);
+(null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$pEHfUUPRX0GaEQ0gvYWBDegqXcf6J3WIYqD9JC63BtLIKg74jWM7q', 1);
 (null, 'usertest', 'test@gmail.com', '$2y$10$sNt.k.Fu1cY1xqfkNCVoxe1VrLT3TjSZBG5.qLbioC8C8LI4wZuvi', 2);
 
-INSERT INTO type_demandes (idtypedemande, nomtype, idreceveur) VALUES (4, 'teste',1);
+INSERT INTO type_demandes (idtypedemande, nomtype, id_receveur) VALUES (4, 'teste',1);
 INSERT INTO type_travaux (type) VALUES ('typetest');
 
 php -r "echo password_hash('12345', PASSWORD_BCRYPT);"

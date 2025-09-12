@@ -1,14 +1,24 @@
 @extends('maintenance.basefront')
 @section('title', "Détails de la demande")
 @section('content')
+@php
+    $user = Auth::user();
+@endphp
     <div class="col-lg-12">
         <h1 class="page-header text-primary">
             <i class="fa fa-info-circle"></i> Détails de la demande de travaux
         </h1>
+        
         <div class="text-right" style="margin-bottom:15px;">
-            <a href="{{ route('demande.create') }}" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Achats matériels
-            </a>
+            @if($details->statut != 1 && $details->iddemandeur != $details->typeDemande->idreceveur)
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ajoutModal">
+                    <i class="fa fa-check"></i> Valider
+                </button>
+        
+                <a href="{{ route('demande.refuser', $details->iddemandetravaux) }}" class="btn btn-danger">
+                    <i class="fa fa-times"></i> Refuser
+                </a>
+            @endif
         </div>
     </div>
 
@@ -94,6 +104,38 @@
                 <a href="{{ route('demande.liste_demande_travaux') }}" class="btn btn-secondary">
                     <i class="fa fa-arrow-left"></i> Retour à la liste
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <div class="modal-header">
+                <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
+              </div>
+        
+              <div class="modal-body">
+                Souhaitez-vous valider la demande avec ou sans achat de matériel ?
+              </div>
+        
+              <div class="modal-footer">
+                <!-- Achat Matériel -->
+                <a href="{{ route('demande.create') }}" class="btn btn-primary">
+                    <i class="fa fa-plus"></i> Achats matériels
+                </a>
+        
+                <!-- Valider sans Achat -->
+                <a href="{{ route('demande.valider', $details->iddemandetravaux ) }}" class="btn btn-success">
+                    Valider sans achat
+                </a>
+        
+                <!-- Fermer -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+              </div>
+        
             </div>
         </div>
     </div>

@@ -45,7 +45,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'role:1'])->group(function () {
+Route::middleware(['auth', 'role:1,2'])->group(function () {
 
     Route::prefix('admin')->name('admin.personnel.')->group(function(){
         Route::resource('employe',EmployeController::class)->except(['show']);
@@ -77,6 +77,8 @@ Route::middleware(['auth', 'role:1'])->group(function () {
         Route::get('/travaux/ajout',[DemandeController::class,'ajout_travaux'])->name('demande.form_demande_travaux');
         Route::get('/travaux/details/{demandetravaux}',[DemandeController::class,'get_detail_travaux'])->name('demande.detail_demande_travaux');
         Route::get('/get_responsable/{iddepartement}', [DemandeController::class,'getResponsable'])->name('demande.getResponsable');
+        Route::get('/travaux/details/validation/{iddemandetravaux}', [DemandeController::class,'updateValider'])->name('demande.valider');
+        Route::get('/travaux/details/refus/{iddemandetravaux}', [DemandeController::class,'refuserdemande'])->name('demande.refuser');
     });
 
 

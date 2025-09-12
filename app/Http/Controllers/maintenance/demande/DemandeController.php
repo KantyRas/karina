@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\maintenance\demande;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\FicheJoint;
 use Illuminate\Http\Request;
 use App\Http\Requests\DemandetravauxRequest;
@@ -43,11 +44,22 @@ class DemandeController extends Controller
         return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
     public function index_travaux(){
-        $demandetravaux = DemandeTravaux::with([
+
+        $user = Auth::user();
+        
+        $query = DemandeTravaux::with([
             'TypeDemande',
             'section.departement',
             'users'
-        ])->get();
+        ]);
+
+        // Filtrage selon le rôle de l'utilisateur
+        if ($user->role != 1) {
+            $query->where('iddemandeur', $user->iduser);
+        }
+
+        $demandetravaux = $query->get();
+        
         return view('maintenance.demande.list_travaux',[
             'demandetravaux' => $demandetravaux,
         ]);
@@ -86,5 +98,15 @@ class DemandeController extends Controller
             'responsable' => $responsable,
             'section' => $section
         ]);
+    }
+
+    public function updateValider($iddemandetravaux) {
+        DemandeTravaux::where('iddemandetravaux', $iddemandetravaux)->update(['statut' => 1]);
+        return to_route('demande.liste_demande_travaux')->with('success','Demande validé');
+    }
+
+    public function refuserDemande($iddemandetravaux) {
+        DemandeTravaux::where('iddemandetravaux', $iddemandetravaux)->update(['statut' => 2]);
+        return to_route('demande.liste_demande_travaux')->with('succes','Demande refusé');
     }
 }
