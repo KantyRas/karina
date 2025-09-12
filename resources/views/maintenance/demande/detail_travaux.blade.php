@@ -42,7 +42,7 @@
                         </tr>
                         <tr>
                             <th>Demandeur</th>
-                            <td>Mbola test</td>
+                            <td>{{ $details->demandeur }}</td>
                         </tr>
                         <tr>
                             <th>Date souhaitée</th>

@@ -37,7 +37,7 @@
                                 <tr class="odd gradeX">
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $t->section->departement->nom ?? '-' }}</td>
-                                    <td>{{ $t->demandeur->username }}</td>
+                                    <td>{{ $t->users->username }}</td>
                                     <td>{{ $t->typeDemande->nomtype ?? '-' }}</td>
                                     <td>{{ $t->datedemande }}</td>
                                     <td>@include('maintenance.shared.status', ['status' => $t->statut])</td>

@@ -48,7 +48,7 @@ class DemandeTravaux extends Model
     }
 
     // Relation avec User (many-to-one)
-    public function demandeur()
+    public function users()
     {
         return $this->belongsTo(User::class, 'iddemandeur');
     }

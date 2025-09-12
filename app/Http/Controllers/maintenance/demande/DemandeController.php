@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\maintenance\demande;
 
 use App\Http\Controllers\Controller;
-use App\Models\DemandeTravaux;
 use Illuminate\Http\Request;
 use App\Http\Requests\DemandetravauxRequest;
 use App\Models\Departement;
@@ -33,7 +32,7 @@ class DemandeController extends Controller
         $demandetravaux = DemandeTravaux::with([
             'TypeDemande',
             'section.departement',
-            'demandeur'
+            'users'
         ])->get();
         return view('maintenance.demande.list_travaux',[
             'demandetravaux' => $demandetravaux,
@@ -51,7 +50,7 @@ class DemandeController extends Controller
             'section.departement',
             'typeDemande',
             'typeTravaux',
-            'demandeur'
+            'users'
         ])->findOrFail($iddemandeTravaux);
 
         return view('maintenance.demande.detail_travaux', [
