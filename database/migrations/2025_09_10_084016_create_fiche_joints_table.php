@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('fiche_joints_travaux', function (Blueprint $table) {
             $table->id('idfichejoint');
-            $table->string('fichier', 155); 
-            $table->foreignIdFor(\App\Models\DemandeTravaux::class, 'iddemandetravaux') 
+            $table->string('fichier', 155);
+            $table->string('nom', 155);
+            $table->foreignIdFor(\App\Models\DemandeTravaux::class, 'iddemandetravaux')
                 ->constrained('demande_travaux', 'iddemandetravaux')
                 ->onDelete('cascade');
-                
-            $table->timestamps(); 
+
+            $table->timestamps();
         });
     }
 

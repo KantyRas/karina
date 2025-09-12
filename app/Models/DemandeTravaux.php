@@ -52,4 +52,9 @@ class DemandeTravaux extends Model
     {
         return $this->belongsTo(User::class, 'iddemandeur');
     }
+    public function fichiers()
+    {
+        return $this->hasMany(FicheJoint::class, 'iddemandetravaux');
+    }
+
 }

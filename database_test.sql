@@ -199,15 +199,6 @@ create table demande_travaux(
     motif text,
     description text
 );
-insert into demande_travaux
-(idsection, idtypedemande, idtypetravaux, iddemandeur, datedemande, datesouhaite, numeroserie, statut, motif, description)
-values
-(1, 1, 2, 1, '2025-09-01', '2025-09-05', 'EQ-2025-0001', 0,
- 'Panne électrique dans atelier maintenance',
- 'Les machines se sont arrêtées subitement, demande intervention rapide'),
-(3, 1, 1, 1, '2025-09-03', '2025-09-07', 'IT-2025-0002', 1,
- 'Installation nouveau poste',
- 'Besoin ordinateur et configuration réseau pour le nouvel employé');
 create table fiche_joints_travaux(
     idfichejoint serial primary key,
     fichier varchar(155),
@@ -340,8 +331,8 @@ INSERT INTO employes (nom, prenom, matricule, idfonction, email, telephone, estA
 -- Users
 -- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
 INSERT INTO users (idemploye, username, email, password, role) VALUES
+(null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$dX/Z7wYY4OqHsRUDZ37xi.Jxn8TdZyQB5ByUbEJUjC5OCzu8Fi5Wi', 1);
 (null, 'Noum', 'raso@gmail.com', '$2y$10$5d4yR68Knforo87LmCwQu.0zYGkyeB68pbKfNfFkH/PPEIM9GRHfe', 1);
-(null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$EzsvKMXPeruNLgqhuLoIBu9PMNK3FM3bth.AKQ2tZMmSZQzFQEGrC', 1);
 (null, 'usertest', 'test@gmail.com', '$2y$10$sNt.k.Fu1cY1xqfkNCVoxe1VrLT3TjSZBG5.qLbioC8C8LI4wZuvi', 2);
 
 INSERT INTO type_demandes (idtypedemande, nomtype, idreceveur) VALUES (4, 'teste',1);

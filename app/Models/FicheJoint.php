@@ -10,11 +10,13 @@ class FicheJoint extends Model
     use HasFactory;
 
     protected $table = 'fiche_joints_travaux';
+    protected $primaryKey = 'idfichejoint';
     public $timestamps = false;
 
     // Définir les colonnes mass-assignables
     protected $fillable = [
         'fichier',
+        'nom',
         'iddemandetravaux',
     ];
 
