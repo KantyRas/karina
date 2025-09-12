@@ -10,6 +10,7 @@ class DemandeTravaux extends Model
     use HasFactory;
 
     protected $table = 'demande_travaux';
+    protected $primaryKey = 'iddemandetravaux';
     public $timestamps = false;
 
 
@@ -19,6 +20,7 @@ class DemandeTravaux extends Model
         'idtypedemande',
         'idtypetravaux',
         'iddemandeur',
+        'demandeur',
         'datedemande',
         'datesouhaite',
         'numeroserie',

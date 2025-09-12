@@ -26,10 +26,11 @@ return new class extends Migration
             ->constrained('users', 'iduser') 
             ->onDelete('cascade');
 
+            $table->string('demandeur', 100)->nullable(); 
             $table->date('datedemande');
             $table->date('datesouhaite'); 
             $table->string('numeroserie', 100); 
-            $table->integer('statut'); 
+            $table->integer('statut')->default(0); 
             $table->text('motif'); 
             $table->text('description'); 
 

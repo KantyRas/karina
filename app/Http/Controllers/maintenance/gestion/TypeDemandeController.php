@@ -32,6 +32,7 @@ class TypeDemandeController extends Controller
      */
     public function store(TypeDemandeRequest $request)
     {
+        dd("miditra");
         $typedemande = TypeDemande::create($request->validated());
         return to_route('util.gestion.typedemande.index')->with('success','Frequence créer avec succès');
     }
