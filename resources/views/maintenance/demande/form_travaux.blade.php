@@ -12,7 +12,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form action="#" method="post">
+                        <form action="{{ route('demande.store') }}" method="post">
                             @csrf
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Fichiers attachés (si nécessaire)</label>
-                                    <input type="file" name="file" class="form-control">
+                                    <input type="file" name="" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -46,7 +46,6 @@
                                     <label>Section</label>
                                     <select class="form-control" name="idsection" id="SectionSelect">
                                         <option value="#">--Choisir--</option>
-                                        <option value="#">Test section</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -58,17 +57,21 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <input type="hidden" name="iddemandeur" value={{ Auth::user()->iduser }}>
+                                <input type="hidden" name="datedemande" value={{ \carbon\Carbon::now()->toDateString() }}>
                                 <div class="form-group">
                                     <label>Travaux demandés</label>
-                                    <select class="form-control" name="idtravauxdemande">
-                                        <option value="#">--Choisir--</option>
-                                        <option value="#">Test</option>
+                                    <select class="form-control" name="idtypetravaux">
+                                        <option value="">--Choisir--</option>
+                                        @foreach ($typetravaux as $travaux)
+                                        <option value="{{ $travaux->idtypetravaux }}">{{ $travaux->type }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <hr>
                                 <div class="form-group">
                                     <label>Copie mail</label>
-                                    <select class="form-control" name="iduser">
+                                    <select class="form-control" name="">
                                         <option value="#">--Choisir--</option>
                                         <option value="#">Test</option>
                                     </select>

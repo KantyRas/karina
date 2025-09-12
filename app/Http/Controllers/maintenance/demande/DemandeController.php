@@ -5,9 +5,11 @@ namespace App\Http\Controllers\maintenance\demande;
 use App\Http\Controllers\Controller;
 use App\Models\DemandeTravaux;
 use Illuminate\Http\Request;
+use App\Http\Requests\DemandetravauxRequest;
 use App\Models\Departement;
 use App\Models\TypeTravaux;
 use App\Models\TypeDemande;
+use App\Models\DemandeTravaux;
 use App\Models\Section;
 use App\Http\Requests\TypeDemandeRequest;
 
@@ -17,8 +19,15 @@ class DemandeController extends Controller
 
         return view('maintenance.demande.list_demande');
     }
+    
     public function create(){
         return view('maintenance.demande.form_demande');
+    }
+    public function store(DemandeTravauxRequest $request){
+        
+        // dd("tonga");
+        $demandeTravaux = DemandeTravaux::create($request->validated());
+        return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
     public function index_travaux(){
         $demandetravaux = DemandeTravaux::with([

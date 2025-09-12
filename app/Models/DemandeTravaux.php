@@ -20,6 +20,7 @@ class DemandeTravaux extends Model
         'idtypedemande',
         'idtypetravaux',
         'iddemandeur',
+        'demandeur',
         'datedemande',
         'datesouhaite',
         'numeroserie',
