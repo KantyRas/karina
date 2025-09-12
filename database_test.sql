@@ -326,7 +326,7 @@ INSERT INTO employes (nom, prenom, matricule, idfonction, email, telephone, estA
 -- Users
 -- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'Noum', 'rakoto@gmail.com', '$2y$10$y9wrmHmMqMlbySWGGKzqie./8sx5szRgjUSPLxSq0bm656SFDDiGe', 1);
+(null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$EzsvKMXPeruNLgqhuLoIBu9PMNK3FM3bth.AKQ2tZMmSZQzFQEGrC', 1);
 (null, 'usertest', 'test@gmail.com', '$2y$10$sNt.k.Fu1cY1xqfkNCVoxe1VrLT3TjSZBG5.qLbioC8C8LI4wZuvi', 2);
 
 INSERT INTO type_demandes (idtypedemande, nomtype) VALUES (4, 'teste');

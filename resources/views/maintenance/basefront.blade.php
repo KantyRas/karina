@@ -104,16 +104,16 @@
                 <li @class(['','active' => str_contains($routeName, 'admin.personnel.')])>
                     <a href="#"><i class="fa fa-users fa-fw"></i> Utilisateurs<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        @if(Auth::user()->role == 1 || Auth::user()->role == 2)
-                        <li>
-                            <a href="{{ route('admin.personnel.employe.index') }}">Employés</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.personnel.fonction.index') }}">Fonctions</a>
-                        </li>
-                        @endif
-                        @if(Auth::user()->role == 1)
-                        <li>
+                            @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                            <li>
+                                <a href="{{ route('admin.personnel.employe.index') }}">Employés</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.personnel.fonction.index') }}">Fonctions</a>
+                            </li>
+                            @endif
+                            @if(Auth::user()->role == 1)
+                            <li>
                             <a href="{{ route('admin.personnel.role.index') }}">Rôles</a>
                         </li>
                         <li>
@@ -195,22 +195,21 @@
 
     <div id="page-wrapper">
         <div class="row">
-
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @if($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="my-0">
-                            @foreach($errors as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
+{{--                @if(session('success'))--}}
+{{--                    <div class="alert alert-success">--}}
+{{--                        {{ session('success') }}--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+{{--                @if($errors->any())--}}
+{{--                    <div class="alert alert-danger">--}}
+{{--                        <ul class="my-0">--}}
+{{--                            @foreach($errors as $error)--}}
+{{--                                <li>{{ $error }}</li>--}}
+{{--                            @endforeach--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+            <div id="flash-message"></div>
             @yield('content')
         </div>
         <!-- /.row -->
@@ -236,5 +235,6 @@
         $('.sidebar-collapse').show();
     });
 </script>
+@yield('scripts')
 </body>
 </html>

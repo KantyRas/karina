@@ -9,32 +9,28 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('maintenance.admin.list_role',[
-            'roles' => Role::all(),
-        ]);
+        if ($request->ajax()) {
+            return response()->json(Role::all());
+        }
+        return view('maintenance.admin.list_role');
     }
     public function store(RoleRequest $request)
     {
-        $roles = Role::create($request->validated());
-        return to_route('admin.personnel.role.index')->with('success','Role créer avec succès');
+        $role = Role::create($request->validated());
+        return response()->json(['success' => true, 'message' => 'Rôle créé avec succès', 'data' => $role]);
     }
-    public function edit(Role $role)
-    {
-        return view('maintenance.admin.list_role', [
-            'roles' => Role::all(),
-            'editRole' => $role,
-        ]);
-    }
+
     public function update(RoleRequest $request, Role $role)
     {
         $role->update($request->validated());
-        return to_route('admin.personnel.role.index')->with('success','Modifié avec succès');
+        return response()->json(['success' => true, 'message' => 'Rôle modifié avec succès', 'data' => $role]);
     }
+
     public function destroy(Role $role)
     {
         $role->delete();
-        return to_route('admin.personnel.role.index')->with('success','Ligne supprimée');
+        return response()->json(['success' => true, 'message' => 'Rôle supprimé']);
     }
 }
