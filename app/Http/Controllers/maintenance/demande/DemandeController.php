@@ -26,6 +26,7 @@ class DemandeController extends Controller
         
         // dd("tonga");
         $demandeTravaux = DemandeTravaux::create($request->validated());
+        
         return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
     public function index_travaux(){
