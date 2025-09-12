@@ -10,6 +10,7 @@ use App\Http\Requests\DemandetravauxRequest;
 use App\Models\Departement;
 use App\Models\TypeTravaux;
 use App\Models\TypeDemande;
+use App\Models\Article;
 use App\Models\DemandeTravaux;
 use App\Models\Section;
 use App\Http\Requests\TypeDemandeRequest;
@@ -22,7 +23,11 @@ class DemandeController extends Controller
     }
 
     public function create(){
-        return view('maintenance.demande.form_demande');
+        $article = Article::all();
+
+        return view('maintenance.demande.form_demande',[
+            'articles' => $article,
+        ]);
     }
     public function store(DemandeTravauxRequest $request){
 
@@ -46,7 +51,7 @@ class DemandeController extends Controller
     public function index_travaux(){
 
         $user = Auth::user();
-        
+
         $query = DemandeTravaux::with([
             'TypeDemande',
             'section.departement',

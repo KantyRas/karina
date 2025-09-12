@@ -1,12 +1,6 @@
 @extends('maintenance.basefront')
 @section('title', "Faire une demande")
 @section('content')
-    @php
-        $articles = [
-            ['idArticle' => 1, 'code' => 'ART001', 'designation' => 'Article 1', 'idUnite' => 1],
-            ['idArticle' => 2, 'code' => 'ART002', 'designation' => 'Article 2', 'idUnite' => 2]
-        ];
-    @endphp
     <div class="container">
         <h2 class="mb-4">Bon de Demande d'Achat</h2>
         <br>
@@ -39,14 +33,17 @@
                 <tr>
                     <td>1</td>
                     <td>
-                        <select name="articles[0][idArticle]" class="form-control code-article-select" required>
+                        <input type="text" name="" class="form-control designation" disabled>
+                    </td>
+                    <td>
+                        {{-- <input type="text" name="articles[0][designation]" class="form-control designation"> --}}
+                        <select name="" class="form-control code-article-select" required>
                             <option value="">-- Choisir --</option>
                             @foreach($articles as $article)
-                                <option value="{{ $article['idArticle'] }}">{{ $article['code'] }}</option>
+                                <option value="{{ $article->idarticle }}">{{ $article->designation }}</option>
                             @endforeach
                         </select>
                     </td>
-                    <td><input type="text" name="articles[0][designation]" class="form-control designation" readonly></td>
                     <td><input type="number" name="articles[0][quantite]" class="form-control" min="1" value="1" required></td>
                     <td><input type="text" name="articles[0][idUnite]" class="form-control unite" readonly></td>
                     <td class="text-center">
