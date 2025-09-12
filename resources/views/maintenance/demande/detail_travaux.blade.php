@@ -8,13 +8,13 @@
         <h1 class="page-header text-primary">
             <i class="fa fa-info-circle"></i> Détails de la demande de travaux
         </h1>
-        
+
         <div class="text-right" style="margin-bottom:15px;">
-            @if($details->statut != 1 && $details->iddemandeur != $details->typeDemande->idreceveur)
+            @if($details->statut !=1 && $user->iduser == $details->typeDemande->id_receveur)
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ajoutModal">
                     <i class="fa fa-check"></i> Valider
                 </button>
-        
+
                 <a href="{{ route('demande.refuser', $details->iddemandetravaux) }}" class="btn btn-danger">
                     <i class="fa fa-times"></i> Refuser
                 </a>
@@ -112,30 +112,30 @@
     <div class="modal fade" id="ajoutModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-        
+
               <div class="modal-header">
                 <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
               </div>
-        
+
               <div class="modal-body">
                 Souhaitez-vous valider la demande avec ou sans achat de matériel ?
               </div>
-        
+
               <div class="modal-footer">
                 <!-- Achat Matériel -->
                 <a href="{{ route('demande.create') }}" class="btn btn-primary">
                     <i class="fa fa-plus"></i> Achats matériels
                 </a>
-        
+
                 <!-- Valider sans Achat -->
                 <a href="{{ route('demande.valider', $details->iddemandetravaux ) }}" class="btn btn-success">
                     Valider sans achat
                 </a>
-        
+
                 <!-- Fermer -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
               </div>
-        
+
             </div>
         </div>
     </div>
