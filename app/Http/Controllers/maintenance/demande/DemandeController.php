@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\maintenance\demande;
 
 use App\Http\Controllers\Controller;
+use App\Models\FicheJoint;
 use Illuminate\Http\Request;
 use App\Http\Requests\DemandetravauxRequest;
 use App\Models\Departement;
@@ -18,14 +19,27 @@ class DemandeController extends Controller
 
         return view('maintenance.demande.list_demande');
     }
-    
+
     public function create(){
         return view('maintenance.demande.form_demande');
     }
     public function store(DemandeTravauxRequest $request){
-        
-        // dd("tonga");
+
         $demandeTravaux = DemandeTravaux::create($request->validated());
+
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $file) {
+                $originalName = $file->getClientOriginalName();
+                $path = $file->store('fiche_joint', 'public');
+
+                FicheJoint::create([
+                    'fichier' => $path,
+                    'nom' => $originalName,
+                    'iddemandetravaux' => $demandeTravaux->iddemandetravaux,
+                ]);
+            }
+        }
+
         return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
     public function index_travaux(){
@@ -50,7 +64,8 @@ class DemandeController extends Controller
             'section.departement',
             'typeDemande',
             'typeTravaux',
-            'users'
+            'users',
+            'fichiers'
         ])->findOrFail($iddemandeTravaux);
 
         return view('maintenance.demande.detail_travaux', [

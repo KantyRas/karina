@@ -74,10 +74,19 @@
                     Pièces jointes
                 </div>
                 <div class="panel-body">
-                    <a href="#" class="btn btn-info" target="_blank">
-                        <i class="fa fa-download"></i> Télécharger le fichier
-                    </a>
-                    <p class="text-muted">Aucun fichier attaché</p>
+                    @forelse($details->fichiers as $fichier)
+                        <a href="{{ asset('storage/'.$fichier->fichier) }}"
+                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                           target="_blank"
+                           title="{{ basename($fichier->nom) }}">
+                            <span>
+                                <i class="fa fa-file mr-2"></i> {{ basename($fichier->nom) }}
+                            </span>
+                            <i class="fa fa-external-link-alt text-muted"></i>
+                        </a>
+                    @empty
+                        <p class="text-muted text-center">Aucun fichier attaché</p>
+                    @endforelse
                 </div>
             </div>
 

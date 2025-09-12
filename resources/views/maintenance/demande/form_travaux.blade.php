@@ -12,7 +12,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form action="{{ route('demande.store') }}" method="post">
+                        <form action="{{ route('demande.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Fichiers attachés (si nécessaire)</label>
-                                    <input type="file" name="" class="form-control">
+                                    <input type="file" name="fichiers[]" class="form-control" multiple>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -111,7 +111,7 @@
 
     document.getElementById('DeptSelect').addEventListener('change', function () {
         const deptId = this.value;
-    
+
         // console.log("miditra2");
         if (deptId) {
             fetch(`/demandes/get_responsable/${deptId}`)
@@ -124,7 +124,7 @@
                     RespInput.value = data.responsable.responsable;
 
                     const SectionSelect = document.getElementById('SectionSelect');
-                    SectionSelect.innerHTML = ''; // reset                   
+                    SectionSelect.innerHTML = ''; // reset
 
                     data.section.forEach(sec => {
                         console.log(sec.nomsection);
