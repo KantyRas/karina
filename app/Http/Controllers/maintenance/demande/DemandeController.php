@@ -26,7 +26,20 @@ class DemandeController extends Controller
     public function store(DemandeTravauxRequest $request){
 
         $demandeTravaux = DemandeTravaux::create($request->validated());
-        
+
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $file) {
+                $originalName = $file->getClientOriginalName();
+                $path = $file->store('fiche_joint', 'public');
+
+                FicheJoint::create([
+                    'fichier' => $path,
+                    'nom' => $originalName,
+                    'iddemandetravaux' => $demandeTravaux->iddemandetravaux,
+                ]);
+            }
+        }
+
         return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
     public function index_travaux(){
@@ -62,12 +75,12 @@ class DemandeController extends Controller
 
     public function getResponsable($iddepartement){
         $responsable = Departement::select('responsable')
-        ->where('iddepartement', $iddepartement)
-        ->first();
+            ->where('iddepartement', $iddepartement)
+            ->first();
 
         $section = Section::select('*')
-        ->where('iddepartement', $iddepartement)
-        ->get();
+            ->where('iddepartement', $iddepartement)
+            ->get();
 
         return response()->json([
             'responsable' => $responsable,
