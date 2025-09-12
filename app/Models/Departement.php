@@ -10,6 +10,7 @@ class Departement extends Model
     use HasFactory;
 
     protected $table = 'departements';
+    protected $primaryKey = 'iddepartement';
     public $timestamps = false;
 
 

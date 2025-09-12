@@ -25,41 +25,45 @@
                             <tr>
                                 <th>Nº demande</th>
                                 <th>Département</th>
-                                <th>Demandeur</th>
+                                <th>Utilisateur</th>
+                                <th>Type demande</th>
                                 <th>Date demande</th>
                                 <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Montage</td>
-                                <td>JEEBUN Artee</td>
-                                <td>{{ date('Y-m-d') }}</td>
-                                <td>@include('maintenance.shared.status', ['status' => 0])</td>
-                                <td class="text-center">
-                                    <a href="{{ route('demande.detail_demande_travaux') }}"
-                                       class="btn btn-primary btn-circle"
-                                       title="Détails demandes">
-                                        <i class="fa fa-file"></i>
-                                    </a>
-                                    <a href="#"
-                                       class="btn btn-success btn-circle"
-                                       title="Modifier">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <form action="" method="POST" style="display:inline-block; margin-left:3px;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                                class="btn btn-danger btn-circle"
-                                                title="Supprimer">
-                                            <i class="fa fa-trash-o"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            @foreach($demandetravaux as $index => $t)
+                                <tr class="odd gradeX">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $t->section->departement->nom ?? '-' }}</td>
+                                    <td>{{ $t->demandeur->username }}</td>
+                                    <td>{{ $t->typeDemande->nomtype ?? '-' }}</td>
+                                    <td>{{ $t->datedemande }}</td>
+                                    <td>@include('maintenance.shared.status', ['status' => $t->statut])</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('demande.detail_demande_travaux',$t->iddemandetravaux) }}"
+                                           class="btn btn-primary btn-circle"
+                                           title="Détails demandes">
+                                            <i class="fa fa-file"></i>
+                                        </a>
+                                        <a href="#"
+                                           class="btn btn-success btn-circle"
+                                           title="Modifier">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <form action="" method="POST" style="display:inline-block; margin-left:3px;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="btn btn-danger btn-circle"
+                                                    title="Supprimer">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

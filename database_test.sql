@@ -88,12 +88,18 @@ create table type_demandes(
     nomtype varchar(75),
     id_receveur int references users(iduser)
 );
+insert into type_demandes (nomtype,id_receveur) values
+('Maintenance generale',1),
+('Informatique',1);
 
 create table type_travaux(
     idtypetravaux serial primary key,
     type varchar(55)
 );
-
+insert into type_travaux (type) values
+('REPARATION'),
+('RENNOVATION'),
+('CONFECTION');
 create table departements(
     iddepartement serial primary key,
     nom varchar(75),
@@ -193,7 +199,15 @@ create table demande_travaux(
     motif text,
     description text
 );
-
+insert into demande_travaux
+(idsection, idtypedemande, idtypetravaux, iddemandeur, datedemande, datesouhaite, numeroserie, statut, motif, description)
+values
+(1, 1, 2, 1, '2025-09-01', '2025-09-05', 'EQ-2025-0001', 0,
+ 'Panne électrique dans atelier maintenance',
+ 'Les machines se sont arrêtées subitement, demande intervention rapide'),
+(3, 1, 1, 1, '2025-09-03', '2025-09-07', 'IT-2025-0002', 1,
+ 'Installation nouveau poste',
+ 'Besoin ordinateur et configuration réseau pour le nouvel employé');
 create table fiche_joints_travaux(
     idfichejoint serial primary key,
     fichier varchar(155),

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\maintenance\demande;
 
 use App\Http\Controllers\Controller;
+use App\Models\DemandeTravaux;
 use Illuminate\Http\Request;
 use App\Models\Departement;
 use App\Models\TypeTravaux;
@@ -20,7 +21,14 @@ class DemandeController extends Controller
         return view('maintenance.demande.form_demande');
     }
     public function index_travaux(){
-        return view('maintenance.demande.list_travaux');
+        $demandetravaux = DemandeTravaux::with([
+            'TypeDemande',
+            'section.departement',
+            'demandeur'
+        ])->get();
+        return view('maintenance.demande.list_travaux',[
+            'demandetravaux' => $demandetravaux,
+        ]);
     }
     public function ajout_travaux(){
         return view('maintenance.demande.form_travaux',[
@@ -29,18 +37,27 @@ class DemandeController extends Controller
             'typedemandes' => TypeDemande::all(),
         ]);
     }
-    public function get_detail_travaux(){
-        return view('maintenance.demande.detail_travaux');
+    public function get_detail_travaux($iddemandeTravaux){
+        $details = DemandeTravaux::with([
+            'section.departement',
+            'typeDemande',
+            'typeTravaux',
+            'demandeur'
+        ])->findOrFail($iddemandeTravaux);
+
+        return view('maintenance.demande.detail_travaux', [
+            'details' => $details,
+        ]);
     }
 
     public function getResponsable($iddepartement){
         $responsable = Departement::select('responsable')
         ->where('iddepartement', $iddepartement)
-        ->first(); 
+        ->first();
 
         $section = Section::select('*')
         ->where('iddepartement', $iddepartement)
-        ->get(); 
+        ->get();
 
         return response()->json([
             'responsable' => $responsable,

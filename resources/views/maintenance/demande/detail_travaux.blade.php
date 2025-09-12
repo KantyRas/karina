@@ -22,35 +22,35 @@
                     <table class="table table-bordered">
                         <tr>
                             <th style="width:25%;">Département</th>
-                            <td>Nom departement</td>
+                            <td>{{ $details->section->departement->nom ?? '-' }}</td>
                         </tr>
                         <tr>
                             <th>Section</th>
-                            <td>Nom section</td>
+                            <td>{{ $details->section->nomsection ?? '-' }}</td>
                         </tr>
                         <tr>
                             <th>Type de demande</th>
-                            <td>Maintenace génerale</td>
+                            <td>{{ $details->typeDemande->nomtype ?? '-' }}</td>
                         </tr>
                         <tr>
                             <th>Travaux demandés</th>
-                            <td>Rennovation</td>
+                            <td>{{ $details->typeTravaux->type ?? '-' }}</td>
                         </tr>
                         <tr>
                             <th>Responsable</th>
-                            <td>Stephane</td>
+                            <td>{{ $details->section->departement->responsable ?? '-' }}</td>
                         </tr>
                         <tr>
                             <th>Demandeur</th>
-                            <td>Tsaiko</td>
+                            <td>Mbola test</td>
                         </tr>
                         <tr>
                             <th>Date souhaitée</th>
-                            <td>{{ date('Y-m-d') }}</td>
+                            <td>{{ $details->datesouhaite }}</td>
                         </tr>
                         <tr>
                             <th>Nº de série</th>
-                            <td>213595626</td>
+                            <td>{{ $details->numeroserie ?? '-' }}</td>
                         </tr>
                     </table>
                 </div>
@@ -62,10 +62,10 @@
                 </div>
                 <div class="panel-body">
                     <p><strong>Motif :</strong></p>
-                    <p>Motif de test loun</p>
+                    <p>{{ $details->motif ?? '-' }}</p>
                     <hr>
                     <p><strong>Description détaillée :</strong></p>
-                    <p>Aucune description</p>
+                    <p>{{ $details->description ?? '-' }}</p>
                 </div>
             </div>
 

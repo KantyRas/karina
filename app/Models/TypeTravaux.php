@@ -10,8 +10,9 @@ class TypeTravaux extends Model
     use HasFactory;
 
     protected $table = 'type_travaux';
+    protected $primaryKey = 'idtypetravaux';
+    public $timestamps = false;
 
-    
     protected $fillable = [
         'type',
     ];
