@@ -11,6 +11,7 @@
     <link href="{{ asset('css/plugins/timeline/timeline.css') }}" rel="stylesheet">
     <link href="{{ asset('css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('DataTables/datatables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tom-select.css') }}" rel="stylesheet">
     <style>
         .sidebar-collapse {
             display: none;
@@ -227,6 +228,7 @@
 <script src="{{ asset('js/plugins/dataTables/jquery.dataTables.js')}}"></script>
 <script src="{{ asset('js/plugins/dataTables/dataTables.bootstrap.js')}}"></script>
 <script src="{{ asset('DataTables/datatables.min.js')}}"></script>
+<script src="{{ asset('js/tom-select.complete.js')}}"></script>
 <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
