@@ -12,7 +12,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form action="{{ route('demande.store') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('demande.store_travaux') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="col-lg-6">
                                 <div class="form-group">

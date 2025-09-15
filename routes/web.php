@@ -75,6 +75,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
         Route::resource('demande', DemandeController::class)->except(['show']);
         Route::get('/travaux',[DemandeController::class,'index_travaux'])->name('demande.liste_demande_travaux');
         Route::get('/travaux/ajout',[DemandeController::class,'ajout_travaux'])->name('demande.form_demande_travaux');
+        Route::post('/travaux/store',[DemandeController::class,'storeTravaux'])->name('demande.store_travaux');
         Route::get('/travaux/details/{demandetravaux}',[DemandeController::class,'get_detail_travaux'])->name('demande.detail_demande_travaux');
         Route::get('/get_responsable/{iddepartement}', [DemandeController::class,'getResponsable'])->name('demande.getResponsable');
         Route::get('/travaux/details/validation/{iddemandetravaux}', [DemandeController::class,'updateValider'])->name('demande.valider');

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\FicheJoint;
 use Illuminate\Http\Request;
 use App\Http\Requests\DemandetravauxRequest;
+use App\Http\Requests\DemandeAchatRequest;
 use App\Models\Departement;
 use App\Models\TypeTravaux;
 use App\Models\TypeDemande;
@@ -29,24 +30,10 @@ class DemandeController extends Controller
             'articles' => $article,
         ]);
     }
-    public function store(DemandeTravauxRequest $request){
+    public function store(DemandeAchatRequest $request){
 
-        $demandeTravaux = DemandeTravaux::create($request->validated());
+        return to_route('demande.index')->with('success','Demande achat créer avec succès');
 
-        if ($request->hasFile('fichiers')) {
-            foreach ($request->file('fichiers') as $file) {
-                $originalName = $file->getClientOriginalName();
-                $path = $file->store('fiche_joint', 'public');
-
-                FicheJoint::create([
-                    'fichier' => $path,
-                    'nom' => $originalName,
-                    'iddemandetravaux' => $demandeTravaux->iddemandetravaux,
-                ]);
-            }
-        }
-
-        return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
     public function index_travaux(){
 
@@ -113,5 +100,25 @@ class DemandeController extends Controller
     public function refuserDemande($iddemandetravaux) {
         DemandeTravaux::where('iddemandetravaux', $iddemandetravaux)->update(['statut' => 2]);
         return to_route('demande.liste_demande_travaux')->with('succes','Demande refusé');
+    }
+
+    public function storetravaux(DemandeTravauxRequest $request){
+
+        $demandeTravaux = DemandeTravaux::create($request->validated());
+
+        if ($request->hasFile('fichiers')) {
+            foreach ($request->file('fichiers') as $file) {
+                $originalName = $file->getClientOriginalName();
+                $path = $file->store('fiche_joint', 'public');
+
+                FicheJoint::create([
+                    'fichier' => $path,
+                    'nom' => $originalName,
+                    'iddemandetravaux' => $demandeTravaux->iddemandetravaux,
+                ]);
+            }
+        }
+
+        return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
 }
