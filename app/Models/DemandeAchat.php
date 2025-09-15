@@ -9,7 +9,8 @@ class DemandeAchat extends Model
 {
     use HasFactory;
 
-    protected $table = 'demande_achat';
+    protected $table = 'demande_achats';
+    protected $primaryKey = 'iddemandeachat';
     public $timestamps = false;
 
 
@@ -17,9 +18,8 @@ class DemandeAchat extends Model
     protected $fillable = [
         'iddemandeur',
         'idreceveur',
-        'idtypedemande',
+        'iddemande_travaux',
         'datedemande',
-        'description',
     ];
 
     // Relation avec User pour le demandeur (many-to-one)
@@ -34,9 +34,8 @@ class DemandeAchat extends Model
         return $this->belongsTo(User::class, 'idreceveur');
     }
 
-    // Relation avec TypeDemande (many-to-one)
-    public function typeDemande()
+    public function demandeTravaux()
     {
-        return $this->belongsTo(TypeDemande::class, 'idtypedemande');
+        return $this->belongsTo(DemandeTravaux::class, 'iddemande_travaux');
     }
 }

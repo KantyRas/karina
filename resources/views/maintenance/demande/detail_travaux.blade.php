@@ -123,7 +123,7 @@
 
               <div class="modal-footer">
                 <!-- Achat Matériel -->
-                <a href="{{ route('demande.create') }}" class="btn btn-primary">
+                <a href="{{ route('demande.create') }}?id={{$details->iddemandetravaux}}" class="btn btn-primary">
                     <i class="fa fa-plus"></i> Achats matériels
                 </a>
 

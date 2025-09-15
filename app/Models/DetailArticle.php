@@ -10,7 +10,8 @@ class DetailArticle extends Model
     use HasFactory;
 
      // Définir le nom de la table si nécessaire
-     protected $table = 'detail_article_demandes';
+     protected $table = 'detail_articles';
+     protected $primaryKey = 'idarticledemande';
      public $timestamps = false;
 
 
@@ -20,13 +21,13 @@ class DetailArticle extends Model
          'idarticle',
          'quantitedemande',
      ];
- 
+
      // Relation avec Demande (many-to-one)
      public function demande()
      {
          return $this->belongsTo(DemandeAchat::class, 'iddemandeachat');
      }
- 
+
      // Relation avec Article (many-to-one)
      public function article()
      {

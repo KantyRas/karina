@@ -22,7 +22,15 @@ class DemandeAchatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'iddemandeur' => ['required'],
+            'idreceveur' => ['nullable'],
+            'datedemande' => ['required', 'date'],
+            'iddemande_travaux' => ['nullable'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.code' => ['required', 'string', 'max:50'],
+            'items.*.designation' => ['required', 'exists:articles,idarticle'],
+            'items.*.quantitedemande' => ['required', 'integer', 'min:1'],
+            'items.*.unite' => ['required', 'string', 'max:20'],
         ];
     }
 }

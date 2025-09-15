@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <h1 class="page-header">Mes demandes d'achats en cours</h1>
         <div class="text-right" style="margin-bottom:15px;">
-            <a href="{{ route('demande.create') }}" class="btn btn-primary">
+            <a href="{{ route('demande.create','') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Nouvelle demande
             </a>
         </div>
@@ -23,21 +23,20 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Description</th>
-                                <th>Type</th>
-                                <th>Date</th>
-                                <th>Statut</th>
+                                <th style="width: 15%">Demande achat Nº</th>
+                                <th>Demandeur</th>
+                                <th>Date demande</th>
+                                <th>Demande travaux</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($demandes as $index => $d)
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Petite description</td>
-                                <td>Achat</td>
-                                <td>{{ date('Y-m-d') }}</td>
-                                <td>@include('maintenance.shared.status', ['status' => 0])</td>
+                                <td>Achat/nº{{ str_pad($index + 1, 4, '0', STR_PAD_LEFT) }}</td>
+                                <td>{{ $d->demandeur->username }}</td>
+                                <td>{{ $d->datedemande }}</td>
+                                <td style="text-align: center;">{{ $d->demandeTravaux->motif ?? '-' }}</td>
                                 <td class="text-center">
                                     <a href="#"
                                        class="btn btn-primary btn-circle"
@@ -60,6 +59,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -12,15 +12,17 @@
 <div class="col-lg-12">
     <form action="{{ route('demande.store') }}" method="POST">
         @csrf
-        <input type="text" value="0" name="counter" id="inputCounter">
+        <input type="hidden" value="0" name="counter" id="inputCounter">
+        <input type="hidden" name="iddemande_travaux" value="{{ $iddemandetravaux ?? '' }}">
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="demandeur" class="form-label fw-bold">Demandeur</label>
-                <input type="text" name="demandeur" id="demandeur" class="form-control" placeholder="Nom du demandeur" required>
+                <input type="text" class="form-control" value="{{ Auth::user()->username }}" readonly>
+                <input type="hidden" name="iddemandeur" value="{{ Auth::user()->iduser }}">
             </div>
             <div class="col-md-6">
                 <label for="date_demande" class="form-label fw-bold">Date de demande</label>
-                <input type="date" name="date_demande" id="date_demande" class="form-control" value="{{ date('Y-m-d') }}" required>
+                <input type="date" name="datedemande" id="date_demande" class="form-control" value="{{ date('Y-m-d') }}" required>
             </div>
         </div>
         <br>
@@ -52,7 +54,7 @@
                         </select>
                     </td>
                     <td>
-                        <input type="number" name="items[0][quantite]" class="form-control form-control-sm text-center" min="1" value="1" required>
+                        <input type="number" name="items[0][quantitedemande]" class="form-control form-control-sm text-center" min="1" value="1" required>
                     </td>
                     <td>
                         <input type="text" name="items[0][unite]" class="form-control form-control-sm unite text-center" readonly>
@@ -132,7 +134,7 @@
                 </select>
             </td>
             <td>
-                <input type="number" name="items[${rowIndex}][quantite]" class="form-control text-center" min="1" value="1" required>
+                <input type="number" name="items[${rowIndex}][quantitedemande]" class="form-control text-center" min="1" value="1" required>
                     </td>
                     <td>
                         <input type="text" name="items[${rowIndex}][unite]" class="form-control unite text-center" readonly>
@@ -151,13 +153,10 @@
                     allowEmptyOption: true,
                     sortField: { field: "text", direction: "asc" },
                     plugins: ['dropdown_input'], });
-                // Mettre à jour l'input avec la valeur actuelle de rowIndex
                 inputCounter.value = rowIndex;
                 rowIndex++;
 
-                // Met à jour les indices après l'ajout de la nouvelle ligne
                 updateRowIndices();
-
                 toggleRemoveButtons();
             });
 
@@ -166,20 +165,15 @@
                     e.target.closest("tr").remove();
                     toggleRemoveButtons();
                 }
-                
-            });
 
-            // Fonction pour mettre à jour les indices des lignes après suppression
+            });
             function updateRowIndices() {
                 const rows = tbody.querySelectorAll("tr");
                 rows.forEach((row, index) => {
-                    // première cellule devient l’index + 1
                     row.querySelector("td").textContent = index + 1;
-
-                    // mettre à jour aussi les name des inputs
                     const inputs = row.querySelectorAll("input, select");
                     inputs.forEach(input => {
-                        const oldName = input.getAttribute("name"); 
+                        const oldName = input.getAttribute("name");
                         if (oldName) {
                             const newName = oldName.replace(/\[\d+\]/, `[${index + 1}]`);
                             input.setAttribute("name", newName);

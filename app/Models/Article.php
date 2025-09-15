@@ -12,4 +12,5 @@ class Article extends Model
     protected $primaryKey = 'idarticle';
     protected $fillable = ['code','designation','depot','famille','unite'];
     public $timestamps = false;
+
 }
