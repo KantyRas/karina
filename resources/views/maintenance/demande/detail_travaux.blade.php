@@ -10,7 +10,7 @@
         </h1>
 
         <div class="text-right" style="margin-bottom:15px;">
-            @if($details->statut !=1 && $user->iduser == $details->typeDemande->id_receveur)
+            @if($details->statut == 0 && $user->iduser == $details->typeDemande->id_receveur)
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ajoutModal">
                     <i class="fa fa-check"></i> Valider
                 </button>
