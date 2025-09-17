@@ -44,6 +44,19 @@ class DemandeController extends Controller
             'datedemande'   => $validated['datedemande'],
         ]);
         foreach ($validated['items'] as $item) {
+            $articleId = null;
+            if (is_numeric($item['designation'])) {
+                $articleId = $item['designation'];
+            } else {
+                $newArticle = Article::create([
+                    'code'        => 'QU0000MAI',
+                    'designation' => $item['designation'],
+                    'depot' => '4.FOURNITURE',
+                    'famille'     => 'FOURN. D\'ENTR.PETIT EQUIP.',
+                    'unite'       => 'PCS',
+                ]);
+                $articleId = $newArticle->idarticle;
+            }
             DetailArticle::create([
                 'iddemandeachat'  => $demande->iddemandeachat,
                 'idarticle'       => $item['designation'],
@@ -55,6 +68,20 @@ class DemandeController extends Controller
         }
         return to_route('demande.index')->with('success','Demande achat créer avec succès');
     }
+    public function get_detail_achat($iddemandeachat)
+    {
+        $details = DemandeAchat::with([
+            'demandeur',
+            'receveur',
+            'demandeTravaux',
+            'detailArticles.article'
+        ])->findOrFail($iddemandeachat);
+
+        return view('maintenance.demande.detail_demande', [
+            'details' => $details,
+        ]);
+    }
+
     public function index_travaux(){
 
         $user = Auth::user();

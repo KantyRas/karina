@@ -197,7 +197,7 @@
     <div id="page-wrapper">
         <div class="row">
                @if(session('success'))
-                   <div class="alert alert-success">
+                   <div id="alert-success" class="alert alert-success">
                        {{ session('success') }}
                    </div>
                @endif
@@ -235,6 +235,16 @@
             autoWidth: false
         });
         $('.sidebar-collapse').show();
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        let alert = document.getElementById("alert-success");
+        if (alert) {
+            setTimeout(() => {
+                alert.style.transition = "opacity 0.5s ease";
+                alert.style.opacity = "0";
+                setTimeout(() => alert.remove(), 500);
+            }, 1500);
+        }
     });
 </script>
 @yield('scripts')

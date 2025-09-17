@@ -38,4 +38,9 @@ class DemandeAchat extends Model
     {
         return $this->belongsTo(DemandeTravaux::class, 'iddemande_travaux');
     }
+    public function detailArticles()
+    {
+        return $this->hasMany(DetailArticle::class, 'iddemandeachat');
+    }
+
 }

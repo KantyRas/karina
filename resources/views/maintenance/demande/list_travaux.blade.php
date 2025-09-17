@@ -35,7 +35,7 @@
                             <tbody>
                             @foreach($demandetravaux as $index => $t)
                                 <tr class="odd gradeX">
-                                    <td>{{ $index + 1 }}</td>
+                                    <td>Travaux/nº{{ str_pad($t->iddemandetravaux, 4, '0', STR_PAD_LEFT) }}</td>
                                     <td>{{ $t->section->departement->nom ?? '-' }}</td>
                                     <td>{{ $t->users->username }}</td>
                                     <td>{{ $t->typeDemande->nomtype ?? '-' }}</td>

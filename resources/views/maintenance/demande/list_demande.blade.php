@@ -23,7 +23,7 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th style="width: 15%">Demande achat Nº</th>
+                                <th style="width: 10%">Demande Nº</th>
                                 <th>Demandeur</th>
                                 <th>Date demande</th>
                                 <th>Demande travaux</th>
@@ -36,9 +36,13 @@
                                 <td>Achat/nº{{ str_pad($index + 1, 4, '0', STR_PAD_LEFT) }}</td>
                                 <td>{{ $d->demandeur->username }}</td>
                                 <td>{{ $d->datedemande }}</td>
-                                <td style="text-align: center;">{{ $d->demandeTravaux->motif ?? '-' }}</td>
+                                <td style="text-align: center;">
+                                    {{ $d->iddemande_travaux
+                                        ? 'Travaux/nº' . str_pad($d->iddemande_travaux, 4, '0', STR_PAD_LEFT)
+                                        : '-' }}
+                                </td>
                                 <td class="text-center">
-                                    <a href="#"
+                                    <a href="{{ route('demande.detail',$d->iddemandeachat) }}"
                                        class="btn btn-primary btn-circle"
                                        title="Détails">
                                         <i class="fa fa-file"></i>
