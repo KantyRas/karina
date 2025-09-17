@@ -33,7 +33,7 @@
                             <tbody>
                             @foreach($demandes as $index => $d)
                             <tr class="odd gradeX">
-                                <td>Achat/nº{{ str_pad($index + 1, 4, '0', STR_PAD_LEFT) }}</td>
+                                <td>Achat/nº{{ str_pad($d->iddemandeachat, 4, '0', STR_PAD_LEFT) }}</td>
                                 <td>{{ $d->demandeur->username }}</td>
                                 <td>{{ $d->datedemande }}</td>
                                 <td style="text-align: center;">

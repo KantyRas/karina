@@ -27,10 +27,11 @@ class DemandeAchatRequest extends FormRequest
             'datedemande' => ['required', 'date'],
             'iddemande_travaux' => ['nullable'],
             'items' => ['required', 'array', 'min:1'],
-            'items.*.code' => ['required', 'string', 'max:50'],
-            'items.*.designation' => ['required', 'exists:articles,idarticle'],
+            'items.*.code' => ['nullable', 'string', 'max:50'],
+//            'items.*.designation' => ['required', 'exists:articles,idarticle'],
+            'items.*.designation' => ['required'],
             'items.*.quantitedemande' => ['required', 'integer', 'min:1'],
-            'items.*.unite' => ['required', 'string', 'max:20'],
+            'items.*.unite' => ['nullable', 'string', 'max:20'],
         ];
     }
 }

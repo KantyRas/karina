@@ -59,7 +59,7 @@ class DemandeController extends Controller
             }
             DetailArticle::create([
                 'iddemandeachat'  => $demande->iddemandeachat,
-                'idarticle'       => $item['designation'],
+                'idarticle'       => $articleId,
                 'quantitedemande' => $item['quantitedemande'],
             ]);
         }
