@@ -74,6 +74,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     Route::prefix('demandes')->group(function(){
         Route::resource('demande', DemandeController::class)->except(['show']);
         Route::get('/details/{iddemandeachat}',[DemandeController::class,'get_detail_achat'])->name('demande.detail');
+        Route::get('/details/pdf/{iddemandeachat}',[DemandeController::class,'exportPdf'])->name('demande.exportPdf');
         Route::get('/travaux',[DemandeController::class,'index_travaux'])->name('demande.liste_demande_travaux');
         Route::get('/travaux/ajout',[DemandeController::class,'ajout_travaux'])->name('demande.form_demande_travaux');
         Route::post('/travaux/store',[DemandeController::class,'storeTravaux'])->name('demande.store_travaux');

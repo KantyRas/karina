@@ -17,6 +17,7 @@ use App\Models\Article;
 use App\Models\DemandeTravaux;
 use App\Models\Section;
 use App\Http\Requests\TypeDemandeRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DemandeController extends Controller
 {
@@ -166,5 +167,23 @@ class DemandeController extends Controller
         }
 
         return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
+    }
+
+    public function exportPdf($iddemandeachat)
+    {
+        // Récupération des détails
+        $details = DemandeAchat::with([
+            'demandeur',
+            'receveur',
+            'demandeTravaux',
+            'detailArticles.article'
+        ])->findOrFail($iddemandeachat);
+
+        // $data = [
+        //     'details' => $details,
+        // ];
+
+        $pdf = Pdf::loadView('maintenance.PDF.detailAchat', compact('details'));
+        return $pdf->stream('demande.pdf');
     }
 }
