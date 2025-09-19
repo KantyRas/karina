@@ -14,10 +14,9 @@
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ajoutModal">
                     <i class="fa fa-check"></i> Valider
                 </button>
-
-                <a href="{{ route('demande.refuser', $details->iddemandetravaux) }}" class="btn btn-danger">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#refusModal">
                     <i class="fa fa-times"></i> Refuser
-                </a>
+                </button>
             @endif
         </div>
     </div>
@@ -55,7 +54,7 @@
                             <td>{{ $details->demandeur }}</td>
                         </tr>
                         <tr>
-                            <th>Date souhaitée</th>
+                            <th>Date de livraison souhaitée</th>
                             <td>{{ $details->datesouhaite }}</td>
                         </tr>
                         <tr>
@@ -135,6 +134,31 @@
                 <!-- Fermer -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
               </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="refusModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
+                </div>
+
+                <div class="modal-body">
+                    Raison de refus ?
+                    <textarea class="form-control" name="refus">Raison de refus</textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="{{ route('demande.refuser', $details->iddemandetravaux) }}" class="btn btn-primary">
+                        Valider
+                    </a>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
 
             </div>
         </div>

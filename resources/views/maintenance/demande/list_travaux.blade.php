@@ -27,7 +27,7 @@
                                 <th>Département</th>
                                 <th>Utilisateur</th>
                                 <th>Type demande</th>
-                                <th>Date demande</th>
+                                <th>Livraison souhaitée</th>
                                 <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
@@ -39,7 +39,7 @@
                                     <td>{{ $t->section->departement->nom ?? '-' }}</td>
                                     <td>{{ $t->users->username }}</td>
                                     <td>{{ $t->typeDemande->nomtype ?? '-' }}</td>
-                                    <td>{{ $t->datedemande }}</td>
+                                    <td>{{ $t->datesouhaite }}</td>
                                     <td>@include('maintenance.shared.status', ['status' => $t->statut])</td>
                                     <td class="text-center">
                                         <a href="{{ route('demande.detail_demande_travaux',$t->iddemandetravaux) }}"

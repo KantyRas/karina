@@ -22,7 +22,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class DemandeController extends Controller
 {
     public function index(){
-        $demandes = DemandeAchat::with(['demandeur','demandeTravaux'])->get();
+        $user = Auth::user();
+        $query = DemandeAchat::with(['demandeur', 'demandeTravaux']);
+        if ($user->role != 1) {
+            $query = $query->where('iddemandeur',$user->iduser);
+        }
+        $demandes = $query->get();
         return view('maintenance.demande.list_demande',[
             'demandes' => $demandes,
         ]);
@@ -91,7 +96,7 @@ class DemandeController extends Controller
             'TypeDemande',
             'section.departement',
             'users'
-        ]);
+        ])->orderBy('datedemande', 'asc');
 
         if ($user->role != 1) {
             $query->where('iddemandeur', $user->iduser);
@@ -110,14 +115,14 @@ class DemandeController extends Controller
             'typedemandes' => TypeDemande::all(),
         ]);
     }
-    public function get_detail_travaux($iddemandeTravaux){
+    public function get_detail_travaux($iddemandetravaux){
         $details = DemandeTravaux::with([
             'section.departement',
             'typeDemande',
             'typeTravaux',
             'users',
             'fichiers'
-        ])->findOrFail($iddemandeTravaux);
+        ])->findOrFail($iddemandetravaux);
 
         return view('maintenance.demande.detail_travaux', [
             'details' => $details,

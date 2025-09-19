@@ -138,10 +138,10 @@
                     <a href="#"><i class="fa fa-folder"></i> Demandes<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="{{ route('demande.liste_demande_travaux') }}">Travaux</a>
+                            <a href="{{ route('demande.liste_demande_travaux') }}">Grands Travaux</a>
                         </li>
                         <li>
-                            <a href="{{ route('demande.index') }}">Achats (sans demande travaux)</a>
+                            <a href="{{ route('demande.index') }}">Achats</a>
                         </li>
                         <li>
                             <a href="#">Interventions</a>
@@ -178,7 +178,7 @@
                 </li>
                 @endif
                 @if(Auth::user()->role == 1 || Auth::user()->role == 2)
-                    <li>
+                    <li @class(['','active' => str_contains($routeName, 'article.')])>
                         <a href="#"><i class="fa fa-archive fa-fw"></i>Stocks<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>

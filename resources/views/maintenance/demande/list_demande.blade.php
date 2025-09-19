@@ -37,9 +37,13 @@
                                 <td>{{ $d->demandeur->username }}</td>
                                 <td>{{ $d->datedemande }}</td>
                                 <td style="text-align: center;">
-                                    {{ $d->iddemande_travaux
-                                        ? 'Travaux/nº' . str_pad($d->iddemande_travaux, 4, '0', STR_PAD_LEFT)
-                                        : '-' }}
+                                    @if($d->iddemande_travaux)
+                                        <a href="{{ route('demande.detail_demande_travaux', $d->iddemande_travaux) }}">
+                                            Travaux/nº{{ str_pad($d->iddemande_travaux, 4, '0', STR_PAD_LEFT) }}
+                                        </a>
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ route('demande.detail',$d->iddemandeachat) }}"

@@ -8,183 +8,182 @@
 
     <style>
         body {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 12px;
-        color: #333;
-        margin: 0;
-        padding: 20px;
-    }
+            font-family: 'Helvetica', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
 
-    h3, h4 {
-        margin: 0;
-        padding: 0;
-    }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: -25px;
+            /*border-bottom: 1px solid #2c3e50;*/
+            padding-bottom: 20px;
+        }
 
-    h3 {
-        font-size: 18px;
-        color: #0d6efd; /* Bleu bootstrap */
-    }
+        .document-title {
+            text-align: right;
 
-    h4 {
-        font-size: 14px;
-        color: #000;
-    }
+        }
 
-    .fw-bold {
-        font-weight: bold;
-    }
+        .document-title h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 24px;
 
-    .text-primary {
-        color: #0d6efd !important;
-    }
+        }
 
-    .text-muted {
-        color: #6c757d !important;
-    }
+        .reference {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 5px;
+        }
 
-    .mb-0 {
-        margin-bottom: 0 !important;
-    }
+        .info-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
 
-    .mb-1 {
-        margin-bottom: 5px !important;
-    }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
 
-    .mb-3 {
-        margin-bottom: 15px !important;
-    }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .mb-4 {
-        margin-bottom: 20px !important;
-    }
+        .info-item label {
+            color: #7f8c8d;
+            font-size: 13.5px;
+            margin-bottom: 5px;
+        }
 
-    .panel {
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        margin-bottom: 20px;
-    }
+        .info-item span {
+            font-weight: bold;
+            color: #2c3e50;
+        }
 
-    .panel-heading {
-        background-color: #f8f9fa;
-        padding: 10px 15px;
-        font-weight: bold;
-        font-size: 14px;
-        border-bottom: 1px solid #dee2e6;
-    }
+        .articles-section h2 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
 
-    .panel-body {
-        padding: 15px;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-    }
+        th {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            font-size: 13px;
+        }
 
-    th, td {
-        padding: 8px;
-        border: 1px solid #dee2e6;
-    }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            text-align: center;
+        }
 
-    th {
-        background-color: #d4edda; /* Vert clair bootstrap */
-        font-weight: bold;
-    }
+        .row-even {
+            background-color: #f8f9fa;
+        }
 
-    td {
-        vertical-align: middle;
-    }
+        .narrow {
+            width: 5%;
+        }
 
-    .table-hover tbody tr:hover {
-        background-color: #f1f1f1;
-    }
+        .wide {
+            width: 40%;
+        }
 
-    .table-responsive {
-        width: 100%;
-        overflow-x: auto;
-    }
+        .quantity {
+            font-weight: bold;
+        }
 
-    hr {
-        border: 0;
-        border-top: 1px solid #dee2e6;
-        margin: 20px 0;
-    }
+        .code {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <div>
-        <img src="asset('img/karina.jpg')" alt="xxx">
+<div class="header">
+    <div class="logo-container" style="float: left;">
+        <img src="{{ public_path('img/karina.jpg') }}" alt="Logo entreprise" style="width: 100px; gap: 3%;">
     </div>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold text-primary mb-0">
-            <i class="fa fa-file-text me-2"></i> Détails de la Demande d'Achat
-        </h3>
+    <div class="document-title" style="width: max-content; margin-top: 20px"  >
+        <h1>Demande d'Achat</h1>
+        <p class="reference">Achat/nº{{ str_pad($details->iddemandeachat, 4, '0', STR_PAD_LEFT) }}</p>
     </div>
-    <div class="panel panel-default shadow-sm">
-        <div class="panel-heading font-weight-bold">
-            <i class="fa fa-info-circle me-2"></i> Informations Générales
+</div>
+<hr style="margin-bottom: 20px;">
+
+<div class="info-section">
+    <div class="info-grid">
+        <div class="info-item">
+            <label>Demandeur:</label>
+            <span>{{ $details->demandeur->username }}</span>
         </div>
-        <div class="panel-body">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <p class="mb-1 text-muted">Numéro :</p>
-                    <h4 class="fw-bold">Achat/nº{{ str_pad($details->iddemandeachat, 4, '0', STR_PAD_LEFT) }}</h4>
-                </div>
-                <div class="col-md-6">
-                    <p class="mb-1 text-muted">Demandeur :</p>
-                    <h4 class="fw-bold">{{ $details->demandeur->username }}</h4>
-                </div>
-                <div class="col-md-6">
-                    <p class="mb-1 text-muted">Date :</p>
-                    <h4 class="fw-bold">{{ \Carbon\Carbon::parse($details->datedemande)->format('d/m/Y') }}</h4>
-                </div>
-                <div class="col-md-6">
-                    <p class="mb-1 text-muted">Demande Travaux liée :</p>
-                    <h4 class="fw-bold">
-                        {{ $details->iddemande_travaux
-                        ? 'Travaux/nº' . str_pad($details->iddemande_travaux, 4, '0', STR_PAD_LEFT)
-                        : '-' }}
-                    </h4>
-                </div>
-            </div>
+        <div class="info-item">
+            <label>Date de demande:</label>
+            <span>{{ \Carbon\Carbon::parse($details->datedemande)->format('d/m/Y') }}</span>
+        </div>
+        <div class="info-item">
+            <label>Demande Travaux:</label>
+            <span>{{ $details->iddemande_travaux
+            ? 'Travaux/nº' . str_pad($details->iddemande_travaux, 4, '0', STR_PAD_LEFT)
+            : 'N/A' }}</span>
         </div>
     </div>
-    <hr>
-    <div class="panel panel-default shadow-sm0">
-        <div class="panel-heading font-weight-bold">
-            Articles Demandés
-        </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table table-hover table-bordered align-middle text-center">
-                    <thead class="table-success">
-                    <tr>
-                        <th style="width: 5%">#</th>
-                        <th style="width: 15%">Code Article</th>
-                        <th style="width: 40%">Désignation</th>
-                        <th style="width: 20%">Quantité demandée</th>
-                        <th style="width: 20%">Unité</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($details->detailArticles as $index => $article)
-                        <tr>
-                            <td class="fw-bold">{{ $index + 1 }}</td>
-                            <td class="fw-bold text-primary">{{ $article->article->code }}</td>
-                            <td>{{ $article->article->designation }}</td>
-                            <td class="fw-bold">{{ $article->quantitedemande }}</td>
-                            <td>{{ $article->article->unite ?? '-' }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-muted py-3">Aucun article demandé.</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+</div>
+
+<div class="articles-section">
+    <h2>Liste des Articles</h2>
+    <table>
+        <thead>
+        <tr>
+            <th class="narrow">N°</th>
+            <th>Code</th>
+            <th class="wide">Désignation</th>
+            <th>Quantité</th>
+            <th>Unité</th>
+        </tr>
+        </thead>
+        <tbody>
+        @forelse($details->detailArticles as $index => $article)
+            <tr class="{{ $index % 2 == 0 ? 'row-even' : 'row-odd' }}">
+                <td>{{ $index + 1 }}</td>
+                <td class="code">{{ $article->article->code }}</td>
+                <td>{{ $article->article->designation }}</td>
+                <td class="quantity">{{ $article->quantitedemande }}</td>
+                <td>{{ $article->article->unite ?? '-' }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5" class="empty-message">Aucun article demandé</td>
+            </tr>
+        @endforelse
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
