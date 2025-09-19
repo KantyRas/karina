@@ -16,6 +16,16 @@
         .sidebar-collapse {
             display: none;
         }
+        .badge-notif {
+            position: absolute;
+            top: 2px;
+            left: 4px;
+            background: red;
+            color: white;
+            font-size: 12px;
+            padding: 4px 7px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -35,32 +45,35 @@
         </div>
         <!-- /.navbar-header -->
         <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-messages">
-
-                </ul>
-                <!-- /.dropdown-messages -->
-            </li>
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-tasks">
-
-                </ul>
-                <!-- /.dropdown-tasks -->
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-bell fa-fw"></i>
+                    @if($notifications->count() > 0)
+                        <span class="badge badge-danger badge-notif">{{ $notifications->count() }}</span>
+                    @endif  <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-
+                    @forelse($notifications as $notification)
+                        <li>
+                            <a href="{{ route('demande.detail_demande_travaux', $notification->data['demandetravaux_id'] ?? '#') }}">
+                                <div class="d-flex justify-content-between">
+                                    <strong>{{ $notification->data['title'] ?? 'Nouvelle notification' }}</strong>
+                                    <span class="text-muted"><em>{{ $notification->created_at->diffForHumans() }}</em></span>
+                                </div>
+                                <div>{{ $notification->data['message'] ?? '' }}</div>
+                            </a>
+                        </li>
+                    @empty
+                        <li class="text-center text-muted">Aucune notification</li>
+                    @endforelse
+                    <li class="divider"></li>
+                    <li class="text-center">
+                        <a href="#">
+                            <strong>Marquer toutes comme lues</strong>
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
                 </ul>
                 <!-- /.dropdown-alerts -->
             </li>
@@ -140,9 +153,11 @@
                         <li>
                             <a href="{{ route('demande.liste_demande_travaux') }}">Grands Travaux</a>
                         </li>
-                        <li>
-                            <a href="{{ route('demande.index') }}">Achats</a>
-                        </li>
+                        @if(Auth::user()->role == 1)
+                            <li>
+                                <a href="{{ route('demande.index') }}">Achats</a>
+                            </li>
+                        @endif
                         <li>
                             <a href="#">Interventions</a>
                         </li>

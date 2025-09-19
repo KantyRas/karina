@@ -14,10 +14,15 @@ class TypeDemande extends Model
 
     protected $fillable = [
         'nomtype',
+        'id_receveur',
     ];
 
     public function getRouteKeyName()
     {
         return 'idtypedemande';
+    }
+    public function receveur()
+    {
+        return $this->belongsTo(User::class, 'id_receveur', 'iduser');
     }
 }

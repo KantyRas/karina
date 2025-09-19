@@ -5,6 +5,9 @@ namespace App\Http\Controllers\maintenance\demande;
 use App\Http\Controllers\Controller;
 use App\Models\DemandeAchat;
 use App\Models\DetailArticle;
+use App\Models\User;
+use App\Notifications\DemandeTravauxValider;
+use App\Notifications\NewDemandeTravaux;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FicheJoint;
 use Illuminate\Http\Request;
@@ -16,7 +19,6 @@ use App\Models\TypeDemande;
 use App\Models\Article;
 use App\Models\DemandeTravaux;
 use App\Models\Section;
-use App\Http\Requests\TypeDemandeRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class DemandeController extends Controller
@@ -145,7 +147,20 @@ class DemandeController extends Controller
     }
 
     public function updateValider($iddemandetravaux) {
-        DemandeTravaux::where('iddemandetravaux', $iddemandetravaux)->update(['statut' => 1]);
+        $demande = DemandeTravaux::findOrFail($iddemandetravaux);
+        $demande->update(['statut' => 1]);
+        $demandeur = User::find($demande->iddemandeur);
+        if ($demandeur) {
+            $demandeur->notify(new DemandeTravauxValider($demande));
+        }
+        $valideur = User::find($demande->typeDemande->id_receveur);
+        if ($valideur) {
+            $valideur->unreadNotifications
+                ->where('data.demandetravaux_id', $demande->iddemandetravaux)
+                ->each(function($notification){
+                    $notification->markAsRead();
+                });
+        }
         return to_route('demande.liste_demande_travaux')->with('success','Demande validé');
     }
 
@@ -170,23 +185,22 @@ class DemandeController extends Controller
                 ]);
             }
         }
+        $receveur = User::find($demandeTravaux->typeDemande->id_receveur);
 
+        if ($receveur) {
+            $receveur->notify(new NewDemandeTravaux($demandeTravaux));
+        }
         return to_route('demande.liste_demande_travaux')->with('success','Demande créer avec succès');
     }
 
     public function exportPdf($iddemandeachat)
     {
-        // Récupération des détails
         $details = DemandeAchat::with([
             'demandeur',
             'receveur',
             'demandeTravaux',
             'detailArticles.article'
         ])->findOrFail($iddemandeachat);
-
-        // $data = [
-        //     'details' => $details,
-        // ];
 
         $pdf = Pdf::loadView('maintenance.PDF.detailAchat', compact('details'));
         return $pdf->stream('demande.pdf');
