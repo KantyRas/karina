@@ -69,13 +69,12 @@
                     @endforelse
                     <li class="divider"></li>
                     <li class="text-center">
-                        <a href="#">
+                        <a href="{{ route('notifications.markAllAsRead') }}">
                             <strong>Marquer toutes comme lues</strong>
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </li>
                 </ul>
-                <!-- /.dropdown-alerts -->
             </li>
             <!-- /.dropdown -->
             <li class="dropdown">

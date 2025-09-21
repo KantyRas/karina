@@ -82,6 +82,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
         Route::get('/get_responsable/{iddepartement}', [DemandeController::class,'getResponsable'])->name('demande.getResponsable');
         Route::get('/travaux/details/validation/{iddemandetravaux}', [DemandeController::class,'updateValider'])->name('demande.valider');
         Route::get('/travaux/details/refus/{iddemandetravaux}', [DemandeController::class,'refuserdemande'])->name('demande.refuser');
+        Route::get('/notifications/reads', [DemandeController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
     });
 
 

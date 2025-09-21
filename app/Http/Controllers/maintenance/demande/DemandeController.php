@@ -205,4 +205,9 @@ class DemandeController extends Controller
         $pdf = Pdf::loadView('maintenance.PDF.detailAchat', compact('details'));
         return $pdf->stream('demande.pdf');
     }
+    public function markAllAsRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+        return back()->with('success', 'Toutes les notifications ont été marquées comme lues.');
+    }
 }
