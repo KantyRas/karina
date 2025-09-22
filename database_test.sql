@@ -75,13 +75,6 @@ create table fiche_details(
     idficheparametre int references fiche_parametres(idFicheParametre),
     valeurs varchar(255);
 );
-create table equipements(
-    idequipement serial primary key,
-    code varchar(50),
-    nom varchar(75),
-    iddepartement int references departements(idDepartement),
-    date_mise_service date
-);
 -- Demande achats ou sorties -> stocks --
 create table type_demandes(
     idtypedemande serial primary key,
@@ -273,6 +266,35 @@ create table articles(
     famille varchar(255),
     unite varchar(50)
 );
+--  debut nouvelle table
+create table equipements(
+    idequipement serial primary key,
+    nomequipement varchar(55),
+    code varchar(55),
+    idemplacement int references emplacements(idemplacement)
+);
+
+create table employe_equipements(
+    id serial primary key,
+    idemploye int references employes(idemploye),
+    idequipementint references equipements(idequipement)
+
+);
+
+create table parametre_equipements(
+    idparametreequipement serial primary key,
+    idequipement int references equipements(idequipement),
+    nomparametre varchar,
+    idfrequence int references frequences(idfrequence)
+);
+
+create table parametre_equipement_details(
+    id serial primary key,
+    idparametreequipement int references parametre_equipements(idparametreequipement),
+    Valeur varchar(55),
+    dateajout timestamp
+);
+
 -- 1 carnet = 1 tâche dans la departement maintenance (ex: Verification machine, reparation filtres, suivie compresseur, relevé consommation electricité)
 -- 1 tâche est localisé par des emplacements définis à l'avance pour que les employés les effectuent sans problème
 -- 1 tâche est executé par un ou plusieurs employé
