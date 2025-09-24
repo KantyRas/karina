@@ -361,3 +361,20 @@ INSERT INTO type_demandes (idtypedemande, nomtype, id_receveur) VALUES (4, 'test
 INSERT INTO type_travaux (type) VALUES ('typetest');
 
 php -r "echo password_hash('12345', PASSWORD_BCRYPT);"
+
+create view v_liste_equipement AS
+select 
+eq.idequipement, eq.nomequipement, eq.code,
+ep.idemplacement, ep.emplacement,
+e.idemploye,
+emp.nom as nomemploye, emp.prenom, emp.matricule
+from equipements eq
+JOIN employe_equipements e ON e.idequipement = eq.idequipement
+JOIN employes emp ON emp.idemploye = e.idemploye
+JOIN emplacements ep ON eq.idemplacement = ep.idemplacement;
+
+-- donnee de test pour equipement
+
+insert into equipements (nomequipement, code, idemplacement) values('Machine A', 'B612', 1),('Machine A', 'B612', 2);
+
+insert into employe_equipements (idemploye, idequipement) values (1,1), (2,1), (1,2), (2,2);
