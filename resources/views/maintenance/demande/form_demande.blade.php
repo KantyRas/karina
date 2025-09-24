@@ -45,7 +45,7 @@
                         <input type="text" name="items[0][code]" class="form-control form-control-sm code-article text-center fw-bold" readonly>
                     </td>
                     <td>
-                        <select name="items[0][designation]" class="form-select designation">
+                        <select name="items[0][designation]" class="form-select designation" style="display: none;">
                             @foreach($articles as $article)
                                 <option value="{{ $article->idarticle }}" data-code="{{ $article->code }}" data-unite="{{ $article->unite }}">
                                     {{ $article->designation }}
@@ -57,7 +57,7 @@
                         <input type="number" name="items[0][quantitedemande]" class="form-control form-control-sm text-center" min="1" value="1" required>
                     </td>
                     <td>
-                        <input type="text" name="items[0][unite]" class="form-control form-control-sm unite text-center" readonly>
+                        <input type="text" name="items[0][unite]" class="form-control form-control-sm unite text-center">
                     </td>
                     <td class="text-center">
                         <button type="button" class="btn btn-danger btn-sm remove-row" disabled>
@@ -137,7 +137,7 @@
                 <input type="number" name="items[${rowIndex}][quantitedemande]" class="form-control text-center" min="1" value="1" required>
                     </td>
                     <td>
-                        <input type="text" name="items[${rowIndex}][unite]" class="form-control unite text-center" readonly>
+                        <input type="text" name="items[${rowIndex}][unite]" class="form-control unite text-center" >
                     </td>
                     <td class="text-center">
                         <button type="button" class="btn btn-danger btn-sm remove-row">

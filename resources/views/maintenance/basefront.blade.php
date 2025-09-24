@@ -260,6 +260,7 @@
             }, 1500);
         }
     });
+    new TomSelect('select[multiple]', {plugins : {remove_button: {title : 'Supprimer'}}});
 </script>
 @yield('scripts')
 </body>
