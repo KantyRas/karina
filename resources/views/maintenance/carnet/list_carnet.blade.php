@@ -2,7 +2,7 @@
 @section('title','Carnet')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Tous les carnets d'enregistrements</h1>
+        <h1 class="page-header">Tous les carnets des equipements</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <a href="{{ route('carnet.create_carnet') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Nouveau carnet
@@ -13,7 +13,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Tâches
+                    Equipements
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -21,37 +21,35 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Item</th>
+                                <th>Equipement</th>
                                 <th>Emplacement</th>
-                                <th>Nom/Prénom</th>
+                                <th>Employe responsable</th>
                                 <th>Matricule</th>
-                                <th>Fonction</th>
-                                <th>Fréquence</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach ($equipements as $e)    
                             <tr class="odd gradeX">
-                                <td>1</td>
-                                <td>Vérification Compresseur</td>
-                                <td>Batiments A</td>
-                                <td>Rakoto Jean</td>
-                                <td>4521</td>
-                                <td>Agent de maintenance</td>
-                                <td>Hebdomadaire</td>
-                                <td class="text-center">
-                                    <a href="{{ route('carnet.fiche_carnet_historique') }}"
-                                       class="btn btn-primary btn-circle"
-                                       title="Checklist">
-                                        <i class="fa fa-list-alt"></i>
-                                    </a>
-                                    <a href="#"
-                                       class="btn btn-success btn-circle"
-                                       title="Modifier">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                    <td>1</td>
+                                    <td>{{ $e->nomequipement }}</td>
+                                    <td>{{ $e->emplacement }}</td>
+                                    <td>{{ $e->nomemploye }} {{ $e->prenom }}</td>
+                                    <td>{{ $e->matricule }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('carnet.fiche_carnet_historique') }}"
+                                        class="btn btn-primary btn-circle"
+                                        title="Checklist">
+                                            <i class="fa fa-list-alt"></i>
+                                        </a>
+                                        <a href="#"
+                                        class="btn btn-success btn-circle"
+                                        title="Modifier">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
