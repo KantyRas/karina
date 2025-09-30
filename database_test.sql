@@ -363,7 +363,7 @@ INSERT INTO type_travaux (type) VALUES ('typetest');
 php -r "echo password_hash('12345', PASSWORD_BCRYPT);"
 
 create view v_liste_equipement AS
-select 
+select
 eq.idequipement, eq.nomequipement, eq.code,
 ep.idemplacement, ep.emplacement,
 e.idemploye,
@@ -378,3 +378,25 @@ JOIN emplacements ep ON eq.idemplacement = ep.idemplacement;
 insert into equipements (nomequipement, code, idemplacement) values('Machine A', 'B612', 1),('Machine A', 'B612', 2);
 
 insert into employe_equipements (idemploye, idequipement) values (1,1), (2,1), (1,2), (2,2);
+
+create table typereleve(
+    idtypereleve serial primary key,
+    nom varchar(75)
+);
+create table parametretype(
+    idparametretype serial primary key,
+    idtypereleve int references typereleve(idtypereleve),
+    nomparametre varchar(75)
+);
+create table historiquereleve(
+    idhistoriquereleve serial primary key,
+    description idtypereleve int references typereleve(idtypereleve),
+    datecreation date
+);
+create table detailreleve(
+    iddetailreleve serial primary key,
+    idhistoriquereleve int references historiquereleve(idhistoriquereleve),
+    idparametretype int references parametretype(idparametretype),
+    valeur varchar(255),
+    datereleve date
+);

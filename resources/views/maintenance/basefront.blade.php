@@ -142,6 +142,9 @@
                         <li>
                             <a href="{{ route('carnet.liste_carnet') }}">Tâches (Carnets) </a>
                         </li>
+                        <li>
+                            <a href="{{ route('carnet.liste_releve') }}">Compteurs</a>
+                        </li>
                     </ul>
                 </li>
                 @endif
