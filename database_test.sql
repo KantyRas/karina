@@ -390,7 +390,8 @@ create table parametretype(
 );
 create table historiquereleve(
     idhistoriquereleve serial primary key,
-    description idtypereleve int references typereleve(idtypereleve),
+    description varchar(75),
+    idtypereleve int references typereleve(idtypereleve),
     datecreation date
 );
 create table detailreleve(
@@ -400,3 +401,35 @@ create table detailreleve(
     valeur varchar(255),
     datereleve date
 );
+insert into typereleve (nom) values
+('Eau'),
+('Electricité'),
+('Bois');
+-- Electricité
+insert into parametretype (idtypereleve, nomparametre) values
+(2, 'Relevé en kWh'),
+(2, 'Groupe 250 kVa'),
+(2, 'Groupe 150 kVa'),
+(2, 'Achat Gasoil'),
+(2, 'Durée coupure');
+
+insert into historiquereleve (description, idtypereleve, datecreation) values
+('Relevé', 2, '2025-10-02');
+
+insert into detailreleve (idhistoriquereleve, idparametretype, valeur, datereleve) values
+(1,1,'420','2025-10-02'),
+(1,2,'150','2025-10-02'),
+(1,3,'0','2025-10-02'),
+(1,4,'0','2025-10-02'),
+(1,5,'180','2025-10-02'),
+(1,1,'872','2025-10-03'),
+(1,2,'0','2025-10-03'),
+(1,3,'180','2025-10-03'),
+(1,4,'200','2025-10-03'),
+(1,5,'120','2025-10-03');
+
+-- type releve et parametres --
+SELECT t.idtypereleve, t.nom AS typereleve, p.nomparametre
+FROM typereleve t
+LEFT JOIN parametretype p ON t.idtypereleve = p.idtypereleve;
+
