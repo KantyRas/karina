@@ -6,6 +6,7 @@ use App\Http\Controllers\maintenance\admin\FonctionController;
 use App\Http\Controllers\maintenance\admin\RoleController;
 use App\Http\Controllers\maintenance\admin\UserController;
 use App\Http\Controllers\maintenance\carnet\CarnetController;
+use App\Http\Controllers\maintenance\carnet\ReleveController;
 use App\Http\Controllers\maintenance\demande\DemandeController;
 use App\Http\Controllers\maintenance\gestion\DepotController;
 use App\Http\Controllers\maintenance\gestion\EmplacementController;
@@ -69,6 +70,9 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
         Route::get('/create',[CarnetController::class,'create'])->name('create_carnet');
         Route::get('/fiche/historique',[CarnetController::class,'fiche_index'])->name('fiche_carnet_historique');
         Route::get('/fiche/saisie',[CarnetController::class,'fiche_create'])->name('fiche_saisie');
+        Route::get('/releves',[ReleveController::class,'index'])->name('liste_releve');
+        Route::get('/releve/historique/{idtypereleve}',[ReleveController::class,'get_releve_historique'])->name('historique_releve');
+        Route::get('/releve/historique/details/{idhistoriquereleve}',[ReleveController::class,'get_releve_historique_detail'])->name('detail_historique_releve');
     });
 
     Route::prefix('demandes')->group(function(){

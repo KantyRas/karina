@@ -363,7 +363,7 @@ INSERT INTO type_travaux (type) VALUES ('typetest');
 php -r "echo password_hash('12345', PASSWORD_BCRYPT);"
 
 create view v_liste_equipement AS
-select 
+select
 eq.idequipement, eq.nomequipement, eq.code,
 ep.idemplacement, ep.emplacement,
 e.idemploye,
@@ -378,3 +378,58 @@ JOIN emplacements ep ON eq.idemplacement = ep.idemplacement;
 insert into equipements (nomequipement, code, idemplacement) values('Machine A', 'B612', 1),('Machine A', 'B612', 2);
 
 insert into employe_equipements (idemploye, idequipement) values (1,1), (2,1), (1,2), (2,2);
+
+create table typereleve(
+    idtypereleve serial primary key,
+    nom varchar(75)
+);
+create table parametretype(
+    idparametretype serial primary key,
+    idtypereleve int references typereleve(idtypereleve),
+    nomparametre varchar(75)
+);
+create table historiquereleve(
+    idhistoriquereleve serial primary key,
+    description varchar(75),
+    idtypereleve int references typereleve(idtypereleve),
+    datecreation date
+);
+create table detailreleve(
+    iddetailreleve serial primary key,
+    idhistoriquereleve int references historiquereleve(idhistoriquereleve),
+    idparametretype int references parametretype(idparametretype),
+    valeur varchar(255),
+    datereleve date
+);
+insert into typereleve (nom) values
+('Eau'),
+('Electricité'),
+('Bois');
+-- Electricité
+insert into parametretype (idtypereleve, nomparametre) values
+(2, 'Relevé en kWh'),
+(2, 'Groupe 250 kVa'),
+(2, 'Groupe 150 kVa'),
+(2, 'Achat Gasoil'),
+(2, 'Durée coupure');
+
+insert into historiquereleve (description, idtypereleve, datecreation) values
+('Relevé', 2, '2025-10-02');
+
+insert into detailreleve (idhistoriquereleve, idparametretype, valeur, datereleve) values
+(1,1,'420','2025-10-02'),
+(1,2,'150','2025-10-02'),
+(1,3,'0','2025-10-02'),
+(1,4,'0','2025-10-02'),
+(1,5,'180','2025-10-02'),
+(1,1,'872','2025-10-03'),
+(1,2,'0','2025-10-03'),
+(1,3,'180','2025-10-03'),
+(1,4,'200','2025-10-03'),
+(1,5,'120','2025-10-03');
+
+-- type releve et parametres --
+SELECT t.idtypereleve, t.nom AS typereleve, p.nomparametre
+FROM typereleve t
+LEFT JOIN parametretype p ON t.idtypereleve = p.idtypereleve;
+
