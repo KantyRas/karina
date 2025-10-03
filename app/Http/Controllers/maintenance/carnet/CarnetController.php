@@ -5,6 +5,8 @@ namespace App\Http\Controllers\maintenance\carnet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Equipement;
+use App\Models\Employe;
+use App\Models\Emplacement;
 use App\Http\Requests\EquipementRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +31,14 @@ class CarnetController extends Controller
     }
 
     public function create(){
-        return view('maintenance.carnet.ajout_carnet');
+
+        $emplacement = Emplacement::all();
+        $employe = Employe::all();
+
+        return view('maintenance.carnet.ajout_carnet',[
+            'emplacements' => $emplacement,
+            'employes' => $employe,
+        ]);
     }
     public function store(){
 

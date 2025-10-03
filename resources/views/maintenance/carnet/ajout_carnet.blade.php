@@ -22,9 +22,9 @@
                                 <label for="employe" class="form-label fw-bold">Employé responsable</label>
                                 <select id="employe" name="employe[]" multiple style="display: none;">
                                     <option value="" selected disabled>-- Sélectionnez --</option>
-                                    <option value="1">Jean Dupont</option>
-                                    <option value="2">Marie Rakoto</option>
-                                    <option value="3">Ali Hassan</option>
+                                    @foreach ($employes as $employe)
+                                    <option value={{ $employe->idemploye }}>{{ $employe->nom}} {{ $employe->prenom}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -34,9 +34,9 @@
                                 <label for="emplacement" class="form-label fw-bold">Emplacement</label>
                                 <select class="form-control" id="emplacement" name="emplacement" required>
                                     <option value="" selected disabled>-- Sélectionnez --</option>
-                                    <option value="1">Atelier</option>
-                                    <option value="2">Magasin</option>
-                                    <option value="3">Bureau</option>
+                                    @foreach ($emplacements as $emplacement)
+                                    <option value={{$emplacement->idemplacement}}>{{ $emplacement->emplacement }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
