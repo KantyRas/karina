@@ -4,6 +4,11 @@
 
     <div class="col-lg-12">
         <h1 class="page-header">Types de relevés</h1>
+        <div class="text-right" style="margin-bottom:15px;">
+            <a href="{{ route('carnet.ajout_releve') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Ajout type de relevé
+            </a>
+        </div>
     </div>
 
     <div class="row">
@@ -19,7 +24,16 @@
                             <span class="label label-default">{{ $param->nomparametre }}</span>
                         @endforeach
                     </p>
-                    <a href="{{ route('carnet.historique_releve',$type->idtypereleve) }}" class="btn btn-primary btn-sm">Voir détails</a>
+                    <div>
+                        <a href="{{ route('carnet.historique_releve',$type->idtypereleve) }}"
+                           class="btn btn-primary  btn-sm me-2">
+                            Voir détails
+                        </a>
+                        <a href="#"
+                           class="btn btn-warning btn-sm">
+                            <i class="fa fa-edit"></i> Modifier
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -55,5 +55,9 @@ class ReleveController extends Controller
 
         return view('maintenance.carnet.list_releve_historique_detail', compact('historique', 'parametres', 'details'));
     }
+    public function get_form_ajout_type_releve()
+    {
+        return view('maintenance.carnet.ajout_type_releve');
+    }
 
 }

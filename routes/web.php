@@ -73,6 +73,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
         Route::get('/releves',[ReleveController::class,'index'])->name('liste_releve');
         Route::get('/releve/historique/{idtypereleve}',[ReleveController::class,'get_releve_historique'])->name('historique_releve');
         Route::get('/releve/historique/details/{idhistoriquereleve}',[ReleveController::class,'get_releve_historique_detail'])->name('detail_historique_releve');
+        Route::get('/releve/ajout',[ReleveController::class,'get_form_ajout_type_releve'])->name('ajout_releve');
     });
 
     Route::prefix('demandes')->group(function(){
