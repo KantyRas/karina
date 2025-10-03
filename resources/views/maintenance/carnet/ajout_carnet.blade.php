@@ -11,20 +11,20 @@
                     Ajout d'un nouvel équipement
                 </div>
                 <div class="panel-body">
-                    <form action="#" method="POST">
+                    <form action="{{ route('carnet.store') }}" method="POST">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-lg-6">
                                 <label for="nom_equipement" class="form-label fw-bold">Nom équipement</label>
-                                <input type="text" class="form-control" id="nom_equipement" name="nom_equipement" placeholder="Entrez le nom" required>
+                                <input type="text" class="form-control" id="nom_equipement" name="nomequipement" placeholder="Entrez le nom" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="employe" class="form-label fw-bold">Employé responsable</label>
                                 <select id="employe" name="employe[]" multiple style="display: none;">
                                     <option value="" selected disabled>-- Sélectionnez --</option>
-                                    <option value="1">Jean Dupont</option>
-                                    <option value="2">Marie Rakoto</option>
-                                    <option value="3">Ali Hassan</option>
+                                    @foreach ($employes as $employe)
+                                    <option value={{ $employe->idemploye }}>{{ $employe->nom}} {{ $employe->prenom}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -34,9 +34,9 @@
                                 <label for="emplacement" class="form-label fw-bold">Emplacement</label>
                                 <select class="form-control" id="emplacement" name="emplacement" required>
                                     <option value="" selected disabled>-- Sélectionnez --</option>
-                                    <option value="1">Atelier</option>
-                                    <option value="2">Magasin</option>
-                                    <option value="3">Bureau</option>
+                                    @foreach ($emplacements as $emplacement)
+                                    <option value={{$emplacement->idemplacement}}>{{ $emplacement->emplacement }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -64,6 +64,7 @@
 @endsection
 @section('scripts')
 <script>
+    let i=0;
     document.getElementById('add-param').addEventListener('click', function() {
         let container = document.getElementById('parametres-container');
 
@@ -71,19 +72,15 @@
         paramDiv.classList.add('row', 'align-items-center', 'mb-2', 'border-bottom', 'pb-2');
         paramDiv.innerHTML = `
             <div class="col-md-4">
-                <input type="text" name="parametres[]" class="form-control" placeholder="Nom du paramètre" required>
+                <input type="text" name="parametres[${i}][nomparametre]" class="form-control" placeholder="Nom du paramètre" required>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="checkbox-inline">
-                        <input type="checkbox">Quotidien
+                  @foreach ( $frequences as $frequence )
+                    <label class="radio-inline">
+                        <input type="radio" name="parametres[${i}][idfrequence]" value="{{$frequence->idfrequence}}" >{{ $frequence->frequence }}
                     </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox">Hebdomadaire
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox">Mensuel
-                    </label>
+                  @endforeach
                 </div>
             </div>
 
@@ -95,6 +92,8 @@
         paramDiv.querySelector('.remove-param').addEventListener('click', function() {
             paramDiv.remove();
         });
+
+        i++;
     });
 </script>
 @endsection

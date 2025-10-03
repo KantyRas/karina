@@ -68,6 +68,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     Route::prefix('carnets')->name('carnet.')->group(function () {
         Route::get('/',[CarnetController::class,'index'])->name('liste_carnet');
         Route::get('/create',[CarnetController::class,'create'])->name('create_carnet');
+        Route::post('/store',[CarnetController::class,'store'])->name('store');
         Route::get('/fiche/historique',[CarnetController::class,'fiche_index'])->name('fiche_carnet_historique');
         Route::get('/fiche/saisie',[CarnetController::class,'fiche_create'])->name('fiche_saisie');
         Route::get('/releves',[ReleveController::class,'index'])->name('liste_releve');
