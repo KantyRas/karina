@@ -23,8 +23,12 @@ class EquipementRequest extends FormRequest
     {
         return [
             'nomequipement' => ['required'],
-            'code' => ['nullable'],
-            'idemplacement' => ['nullable'],
+            // 'code' => ['nullable'],
+            'employe' => ['required', 'array', 'min:1'],
+            // 'idemplacement' => ['required'],
+            'parametres' => ['required', 'array', 'min:1'],
+            'parametres.*.nomparametre' => ['required'],
+            'parametres.*.idfrequence' => ['required'],
         ];
     }
 }
