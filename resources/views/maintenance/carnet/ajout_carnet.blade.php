@@ -20,7 +20,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="employe" class="form-label fw-bold">Employé responsable</label>
-                                <select id="employe" name="employe[]" multiple style="display: none;">
+                                <select id="employe" name="idemploye[]" multiple style="display: none;">
                                     <option value="" selected disabled>-- Sélectionnez --</option>
                                     @foreach ($employes as $employe)
                                     <option value={{ $employe->idemploye }}>{{ $employe->nom}} {{ $employe->prenom}}</option>
@@ -32,7 +32,7 @@
                         <div class="row mb-4">
                             <div class="form-group col-md-6">
                                 <label for="emplacement" class="form-label fw-bold">Emplacement</label>
-                                <select class="form-control" id="emplacement" name="emplacement" required>
+                                <select class="form-control" id="emplacement" name="idemplacement" required>
                                     <option value="" selected disabled>-- Sélectionnez --</option>
                                     @foreach ($emplacements as $emplacement)
                                     <option value={{$emplacement->idemplacement}}>{{ $emplacement->emplacement }}</option>

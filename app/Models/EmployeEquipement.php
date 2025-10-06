@@ -9,6 +9,7 @@ class EmployeEquipement extends Model
 {
     protected $table = 'employe_equipements';
     protected $fillable = ['idemploye', 'idequipement'];
+    protected $primaryKey = 'id';
 
     public function employe()
     {

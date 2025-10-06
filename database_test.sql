@@ -377,7 +377,9 @@ JOIN emplacements ep ON eq.idemplacement = ep.idemplacement;
 
 insert into equipements (nomequipement, code, idemplacement) values('Machine A', 'B612', 1),('Machine A', 'B612', 2);
 
-insert into employe_equipements (idemploye, idequipement) values (1,1), (2,1), (1,2), (2,2);
+insert into employe_equipements (idemploye, idequipement) values (2,1), (2,1), (1,2), (2,2);
+insert into employe_equipements (idemploye, idequipement) values (3,3), (3,4), (2,3), (3,4);
+
 
 create table typereleve(
     idtypereleve serial primary key,

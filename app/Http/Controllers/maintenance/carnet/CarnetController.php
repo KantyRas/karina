@@ -5,7 +5,9 @@ namespace App\Http\Controllers\maintenance\carnet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Equipement;
+use App\Models\ParametreEquipement;
 use App\Models\Employe;
+use App\Models\EmployeEquipement;
 use App\Models\Emplacement;
 use App\Models\Frequence;
 use App\Http\Requests\EquipementRequest;
@@ -46,17 +48,30 @@ class CarnetController extends Controller
     public function store(EquipementRequest $request){
         $validated = $request->validated();
 
-        foreach ($validated['employe'] as $employe) {
+        $equipements = Equipement::create([
+            'nomequipement' => $validated['nomequipement'],
+            'code' => 'QU0000MAI',
+            'idemplacement' => $validated['idemplacement'],
+        ]);
 
-            dump("idemp:".$employe);
 
+        foreach ($validated['idemploye'] as $employe) {
+
+            $employe_equipement = EmployeEquipement::create([
+                'idemploye' => $employe,
+                'idequipement' => $equipements->idequipement,
+            ]);
         }
 
         foreach ($validated['parametres'] as $parametre) {
-
-            dump("parametre: ".$parametre['nomparametre']);
-            dump("radio: ".$parametre['idfrequence']);
+            $parametre_equipement = ParametreEquipement::create([
+                'idequipement' => $equipements->idequipement,
+                'nomparametre' => $parametre['nomparametre'],
+                'idfrequence' => $parametre['idfrequence'],
+            ]);
+        
         }
+        return to_route('carnet.liste_carnet')->with('success', 'Equipement inseré');
     }
 
     public function fiche_index(){
