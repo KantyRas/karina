@@ -373,6 +373,18 @@ JOIN employe_equipements e ON e.idequipement = eq.idequipement
 JOIN employes emp ON emp.idemploye = e.idemploye
 JOIN emplacements ep ON eq.idemplacement = ep.idemplacement;
 
+create view v_liste_equipement_regroupe AS
+SELECT
+    idequipement,
+    nomequipement,
+    code,
+    idemplacement,
+    emplacement,
+    STRING_AGG(nomemploye || ' ' || prenom, ' - ' ORDER BY nomemploye, prenom) AS nomemploye,
+    STRING_AGG(matricule, ' - ' ORDER BY matricule) AS matricule
+FROM v_liste_equipement
+GROUP BY idequipement, nomequipement, code, idemplacement, emplacement;
+
 -- donnee de test pour equipement
 
 insert into equipements (nomequipement, code, idemplacement) values('Machine A', 'B612', 1),('Machine A', 'B612', 2);

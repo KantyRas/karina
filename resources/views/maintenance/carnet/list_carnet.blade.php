@@ -34,7 +34,7 @@
                                     <td>1</td>
                                     <td>{{ $e->nomequipement }}</td>
                                     <td>{{ $e->emplacement }}</td>
-                                    <td>{{ $e->nomemploye }} {{ $e->prenom }}</td>
+                                    <td>{{ $e->nomemploye }}</td>
                                     <td>{{ $e->matricule }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('carnet.fiche_carnet_historique') }}"

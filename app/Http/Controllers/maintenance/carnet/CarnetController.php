@@ -17,16 +17,16 @@ class CarnetController extends Controller
 {
     public function index(){
 
-        $equipements = DB::table('equipements as eq')
-        ->join('employe_equipements as e', 'e.idequipement', '=', 'eq.idequipement')
-        ->join('employes as emp', 'emp.idemploye', '=', 'e.idemploye')
-        ->join('emplacements as ep', 'eq.idemplacement', '=', 'ep.idemplacement')
-        ->select('eq.idequipement', 'eq.nomequipement', 'eq.code', 
-                'ep.idemplacement', 'ep.emplacement', 
-                'e.idemploye', 'emp.nom as nomemploye', 'emp.prenom', 'emp.matricule')
-        ->get();
+        // $equipements = DB::table('equipements as eq')
+        // ->join('employe_equipements as e', 'e.idequipement', '=', 'eq.idequipement')
+        // ->join('employes as emp', 'emp.idemploye', '=', 'e.idemploye')
+        // ->join('emplacements as ep', 'eq.idemplacement', '=', 'ep.idemplacement')
+        // ->select('eq.idequipement', 'eq.nomequipement', 'eq.code', 
+        //         'ep.idemplacement', 'ep.emplacement', 
+        //         'e.idemploye', 'emp.nom as nomemploye', 'emp.prenom', 'emp.matricule')
+        // ->get();
         
-        // $equipements = Equipemetnt::all();
+        $equipements = DB::table('v_liste_equipement_regroupe')->get();
 
         return view('maintenance.carnet.list_carnet',[
             'equipements' => $equipements,
