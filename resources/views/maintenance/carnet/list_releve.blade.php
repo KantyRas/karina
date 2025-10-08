@@ -13,7 +13,7 @@
 
     <div class="row">
         @foreach($typesReleves as $type)
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-12" style="max-width: 400px; height: 250px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Relevé {{ $type->nom }}

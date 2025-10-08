@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\maintenance\carnet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TypeReleveRequest;
+use App\Models\Employe;
+use App\Models\Employetypereleve;
 use App\Models\Historiquereleve;
 use App\Models\Parametretype;
 use App\Models\Typereleve;
@@ -57,7 +60,30 @@ class ReleveController extends Controller
     }
     public function get_form_ajout_type_releve()
     {
-        return view('maintenance.carnet.ajout_type_releve');
+        $employe = Employe::all();
+        return view('maintenance.carnet.ajout_type_releve',[
+            'employes' => $employe,
+        ]);
+    }
+    public function ajout_type_releve(TypeReleveRequest $request)
+    {
+        $validated = $request->validated();
+        $typereleve = Typereleve::create([
+            'nom' => $validated['nom'],
+        ]);
+        foreach ($validated['idemploye'] as $employe) {
+            $employe_typereleve = Employetypereleve::create([
+                'idemploye' => $employe,
+                'idtypereleve' => $typereleve->idtypereleve,
+            ]);
+        }
+        foreach ($validated['parametres'] as $parametre) {
+            $parametretype = Parametretype::create([
+                'idtypereleve' => $typereleve->idtypereleve,
+                'nomparametre' => $parametre['nomparametre'],
+            ]);
+        }
+        return to_route('carnet.liste_releve')->with('success', 'Type de relevé inséré');
     }
 
 }
