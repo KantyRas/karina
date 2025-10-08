@@ -281,6 +281,13 @@ create table employe_equipements(
 
 );
 
+create table historique_equipements(
+    idhistoriqueequipement serial primary key,
+    description varchar(75),
+    idequipement int references equipements(idequipement),
+    datecreation date
+);
+
 create table parametre_equipements(
     idparametreequipement serial primary key,
     idequipement int references equipements(idequipement),
@@ -291,6 +298,7 @@ create table parametre_equipements(
 create table parametre_equipement_details(
     id serial primary key,
     idparametreequipement int references parametre_equipements(idparametreequipement),
+    idhistoriqueequipement int references historique_equipements(idhistoriqueequipement),
     Valeur varchar(55),
     dateajout timestamp
 );

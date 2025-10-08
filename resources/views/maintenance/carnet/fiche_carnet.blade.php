@@ -4,6 +4,11 @@
         <h1 class="page-header">
             Historiques de la fiche du Carnet : Sécurité Machine
         </h1>
+        <div class="text-right" style="margin-bottom:15px;">
+            <a href="{{ route('carnet.create_carnet') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Nouveau carnet
+            </a>
+        </div>
     </div>
     {{-- Tableau des fiches mensuelles/annuelles --}}
     <div class="row">

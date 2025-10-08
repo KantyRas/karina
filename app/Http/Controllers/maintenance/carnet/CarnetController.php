@@ -48,7 +48,7 @@ class CarnetController extends Controller
     public function store(EquipementRequest $request){
         $validated = $request->validated();
 
-        $equipements = Equipement::create([
+        $equipements = Equipement::create([ 
             'nomequipement' => $validated['nomequipement'],
             'code' => 'QU0000MAI',
             'idemplacement' => $validated['idemplacement'],
