@@ -4,6 +4,14 @@
 
     <div class="col-lg-12">
         <h1 class="page-header">Historiques - Relevé Eau</h1>
+        <div class="text-right" style="margin-bottom:15px;">
+            <form action="{{ route('carnet.generate_historique_releve', $idtypereleve) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-file-text"></i> Génerer fiche
+                </button>
+            </form>
+        </div>
     </div>
 
     <div class="row">

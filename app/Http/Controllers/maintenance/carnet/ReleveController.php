@@ -32,7 +32,7 @@ class ReleveController extends Controller
             ->orderBy('datecreation', 'desc')
             ->get();
 
-        return view('maintenance.carnet.list_releve_historique', compact('historiques'));
+        return view('maintenance.carnet.list_releve_historique', compact('historiques','idtypereleve'));
     }
     public function get_releve_historique_detail($idhistoriquereleve)
     {
@@ -85,5 +85,24 @@ class ReleveController extends Controller
         }
         return to_route('carnet.liste_releve')->with('success', 'Type de relevé inséré');
     }
+    public function genererHistorique($idtypereleve)
+    {
+        $date_now = now();
+        $get_exists = Historiquereleve::where('idtypereleve', $idtypereleve)
+            ->whereMonth('datecreation', $date_now->month)
+            ->whereYear('datecreation', $date_now->year)
+            ->exists();
 
+        if ($get_exists) {
+            return back()->with('warning', 'Le relevé pour ce mois existe déjà.');
+        }
+
+        Historiquereleve::create([
+            'description' => 'Releve',
+            'idtypereleve' => $idtypereleve,
+            'datecreation' => $date_now,
+        ]);
+
+        return back()->with('success', 'Fiche relevé du mois générée avec succès.');
+    }
 }

@@ -218,8 +218,13 @@
                        {{ session('success') }}
                    </div>
                @endif
+               @if(session('warning'))
+                   <div id="alert-success" class="alert alert-warning">
+                       {{ session('warning') }}
+                   </div>
+               @endif
                @if($errors->any())
-                   <div class="alert alert-danger">
+                   <div id="alert-success" class="alert alert-danger">
                        <ul class="my-0">
                            @foreach($errors->all() as $error)
                            <li>{{ $error }}</li>
@@ -230,7 +235,6 @@
             <div id="flash-message"></div>
             @yield('content')
         </div>
-        <!-- /.row -->
     </div>
     <!-- /#page-wrapper -->
 </div>
@@ -260,7 +264,7 @@
                 alert.style.transition = "opacity 0.5s ease";
                 alert.style.opacity = "0";
                 setTimeout(() => alert.remove(), 500);
-            }, 1500);
+            }, 2000);
         }
     });
     new TomSelect('select[multiple]', {plugins : {remove_button: {title : 'Supprimer'}}});
