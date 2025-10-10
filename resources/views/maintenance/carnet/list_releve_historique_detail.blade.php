@@ -3,6 +3,11 @@
 @section('content')
     <div class="col-lg-12">
         <h1 class="page-header">Relevés Eau - Septembre 2025</h1>
+        <div class="text-right mb-3">
+            <a href="{{ route('carnet.releve_exportpdf', $historique->idhistoriquereleve) }}" class="btn btn-danger">
+                <i class="fa fa-file-pdf-o"></i> Exporter en PDF
+            </a>
+        </div>
     </div>
 
     <div class="row">

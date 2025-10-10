@@ -1,9 +1,9 @@
 @extends('maintenance.basefront')
-@section('title','Historiques - Relevé Eau')
+@section('title','Historiques')
 @section('content')
 
     <div class="col-lg-12">
-        <h1 class="page-header">Historiques - Relevé Eau</h1>
+        <h1 class="page-header">Historiques - Relevé {{ $typeReleve->nom }}</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <form action="{{ route('carnet.generate_historique_releve', $idtypereleve) }}" method="post">
                 @csrf

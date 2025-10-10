@@ -9,6 +9,7 @@ use App\Models\Employetypereleve;
 use App\Models\Historiquereleve;
 use App\Models\Parametretype;
 use App\Models\Typereleve;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,13 +32,13 @@ class ReleveController extends Controller
             ->where('idtypereleve', $idtypereleve)
             ->orderBy('datecreation', 'desc')
             ->get();
+        $typeReleve = Typereleve::find($idtypereleve);
 
-        return view('maintenance.carnet.list_releve_historique', compact('historiques','idtypereleve'));
+        return view('maintenance.carnet.list_releve_historique', compact('historiques','idtypereleve','typeReleve'));
     }
-    public function get_releve_historique_detail($idhistoriquereleve)
+    private function getDetailReleveData($idhistoriquereleve)
     {
         $historique = Historiquereleve::with('TypeReleve')->findOrFail($idhistoriquereleve);
-
         $parametres = Parametretype::where('idtypereleve', $historique->idtypereleve)->get();
 
         $selects = ['d.datereleve'];
@@ -56,7 +57,14 @@ class ReleveController extends Controller
 
         $details = DB::select($sql, [$idhistoriquereleve]);
 
-        return view('maintenance.carnet.list_releve_historique_detail', compact('historique', 'parametres', 'details'));
+        return compact('historique', 'parametres', 'details');
+    }
+
+    public function get_releve_historique_detail($idhistoriquereleve)
+    {
+        $data = $this->getDetailReleveData($idhistoriquereleve);
+
+        return view('maintenance.carnet.list_releve_historique_detail', $data);
     }
     public function get_form_ajout_type_releve()
     {
@@ -104,5 +112,22 @@ class ReleveController extends Controller
         ]);
 
         return back()->with('success', 'Fiche relevé du mois générée avec succès.');
+    }
+    public function exportPdfReleveMensuel($idhistoriquereleve)
+    {
+        $data = $this->getDetailReleveData($idhistoriquereleve);
+
+        $mois = \Carbon\Carbon::parse($data['historique']->datecreation)->translatedFormat('F');
+        $annee = \Carbon\Carbon::parse($data['historique']->datecreation)->year;
+        $typeReleve = $data['historique']->TypeReleve;
+
+        $pdf = Pdf::loadView('maintenance.carnet.pdf_detail_releve', [
+            ...$data,
+            'mois' => $mois,
+            'annee' => $annee,
+            'typeReleve' => $typeReleve,
+        ]);
+
+        return $pdf->stream("releve_{$typeReleve->nom}_{$mois}_{$annee}.pdf");
     }
 }
