@@ -78,6 +78,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
         Route::post('/releve/store',[ReleveController::class,'ajout_type_releve'])->name('store_type_releve');
         Route::post('/releve/generer/{idtypereleve}',[ReleveController::class,'genererHistorique'])->name('generate_historique_releve');
         Route::get('/releve/exportpdf/{idhistoriquereleve}',[ReleveController::class,'exportPdfReleveMensuel'])->name('releve_exportpdf');
+        Route::post('/releve/store_detail/{idhistoriquereleve}',[ReleveController::class,'ajout_detatil_releve'])->name('store_detail_releve');
     });
 
     Route::prefix('demandes')->group(function(){

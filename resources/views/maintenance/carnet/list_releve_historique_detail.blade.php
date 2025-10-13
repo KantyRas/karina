@@ -13,19 +13,18 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel-body">
-                <form action="#" method="post" class="form-horizontal">
+                <form action="{{ route('carnet.store_detail_releve',$historique->idhistoriquereleve) }}" method="post" class="form-horizontal">
                     @csrf
                     <div class="row g-3">
                         @foreach($parametres as $parametre)
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <br>
                                 <label class="form-label">{{ $parametre->nomparametre }}</label>
-                                <input type="number"
-                                       name="param_{{ $parametre->idparametretype }}"
+                                <input type="text"
+                                       name="param[{{ $parametre->idparametretype }}]"
                                        class="form-control"
                                        placeholder="Saisir {{ strtolower($parametre->nomparametre) }}">
                             </div>
-
                         @endforeach
                     </div>
                     <hr>

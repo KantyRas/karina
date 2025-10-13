@@ -164,7 +164,7 @@
     <div class="info-box">
         <p>
             <strong>Type de relevé :</strong> {{ $typeReleve->nom ?? 'N/A' }}<br>
-            <strong>Date de génération :</strong> {{ \Carbon\Carbon::parse($historique->datecreation)->format('d/m/Y H:i') }}<br>
+            <strong>Date de création :</strong> {{ \Carbon\Carbon::parse($historique->datecreation)->format('d/m/Y') }}<br>
             <strong>Nombre de jours relevés :</strong> {{ count($details) }}
         </p>
     </div>
