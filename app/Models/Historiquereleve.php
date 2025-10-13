@@ -10,7 +10,7 @@ class Historiquereleve extends Model
     use HasFactory;
     protected $table = 'historiquereleve';
     protected $primaryKey = 'idhistoriquereleve';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'description',
