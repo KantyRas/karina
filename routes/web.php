@@ -38,7 +38,7 @@ Route::post('/loginAction',[AuthController::class,'loginAction'])->name('login.a
 Route::get('/logout',[AuthController::class,'logout'])->name('logout.auth');
 
 
-Route::middleware(['auth', 'role:1,2'])->group(function () {
+Route::middleware(['auth', 'role:1,2,4'])->group(function () {
 
     Route::get('/home', function () {
         return view('maintenance.basefront');
@@ -46,7 +46,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'role:1,2'])->group(function () {
+Route::middleware(['auth', 'role:1,2,4'])->group(function () {
 
     Route::prefix('admin')->name('admin.personnel.')->group(function(){
         Route::resource('employe',EmployeController::class)->except(['show']);

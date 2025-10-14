@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\maintenance\carnet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DetailReleveRequest;
 use App\Http\Requests\TypeReleveRequest;
+use App\Models\Detailreleve;
 use App\Models\Employe;
 use App\Models\Employetypereleve;
 use App\Models\Historiquereleve;
 use App\Models\Parametretype;
 use App\Models\Typereleve;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -129,5 +132,22 @@ class ReleveController extends Controller
         ]);
 
         return $pdf->stream("releve_{$typeReleve->nom}_{$mois}_{$annee}.pdf");
+    }
+    public function ajout_detatil_releve(DetailReleveRequest $request,$idhistoriquereleve)
+    {
+        $params = $request->input('param', []);
+
+        foreach ($params as $idparametretype => $valeur) {
+            if ($valeur !== null && $valeur !== '') {
+                Detailreleve::create([
+                    'idhistoriquereleve' => $idhistoriquereleve,
+                    'idparametretype' => $idparametretype,
+                    'valeur' => $valeur,
+                    'datereleve' => Carbon::now(),
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Relevé enregistré avec succès !');
     }
 }
