@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Equipement;
 use App\Models\ParametreEquipement;
+use App\Models\ParametreEquipementDetail;
+use App\Models\HistoriqueEquipement;
 use App\Models\Employe;
 use App\Models\EmployeEquipement;
 use App\Models\Emplacement;
 use App\Models\Frequence;
 use App\Http\Requests\EquipementRequest;
+use App\Http\Requests\DetailEquipementRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CarnetController extends Controller
 {
@@ -74,11 +78,101 @@ class CarnetController extends Controller
         return to_route('carnet.liste_carnet')->with('success', 'Equipement inseré');
     }
 
-    public function fiche_index(){
-        return view('maintenance.carnet.fiche_carnet');
-    }
-    public function fiche_create()
+    public function getDetailEquipement($idhistorique, Request $request)
     {
-        return view('maintenance.carnet.fiche_list_saisie');
+
+        $idfrequence = $request->query('idfrequence'); // ou $request->input('type')
+
+        if($idfrequence == null){
+            $idfrequence = 1;
+        }
+
+        $historique = HistoriqueEquipement::with('equipement')->findOrFail($idhistorique);
+        $parametres = ParametreEquipement::with('frequence')->where('idequipement', $historique->idequipement)->get()->groupBy('frequence.idfrequence');
+
+        $params = DB::table('v_detail_equipement')
+                    ->select('nomparametre')
+                    ->where('idfrequence', $idfrequence)
+                    ->where('idequipement', $historique->idequipement)
+                    ->distinct()
+                    ->pluck('nomparametre');
+
+        $query = DB::table('v_detail_equipement')
+                    ->select(DB::raw('DATE(dateajout) as dateajout'));
+
+        foreach ($params as $param) {
+            $query->addSelect(DB::raw("MAX(CASE WHEN nomparametre = '".addslashes($param)."' THEN valeur END) AS \"$param\""));
+        }
+
+        $resultats = $query
+                    ->where('idfrequence', $idfrequence)
+                    ->where('idequipement', $historique->idequipement)
+                    ->groupBy(DB::raw('DATE(dateajout)'))
+                    ->orderBy(DB::raw('DATE(dateajout)'))
+                    ->get();
+
+        if ($request->ajax()) {
+            return view('maintenance.shared.EquipementDetail', compact('params', 'resultats'))->render();
+        }
+
+        return view('maintenance.carnet.fiche_list_saisie', compact('parametres', 'historique', 'params', 'resultats', 'idfrequence'));
     }
+
+    public function showHistorique($idequipement){
+        $historiques = HistoriqueEquipement::selectRaw('
+        idhistoriqueequipement,
+        EXTRACT(MONTH FROM datecreation) as mois,
+        EXTRACT(YEAR FROM datecreation) as annee,
+        datecreation
+        ')
+
+        ->where('idequipement', $idequipement)
+        ->orderBy('datecreation', 'desc')
+        ->get();
+
+
+        $equipement = Equipement::find($idequipement);
+
+        return view('maintenance.carnet.fiche_carnet', compact('historiques', 'equipement'));
+    }
+
+    public function genererHistorique($idequipement){
+        $date_now = now();
+        $get_exists = HistoriqueEquipement::where('idequipement', $idequipement)
+            ->whereMonth('datecreation', $date_now->month)
+            ->whereYear('datecreation', $date_now->year)
+            ->exists();
+
+        if ($get_exists) {
+            return back()->with('warning', 'La fiche pour ce mois existe déjà.');
+        }
+
+        HistoriqueEquipement::create([
+            'description' => 'equipement',
+            'idequipement' => $idequipement,
+            'datecreation' => $date_now,
+        ]);
+
+        return back()->with('success', 'Fiche equipement du mois générée avec succès.');
+    }
+
+    public function insertDetail(DetailEquipementRequest $request){
+        $data = $request->input('param', []);
+        $idhistorique = $request->input('idhistoriqueequipement');
+
+        foreach ($data as $key => $value) { 
+    
+            if($value){
+                ParametreEquipementDetail::create([
+                    'idparametreequipement' => $key,
+                    'valeur' => $value,
+                    'dateajout' => now(),
+                    'idhistoriqueequipement' => $idhistorique,
+                ]);
+            }
+        }
+
+        return back()->with('success', 'Enregistré avec succès.');
+    }
+
 }

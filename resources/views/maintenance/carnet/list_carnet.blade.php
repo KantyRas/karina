@@ -37,7 +37,7 @@
                                     <td>{{ $e->nomemploye }}</td>
                                     <td>{{ $e->matricule }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('carnet.fiche_carnet_historique') }}"
+                                        <a href="{{ route('carnet.fiche_carnet_historique', $e->idequipement) }}"
                                         class="btn btn-primary btn-circle"
                                         title="Checklist">
                                             <i class="fa fa-list-alt"></i>

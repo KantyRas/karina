@@ -69,8 +69,8 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
         Route::get('/',[CarnetController::class,'index'])->name('liste_carnet');
         Route::get('/create',[CarnetController::class,'create'])->name('create_carnet');
         Route::post('/store',[CarnetController::class,'store'])->name('store');
-        Route::get('/fiche/historique',[CarnetController::class,'fiche_index'])->name('fiche_carnet_historique');
-        Route::get('/fiche/saisie',[CarnetController::class,'fiche_create'])->name('fiche_saisie');
+        Route::get('/fiche/historique/{id}',[CarnetController::class,'showHistorique'])->name('fiche_carnet_historique');
+        Route::get('/fiche/saisie/{idhistoriqueequipement}',[CarnetController::class,'getDetailEquipement'])->name('fiche_saisie');
         Route::get('/releves',[ReleveController::class,'index'])->name('liste_releve');
         Route::get('/releve/historique/{idtypereleve}',[ReleveController::class,'get_releve_historique'])->name('historique_releve');
         Route::get('/releve/historique/details/{idhistoriquereleve}',[ReleveController::class,'get_releve_historique_detail'])->name('detail_historique_releve');
@@ -78,6 +78,8 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
         Route::post('/releve/store',[ReleveController::class,'ajout_type_releve'])->name('store_type_releve');
         Route::post('/releve/generer/{idtypereleve}',[ReleveController::class,'genererHistorique'])->name('generate_historique_releve');
         Route::get('/releve/exportpdf/{idhistoriquereleve}',[ReleveController::class,'exportPdfReleveMensuel'])->name('releve_exportpdf');
+        Route::post('/carnet/generer/{id}',[CarnetController::class,'genererHistorique'])->name('generate_historique_equipement');
+        Route::post('/carnet/ajoutDetail',[CarnetController::class,'insertDetail'])->name('ajout_detail_equipement');
     });
 
     Route::prefix('demandes')->group(function(){

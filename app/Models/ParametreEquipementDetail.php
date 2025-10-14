@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class ParametreEquipementDetail extends Model
 {
     protected $table = 'parametre_equipement_details';
-    protected $fillable = ['idparametreequipement', 'valeur', 'dateajout'];
+    protected $fillable = ['idparametreequipement', 'valeur', 'dateajout', 'idhistoriqueequipement'];
 
     public function parametre()
     {
         return $this->belongsTo(ParametreEquipement::class, 'idparametreequipement');
+    }
+
+    public function historiqueequipement()
+    {
+        return $this->belongsTo(HistoriqueEquipement::class, 'idhistoriqueequipement');
     }
 }

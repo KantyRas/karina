@@ -2,12 +2,15 @@
 @section('content')
     <div class="col-lg-12">
         <h1 class="page-header">
-            Historiques de la fiche du Carnet : Sécurité Machine
+            Historiques de la fiche du Carnet : {{ $equipement->nomequipement }}
         </h1>
         <div class="text-right" style="margin-bottom:15px;">
-            <a href="{{ route('carnet.create_carnet') }}" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Nouveau carnet
-            </a>
+            <form action="{{ route('carnet.generate_historique_equipement', $equipement->idequipement) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-file-text"></i> Génerer fiche
+                </button>
+            </form>
         </div>
     </div>
     {{-- Tableau des fiches mensuelles/annuelles --}}
@@ -20,38 +23,29 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>Période</th>
-                                <th>Date de création</th>
-                                <th>Dernière mise à jour</th>
-                                <th>Statut</th>
+                                <th>#</th>
+                                <th>Mois</th>
+                                <th>Année</th>
+                                <th>Date création</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach ($historiques as $historique)
                             <tr>
-                                <td>Juillet 2025</td>
-                                <td>01/07/2025</td>
-                                <td>31/07/2025</td>
-                                <td>Clôturée</td>
+                                <td>.</td>
+                                <td>{{ \Carbon\Carbon::create()->month($historique->mois)->locale('fr')->monthName }}</td>
+                                <td>{{ $historique->annee }}</td>
+                                <td>{{ $historique->datecreation }}</td>
                                 <td>
-                                    <a href="{{ route('carnet.fiche_saisie') }}"
+                                    <a href="{{ route('carnet.fiche_saisie', $historique->idhistoriqueequipement) }}"
                                        class="btn btn-primary btn-sm">
                                         <i class="fa fa-eye"></i> Voir
                                     </a>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>Août 2025</td>
-                                <td>01/08/2025</td>
-                                <td>13/08/2025</td>
-                                <td>En cours</td>
-                                <td>
-                                    <a href="{{ route('carnet.fiche_saisie') }}"
-                                       class="btn btn-primary btn-sm">
-                                        <i class="fa fa-eye"></i> Voir
-                                    </a>
-                                </td>
-                            </tr>
+                            </tr>  
+                            @endforeach
+                            
                             </tbody>
                         </table>
                     </div>
