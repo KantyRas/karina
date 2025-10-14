@@ -7,6 +7,7 @@ use App\Models\DemandeAchat;
 use App\Models\DetailArticle;
 use App\Models\User;
 use App\Notifications\DemandeTravauxValider;
+use App\Notifications\NewDemandeAchat;
 use App\Notifications\NewDemandeTravaux;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FicheJoint;
@@ -26,7 +27,7 @@ class DemandeController extends Controller
     public function index(){
         $user = Auth::user();
         $query = DemandeAchat::with(['demandeur', 'demandeTravaux']);
-        if ($user->role != 1) {
+        if ($user->role != 1 && $user->role != 4) {
             $query = $query->where('iddemandeur',$user->iduser);
         }
         $demandes = $query->get();
@@ -47,10 +48,15 @@ class DemandeController extends Controller
         $validated = $request->validated();
         $demande = DemandeAchat::create([
             'iddemandeur'   => $validated['iddemandeur'],
-            'idreceveur'    => null,
+            'idreceveur'    => 3,
             'iddemande_travaux' => $validated['iddemande_travaux'],
             'datedemande'   => $validated['datedemande'],
         ]);
+        $receveur = User::find($demande->idreceveur);
+
+        if ($receveur) {
+            $receveur->notify(new NewDemandeAchat($demande));
+        }
         foreach ($validated['items'] as $item) {
             $articleId = null;
             if (is_numeric($item['designation'])) {
