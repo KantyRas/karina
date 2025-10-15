@@ -41,7 +41,7 @@ Route::get('/logout',[AuthController::class,'logout'])->name('logout.auth');
 Route::middleware(['auth', 'role:1,2,4'])->group(function () {
 
     Route::get('/home', function () {
-        return view('maintenance.basefront');
+        return view('maintenance.dashboard');
     })->name('index.dashboard');
 
 });
