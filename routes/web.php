@@ -17,7 +17,7 @@ use App\Http\Controllers\maintenance\gestion\TypeInterventionController;
 use App\Http\Controllers\maintenance\gestion\UniteController;
 use App\Http\Controllers\maintenance\ImportController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\DashController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,9 +40,11 @@ Route::get('/logout',[AuthController::class,'logout'])->name('logout.auth');
 
 Route::middleware(['auth', 'role:1,2,4'])->group(function () {
 
-    Route::get('/home', function () {
-        return view('maintenance.dashboard');
-    })->name('index.dashboard');
+    // Route::get('/home', function () {
+    //     return view('maintenance.dashboard');
+    // })->name('index.dashboard');
+
+    Route::get('/home',[DashController::class, 'Dashboard'])->name('index.dashboard');
 
 });
 

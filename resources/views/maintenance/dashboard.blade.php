@@ -17,7 +17,7 @@
                             <i class="fa fa-user fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">12</div>
+                            <div class="huge">{{ $user }}</div>
                             <div>Utilisateurs</div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                             <i class="fa fa-users fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">120</div>
+                            <div class="huge">{{ $employe }}</div>
                             <div>Employés</div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                             <i class="fa fa-cogs fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">56</div>
+                            <div class="huge">{{ $equipement }}</div>
                             <div>Équipements</div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                             <i class="fa fa-barcode fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">456</div>
+                            <div class="huge">{{ $article }}</div>
                             <div>Articles</div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                             <i class="fa fa-wrench fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">24</div>
+                            <div class="huge">{{ $demandeTotal }}</div>
                             <div>Demandes de travaux</div>
                         </div>
                     </div>
@@ -121,11 +121,11 @@
                 <div class="panel-body" style="padding: 8px 15px;">
                     <div class="row text-center">
                         <div class="col-xs-6">
-                            <strong style="color:#f0ad4e;">18</strong><br>
+                            <strong style="color:#f0ad4e;">{{ $demandeEnCours }}</strong><br>
                             <small>En cours</small>
                         </div>
                         <div class="col-xs-6">
-                            <strong style="color:#5cb85c;">6</strong><br>
+                            <strong style="color:#5cb85c;">{{ $demandeAccepte }}</strong><br>
                             <small>Validées</small>
                         </div>
                     </div>
