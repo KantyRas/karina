@@ -461,3 +461,6 @@ select ped.id , ped.idparametreequipement, ped.valeur, ped.dateajout, ped.idhist
 from parametre_equipement_details ped
 join parametre_equipements pe on ped.idparametreequipement = pe.idparametreequipement
 join frequences f on pe.idfrequence = f.idfrequence;
+
+select count(*) from equipements;
+select count (*) from employes;
