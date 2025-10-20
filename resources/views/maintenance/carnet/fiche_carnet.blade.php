@@ -70,8 +70,11 @@
                     <div class="modal-body">
                         Sous-emplacement
                         <select name="sousemplacement" class="form-select sousemplacement ">
-                            <option value="1">Test</option>
+                            @foreach ($sous_emplacements as $s)
+                                <option value={{$s->nom}}{{'/'}}{{$s->idsousemplacement}}>{{$s->nom}}</option>
+                            @endforeach
                         </select>
+                        <input type="hidden" name="idemplacement" value="{{ $historiques->first()->idemplacement }}">
                     </div>
 
                     <div class="modal-footer">

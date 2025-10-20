@@ -477,6 +477,16 @@ select count (*) from employes;
 select he.idhistoriqueequipement, he.description, he.idequipement, he.datecreation, em.idemplacement, s.idsousemplacement, s.nom from historique_equipements he
 join equipements e on e.idequipement = he.idequipement
 join emplacements em on em.idemplacement = e.idemplacement
-LEFT JOIN sous_emplacements s on s.idemplacement=e.idemplacement;
+left join sous_emplacements s on s.idemplacement = em.idemplacement;
 
 insert into sous_emplacements(idemplacement,nom) values(1,'S1'),(1,'S2');
+
+
+select he.idhistoriqueequipement, he.description, he.idequipement, he.datecreation, s.idsousemplacement, s.nom, e.idemplacement from historique_equipements he
+join sous_emplacements s on s.idsousemplacement = he.idsousemplacement
+join equipements eq on eq.idequipement = he.idequipement
+right join emplacements e on eq.idemplacement = e.idemplacement;
+
+insert into historique_equipements(description, idequipement, datecreation, idsousemplacement) values('test', 1,);
+
+

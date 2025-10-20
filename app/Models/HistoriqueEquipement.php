@@ -17,10 +17,16 @@ class HistoriqueEquipement extends Model
         'description',
         'idequipement',
         'datecreation',
+        'idsousemplacement',
     ];
 
     public function equipement()
     {
         return $this->belongsTo(Equipement::class, 'idequipement', 'idequipement');
+    }
+
+    public function sous_emplacement()
+    {
+        return $this->belongsTo(SousEmplacement::class, 'idsousemplacement', 'idsousemplacement');
     }
 }

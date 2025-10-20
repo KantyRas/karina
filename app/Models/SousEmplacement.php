@@ -9,7 +9,7 @@ class SousEmplacement extends Model
 {
     use HasFactory;
 
-    protected $table = 'sous_emplacement';
+    protected $table = 'sous_emplacements';
     protected $primaryKey = 'idsousemplacement';
     public $timestamps = false;
 
