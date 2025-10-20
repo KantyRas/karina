@@ -119,29 +119,41 @@ class CarnetController extends Controller
     }
 
     public function showHistorique($idequipement){
-        $historiques = HistoriqueEquipement::selectRaw('
-        idhistoriqueequipement,
-        EXTRACT(MONTH FROM datecreation) as mois,
-        EXTRACT(YEAR FROM datecreation) as annee,
-        datecreation
-        ')
-
-        ->where('idequipement', $idequipement)
-        ->orderBy('datecreation', 'desc')
+        $historiques = HistoriqueEquipement::join('equipements as e', 'e.idequipement', '=', 'historique_equipements.idequipement')
+        ->join('emplacements as em', 'em.idemplacement', '=', 'e.idemplacement')
+        ->leftJoin('sous_emplacements as s', 's.idemplacement', '=', 'e.idemplacement')
+        ->select(
+            'historique_equipements.idhistoriqueequipement',
+            'historique_equipements.description',
+            'historique_equipements.idequipement',
+            'historique_equipements.datecreation',
+            'em.idemplacement',
+            's.idsousemplacement',
+            's.nom as sous_emplacement',
+            DB::raw('EXTRACT(MONTH FROM historique_equipements.datecreation) as mois'),
+            DB::raw('EXTRACT(YEAR FROM historique_equipements.datecreation) as annee')
+        )
+        ->where('historique_equipements.idequipement', $idequipement)
+        ->orderBy('historique_equipements.datecreation', 'desc')
         ->get();
-
 
         $equipement = Equipement::find($idequipement);
 
         return view('maintenance.carnet.fiche_carnet', compact('historiques', 'equipement'));
+
     }
 
     public function genererHistorique($idequipement){
         $date_now = now();
-        $get_exists = HistoriqueEquipement::where('idequipement', $idequipement)
-            ->whereMonth('datecreation', $date_now->month)
-            ->whereYear('datecreation', $date_now->year)
-            ->exists();
+
+        $get_exists = HistoriqueEquipement::join('equipements as e', 'e.idequipement', '=', 'historique_equipements.idequipement')
+        ->join('emplacements as em', 'em.idemplacement', '=', 'e.idemplacement')
+        ->leftJoin('sous_emplacements as s', 's.idemplacement', '=', 'e.idemplacement')
+        ->where('historique_equipements.idequipement', $idequipement)
+        ->where('s.idsousemplacement', $idsousemplacement)
+        ->whereMonth('historique_equipements.datecreation', $date_now->month)
+        ->whereYear('historique_equipements.datecreation', $date_now->year)
+        ->exists();
 
         if ($get_exists) {
             return back()->with('warning', 'La fiche pour ce mois existe déjà.');
@@ -152,6 +164,10 @@ class CarnetController extends Controller
             'idequipement' => $idequipement,
             'datecreation' => $date_now,
         ]);
+
+        // SousEmplacement::create([
+
+        // ]);
 
         return back()->with('success', 'Fiche equipement du mois générée avec succès.');
     }

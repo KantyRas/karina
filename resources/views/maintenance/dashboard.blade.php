@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{ route('admin.personnel.user.index') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Voir la liste</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{ route('admin.personnel.employe.index') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Voir plus</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{ route('carnet.liste_carnet') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Voir la liste</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{ route('article.index') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Voir la liste</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -131,7 +131,7 @@
                     </div>
                 </div>
 
-                <a href="#">
+                <a href="{{ route('demande.liste_demande_travaux') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Voir les demandes</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

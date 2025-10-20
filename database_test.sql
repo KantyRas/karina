@@ -17,6 +17,7 @@ create table employes(
     telephone varchar(10),
     estactif int default 1
 );
+
 create table users(
     iduser serial primary key,
     idemploye int references employes(idEmploye) default 0,
@@ -25,9 +26,15 @@ create table users(
     password varchar(255) not null,
     role int references roles(idRole)
 );
+
 create table emplacements(
     idemplacement serial primary key,
     emplacement varchar(75)
+);
+create table sous_emplacements(
+    idsousemplacement serial primary key,
+    idemplacement int references emplacements(idEmplacement),
+    nom varchar(75)
 );
 create table frequences(
     idfrequence serial primary key,
@@ -423,6 +430,7 @@ create table detailreleve(
     valeur varchar(255),
     datereleve date
 );
+
 insert into typereleve (nom) values
 ('Eau'),
 ('Electricité'),
@@ -464,3 +472,11 @@ join frequences f on pe.idfrequence = f.idfrequence;
 
 select count(*) from equipements;
 select count (*) from employes;
+
+
+select he.idhistoriqueequipement, he.description, he.idequipement, he.datecreation, em.idemplacement, s.idsousemplacement, s.nom from historique_equipements he
+join equipements e on e.idequipement = he.idequipement
+join emplacements em on em.idemplacement = e.idemplacement
+LEFT JOIN sous_emplacements s on s.idemplacement=e.idemplacement;
+
+insert into sous_emplacements(idemplacement,nom) values(1,'S1'),(1,'S2');
