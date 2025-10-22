@@ -136,9 +136,17 @@ class ReleveController extends Controller
     public function ajout_detatil_releve(DetailReleveRequest $request,$idhistoriquereleve)
     {
         $params = $request->input('param', []);
+        $today = Carbon::today();
 
+        $existe = Detailreleve::where('idhistoriquereleve', $idhistoriquereleve)
+            ->whereDate('datereleve', $today)
+            ->exists();
+
+        if ($existe) {
+            return redirect()->back()->with('warning', 'Le relevé du jour a déjà été enregistré.');
+        }
         foreach ($params as $idparametretype => $valeur) {
-            if ($valeur !== null && $valeur !== '') {
+            if (!empty($valeur)) {
                 Detailreleve::create([
                     'idhistoriquereleve' => $idhistoriquereleve,
                     'idparametretype' => $idparametretype,

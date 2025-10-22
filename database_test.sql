@@ -229,17 +229,18 @@ create table type_interventions(
 
 create table demande_interventions(  -- demande en cours --
     iddemandeintervention serial primary key,
-    iddemandeur int references users(idUser), -- celui qui a besoin de l'intervention de la maintenance
-    idreceveur int references users(idUser), -- admin application Laravel (maintenance) = chef de departement maintenance
-    idequipement int references equipements(idEquipement),
+    iddemandeur int references users(idUser), -- celui qui a besoin de l'intervention de la maintenance (user connecté)
+    idreceveur int references users(idUser), -- admin application Laravel (maintenance) = chef de departement maintenance (iduser = 1)
+    idtypeintervention int references type_interventions(idtypeintervention),
     datedemande timestamp default current_time,
+    date_souhaite date,
     description text,
+    motif text,
     statut int default 0  -- (0=en attente, 1=validé par le dept_maintenance, 3=rejetté)
 );
 create table fiche_interventions(
     idficheintervention serial primary key,
     iddemandeintervention int references demande_interventions(idDemandeIntervention),
-    idtypeintervention int references type_interventions(idTypeIntervention),
     idemployeassigne int references employes(idEmploye),
     dateplanifie date,
     date_intervention date
@@ -465,7 +466,7 @@ LEFT JOIN parametretype p ON t.idtypereleve = p.idtypereleve;
 
 
 create view v_detail_equipement as
-select ped.id , ped.idparametreequipement, ped.valeur, ped.dateajout, ped.idhistoriqueequipement, pe.idequipement, pe.nomparametre, f.idfrequence, f.frequence 
+select ped.id , ped.idparametreequipement, ped.valeur, ped.dateajout, ped.idhistoriqueequipement, pe.idequipement, pe.nomparametre, f.idfrequence, f.frequence
 from parametre_equipement_details ped
 join parametre_equipements pe on ped.idparametreequipement = pe.idparametreequipement
 join frequences f on pe.idfrequence = f.idfrequence;

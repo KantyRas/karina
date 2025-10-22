@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\InterventionController;
 use App\Http\Controllers\maintenance\admin\EmployeController;
 use App\Http\Controllers\maintenance\admin\FonctionController;
 use App\Http\Controllers\maintenance\admin\RoleController;
@@ -97,6 +98,8 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/travaux/details/validation/{iddemandetravaux}', [DemandeController::class,'updateValider'])->name('demande.valider');
         Route::get('/travaux/details/refus/{iddemandetravaux}', [DemandeController::class,'refuserdemande'])->name('demande.refuser');
         Route::get('/notifications/reads', [DemandeController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+        Route::get('/',[InterventionController::class,'index'])->name('demande.intervention.liste_intervention');
+        Route::get('/create',[InterventionController::class,'create'])->name('demande.intervention.create_intervention');
     });
 
 
@@ -104,5 +107,4 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::resource('article', ArticleController::class)->except(['show']);
         Route::post('/importAction', [ImportController::class,'importAction'])->name('importAction');
     });
-
 });

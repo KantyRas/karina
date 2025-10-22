@@ -171,7 +171,7 @@
                             <a href="{{ route('demande.liste_demande_travaux') }}">Grands Travaux</a>
                         </li>
                         <li>
-                            <a href="#">Interventions</a>
+                            <a href="{{ route('demande.intervention.liste_intervention') }}">Interventions</a>
                         </li>
                         @endif
                         <li>
