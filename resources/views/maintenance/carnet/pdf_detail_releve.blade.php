@@ -119,15 +119,16 @@
         th {
             padding: 8px;
             text-align: center;
-            font-size: 12px;
+            font-size: 8px;
             text-transform: uppercase;
-            border-right: 1px solid #fff;
+            border-right: 1px;
         }
 
         td {
             padding: 6px;
             text-align: center;
             border: 1px solid #ddd;
+            font-size: 11px;
         }
 
         tbody tr:nth-child(odd) {

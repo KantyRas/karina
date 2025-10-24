@@ -19,7 +19,7 @@
                     Relevé {{ $type->nom }}
                 </div>
                 <div class="panel-body text-center">
-                    <p>Paramètres à contrôller: <br>
+                    <p>Paramètres à contrôler: <br>
                         @foreach($type->parametres as $param)
                             <span class="label label-default">{{ $param->nomparametre }}</span>
                         @endforeach

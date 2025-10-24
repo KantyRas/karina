@@ -29,7 +29,7 @@ class DemandeTravauxRequest extends FormRequest
             'demandeur' => ['nullable'],
             'datedemande' => ['required'],
             'datesouhaite' => ['required'],
-            'numeroserie' => ['required'],
+            'numeroserie' => ['nullable'],
             // 'statut' => ['required'],
             'motif' => ['required'],
             'description' => ['required'],

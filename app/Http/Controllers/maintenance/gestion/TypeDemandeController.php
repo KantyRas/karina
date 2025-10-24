@@ -15,7 +15,7 @@ class TypeDemandeController extends Controller
     public function index()
     {
         return view('maintenance.gestion.list_type_demande' ,[
-            'typedemandes' => TypeDemande::all(),
+            'typedemandes' => TypeDemande::with('receveur')->get(),
         ]);
     }
 
@@ -32,46 +32,34 @@ class TypeDemandeController extends Controller
      */
     public function store(TypeDemandeRequest $request)
     {
-        dd("miditra");
         $typedemande = TypeDemande::create($request->validated());
         return to_route('util.gestion.typedemande.index')->with('success','Frequence créer avec succès');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(TypeDemande $typedemandy)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TypeDemande $typedemande)
-    {
-        
         return view('maintenance.gestion.list_type_demande' ,[
             'typedemandes' => TypeDemande::all(),
-            'editType' => $typedemande,
+            'editType' => $typedemandy,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(TypeDemandeRequest $request, TypeDemande $typedemande)
+    public function update(TypeDemandeRequest $request, TypeDemande $typedemandy)
     {
-        $typedemande->update($request->validated());
+        $typedemandy->update($request->validated());
         return to_route('util.gestion.typedemande.index')->with('success','Modifié avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TypeDemande $typedemande)
+    public function destroy(TypeDemande $typedemandy)
     {
-        $typedemande->delete();
+        $typedemandy->delete();
         return to_route('util.gestion.typedemande.index')->with('success','Ligne supprimée');
     }
 }

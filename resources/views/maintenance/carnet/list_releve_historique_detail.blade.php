@@ -1,8 +1,8 @@
 @extends('maintenance.basefront')
-@section('title','Relevés Eau - Septembre 2025')
+@section('title','Relevés')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Relevés Eau - Septembre 2025</h1>
+        <h1 class="page-header">Fiche relevé {{ \Carbon\Carbon::parse($details[0]->datereleve)->monthName }}</h1>
         <div class="text-right mb-3">
             <a href="{{ route('carnet.releve_exportpdf', $historique->idhistoriquereleve) }}" class="btn btn-warning">
                 <i class="fa fa-download"></i> Exporter en PDF

@@ -23,6 +23,7 @@ class TypeDemandeRequest extends FormRequest
     {
         return [
             'nomtype'=> ['required'],
+            'id_receveur'=> ['nullable'],
         ];
     }
 }

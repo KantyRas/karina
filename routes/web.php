@@ -38,18 +38,8 @@ Route::get('/', function () {
 Route::post('/loginAction',[AuthController::class,'loginAction'])->name('login.auth');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout.auth');
 
-
 Route::middleware(['auth', 'role:1,2,4'])->group(function () {
-
-    // Route::get('/home', function () {
-    //     return view('maintenance.dashboard');
-    // })->name('index.dashboard');
-
     Route::get('/home',[DashController::class, 'Dashboard'])->name('index.dashboard');
-
-});
-
-Route::middleware(['auth', 'role:1,2,4'])->group(function () {
 
     Route::prefix('admin')->name('admin.personnel.')->group(function(){
         Route::resource('employe',EmployeController::class)->except(['show']);
@@ -64,7 +54,7 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::resource('depot',DepotController::class)->except(['show']);
         Route::resource('famille', FamilleController::class)->except(['show']);
         Route::resource('unite', UniteController::class)->except(['show']);
-        Route::resource('typedemande',TypeDemandeController::class)->except(['show']);
+        Route::resource('typedemandy',TypeDemandeController::class)->except(['show']);
         Route::resource('typeintervention',TypeInterventionController::class)->except(['show']);
     });
 

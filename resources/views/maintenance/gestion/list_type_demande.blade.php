@@ -22,6 +22,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Types</th>
+                                <th>Responsable</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -30,13 +31,14 @@
                             <tr class="odd gradeX">
                                 <td>{{$type->idtypedemande}}</td>
                                 <td>{{$type->nomtype}}</td>
+                                <td>{{ $type->receveur->username }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('util.gestion.typedemande.edit', $type) }}"
+                                    <a href="{{ route('util.gestion.typedemandy.edit', $type) }}"
                                        class="btn btn-success btn-circle"
                                        title="Modifier">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <form action="{{ route('util.gestion.typedemande.destroy', $type) }}" method="POST" style="display:inline-block; margin-left:3px;">
+                                    <form action="{{ route('util.gestion.typedemandy.destroy', $type) }}" method="POST" style="display:inline-block; margin-left:3px;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -61,7 +63,7 @@
             $('#ajoutModal').modal('show');
 
             $('#ajoutModal').on('hidden.bs.modal', function () {
-                window.location.href = '{{ route("util.gestion.typedemande.index") }}';
+                window.location.href = '{{ route("util.gestion.typedemandy.index") }}';
             });
         });
     </script>
@@ -70,13 +72,14 @@
         'id' => 'ajoutModal',
         'labelId' => 'ajoutTypeDemandeLabel',
         'title' => 'Ajout type Demande',
-        'action' => isset($editType) ? route('util.gestion.typedemande.update', $editType) : route('util.gestion.typedemande.store'),
+        'action' => isset($editType) ? route('util.gestion.typedemandy.update', $editType) : route('util.gestion.typedemandy.store'),
         'parametre' => $editType ?? null,
         'body' => '
             <div class="form-group mb-3">
                 <label class="font-weight-bold">Types Demandes</label>
                 <input type="text" class="form-control" name="nomtype" placeholder="..."  value="'.old('frequence', $editType->nomtype ?? ''). '" required>
             </div>
+            <input type="hidden" name="id_receveur" value=1>
         '
     ])
 @endsection

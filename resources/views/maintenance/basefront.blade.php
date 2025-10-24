@@ -200,7 +200,7 @@
                             <a href="{{ route('util.gestion.frequence.index') }}">Fréquence suivie tâches</a>
                         </li>
                         <li>
-                            <a href="{{ route('util.gestion.typedemande.index') }}">Type demandes existants</a>
+                            <a href="{{ route('util.gestion.typedemandy.index') }}">Type demandes existants</a>
                         </li>
                         <li>
                             <a href="{{ route('util.gestion.typeintervention.index') }}">Type interventions</a>

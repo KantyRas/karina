@@ -6,9 +6,7 @@
         <h1 class="page-header">Tableau de bord</h1>
     </div>
 
-    <!-- Statistiques principales -->
     <div class="row">
-        <!-- Utilisateurs -->
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-success">
                 <div class="panel-heading">

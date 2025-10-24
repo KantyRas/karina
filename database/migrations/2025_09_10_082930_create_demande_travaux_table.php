@@ -23,18 +23,18 @@ return new class extends Migration
             ->constrained('type_travaux', 'idtypetravaux')
             ->onDelete('cascade');
             $table->foreignIdFor(\App\Models\User::class, 'iddemandeur')
-            ->constrained('users', 'iduser') 
+            ->constrained('users', 'iduser')
             ->onDelete('cascade');
 
-            $table->string('demandeur', 100)->nullable(); 
+            $table->string('demandeur', 100)->nullable();
             $table->date('datedemande');
-            $table->date('datesouhaite'); 
-            $table->string('numeroserie', 100); 
-            $table->integer('statut')->default(0); 
-            $table->text('motif'); 
-            $table->text('description'); 
+            $table->date('datesouhaite');
+            $table->string('numeroserie', 100)->nullable();
+            $table->integer('statut')->default(0);
+            $table->text('motif');
+            $table->text('description');
 
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 

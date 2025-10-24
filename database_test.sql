@@ -369,14 +369,14 @@ INSERT INTO employes (nom, prenom, matricule, idfonction, email, telephone, estA
 -- Users
 -- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'Noum', 'raso@gmail.com', '$2y$10$7AxM5ACTYl4UCd3RCbWH8umeZODwiRIWINzomw63c5nuG/dgwdLEK', 1);
+(null, 'kanty', 'kanty@gmail.com', '$2y$10$uwcslFFJrmJ.7W8c3XuZ.OXRJ4QWtPz8/4/PVQX1a0lcbDltf7Vj2', 1);
 (null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$pEHfUUPRX0GaEQ0gvYWBDegqXcf6J3WIYqD9JC63BtLIKg74jWM7q', 1);
 (null, 'usertest', 'test@gmail.com', '$2y$10$sNt.k.Fu1cY1xqfkNCVoxe1VrLT3TjSZBG5.qLbioC8C8LI4wZuvi', 2);
 
 INSERT INTO type_demandes (idtypedemande, nomtype, id_receveur) VALUES (4, 'teste',1);
 INSERT INTO type_travaux (type) VALUES ('typetest');
 
-php -r "echo password_hash('12345', PASSWORD_BCRYPT);"
+php -r "echo password_hash('kanty', PASSWORD_BCRYPT);"
 
 create view v_liste_equipement AS
 select
@@ -489,5 +489,25 @@ join equipements eq on eq.idequipement = he.idequipement
 right join emplacements e on eq.idemplacement = e.idemplacement;
 
 insert into historique_equipements(description, idequipement, datecreation, idsousemplacement) values('test', 1,);
+
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
+SELECT
+    h.idhistoriquereleve,
+    h.description,
+    h.datecreation,
+    MAX(CASE WHEN unaccent(lower(p.nomparametre)) = unaccent(lower('Releve electricite')) THEN d.valeur END) AS "Relevé en kWh",
+    MAX(CASE WHEN unaccent(lower(p.nomparametre)) = unaccent(lower('Conso 250 KVA')) THEN d.valeur END) AS "Groupe 250 kVa",
+    MAX(CASE WHEN unaccent(lower(p.nomparametre)) = unaccent(lower('Conso 150 KVA')) THEN d.valeur END) AS "Groupe 150 kVa",
+    MAX(CASE WHEN unaccent(lower(p.nomparametre)) = unaccent(lower('Achat gasoil (L)')) THEN d.valeur END) AS "Achat Gasoil",
+    MAX(CASE WHEN unaccent(lower(p.nomparametre)) = unaccent(lower('Duree coupure (mn)')) THEN d.valeur END) AS "Durée coupure"
+FROM historiquereleve h
+         LEFT JOIN detailreleve d ON d.idhistoriquereleve = h.idhistoriquereleve
+         LEFT JOIN parametretype p ON p.idparametretype = d.idparametretype
+WHERE h.idtypereleve = 1
+GROUP BY h.idhistoriquereleve, h.description, h.datecreation
+ORDER BY h.datecreation DESC;
+
+
 
 
