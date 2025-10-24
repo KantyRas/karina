@@ -24,9 +24,9 @@
                                 <th>Mois</th>
                                 <th>Année</th>
                                 <th>Date création</th>
-                                @if ($historiques->first()->sous_emplacement)
+                                {{-- @if ($historiques->first()->sous_emplacement) --}}
                                 <th>Sous emplacement</th>
-                                @endif
+                                {{-- @endif --}}
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -37,9 +37,9 @@
                                 <td>{{ \Carbon\Carbon::create()->month($historique->mois)->locale('fr')->monthName }}</td>
                                 <td>{{ $historique->annee }}</td>
                                 <td>{{ $historique->datecreation }}</td>
-                                @if ( $historique->sous_emplacement )
+                                {{-- @if ( $historique->sous_emplacement ) --}}
                                 <td>{{ $historique->sous_emplacement }}</td>
-                                @endif
+                                {{-- @endif --}}
                                 <td>
                                     <a href="{{ route('carnet.fiche_saisie', $historique->idhistoriqueequipement) }}"
                                        class="btn btn-primary btn-sm">
@@ -74,7 +74,7 @@
                                 <option value={{$s->nom}}{{'/'}}{{$s->idsousemplacement}}>{{$s->nom}}</option>
                             @endforeach
                         </select>
-                        <input type="hidden" name="idemplacement" value="{{ $historiques->first()->idemplacement }}">
+                        <input type="hidden" name="idemplacement" value="{{ $equipement->idemplacement }}">
                     </div>
 
                     <div class="modal-footer">

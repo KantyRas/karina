@@ -368,7 +368,7 @@ INSERT INTO employes (nom, prenom, matricule, idfonction, email, telephone, estA
 -- Users
 -- Note: les mots de passe sont hashés avec bcrypt (exemple Laravel)
 INSERT INTO users (idemploye, username, email, password, role) VALUES
-(null, 'Noum', 'raso@gmail.com', '$2y$10$7AxM5ACTYl4UCd3RCbWH8umeZODwiRIWINzomw63c5nuG/dgwdLEK', 1);
+(null, 'Noum', 'raso@gmail.com', '$2y$10$0CD9.KUrPymohbOzObQQBefKvreUBhUXd9ISenQwDA3/D8t92RFzS', 1);
 (null, 'kanty', 'rasolofomananakanty@gmail.com', '$2y$10$pEHfUUPRX0GaEQ0gvYWBDegqXcf6J3WIYqD9JC63BtLIKg74jWM7q', 1);
 (null, 'usertest', 'test@gmail.com', '$2y$10$sNt.k.Fu1cY1xqfkNCVoxe1VrLT3TjSZBG5.qLbioC8C8LI4wZuvi', 2);
 
@@ -473,20 +473,19 @@ join frequences f on pe.idfrequence = f.idfrequence;
 select count(*) from equipements;
 select count (*) from employes;
 
-
-select he.idhistoriqueequipement, he.description, he.idequipement, he.datecreation, em.idemplacement, s.idsousemplacement, s.nom from historique_equipements he
-join equipements e on e.idequipement = he.idequipement
-join emplacements em on em.idemplacement = e.idemplacement
-left join sous_emplacements s on s.idemplacement = em.idemplacement;
-
 insert into sous_emplacements(idemplacement,nom) values(1,'S1'),(1,'S2');
 
 
-select he.idhistoriqueequipement, he.description, he.idequipement, he.datecreation, s.idsousemplacement, s.nom, e.idemplacement from historique_equipements he
-join sous_emplacements s on s.idsousemplacement = he.idsousemplacement
+select he.idhistoriqueequipement, he.description, he.idequipement, he.datecreation, s.idsousemplacement, s.nom as sous_emplacement, e.idemplacement from historique_equipements he
+left join sous_emplacements s on s.idsousemplacement = he.idsousemplacement
 join equipements eq on eq.idequipement = he.idequipement
-right join emplacements e on eq.idemplacement = e.idemplacement;
+join emplacements e on eq.idemplacement = e.idemplacement;
 
 insert into historique_equipements(description, idequipement, datecreation, idsousemplacement) values('test', 1,);
 
 
+select ped.id , ped.idparametreequipement, ped.valeur, ped.dateajout, ped.idhistoriqueequipement, pe.idequipement, pe.nomparametre, f.idfrequence, f.frequence, h.idsousemplacement 
+from parametre_equipement_details ped
+join parametre_equipements pe on ped.idparametreequipement = pe.idparametreequipement
+join frequences f on pe.idfrequence = f.idfrequence
+join historique_equipements h on h.idhistoriqueequipement = ped.idhistoriqueequipement;

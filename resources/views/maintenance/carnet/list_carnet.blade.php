@@ -31,7 +31,7 @@
                             <tbody>
                             @foreach ($equipements as $e)    
                             <tr class="odd gradeX">
-                                    <td>1</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $e->nomequipement }}</td>
                                     <td>{{ $e->emplacement }}</td>
                                     <td>{{ $e->nomemploye }}</td>
