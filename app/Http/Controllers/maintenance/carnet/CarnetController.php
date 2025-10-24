@@ -108,6 +108,7 @@ class CarnetController extends Controller
         $resultats = $query
                     ->where('idfrequence', $idfrequence)
                     ->where('idequipement', $historique->idequipement)
+                    ->where('idhistoriqueequipement', $idhistorique)
                     ->groupBy(DB::raw('DATE(dateajout)'))
                     ->orderBy(DB::raw('DATE(dateajout)'))
                     ->get();
@@ -120,7 +121,7 @@ class CarnetController extends Controller
     }
 
     public function showHistorique($idequipement){
-        $historiques = HistoriqueEquipement::join('sous_emplacements as s', 's.idsousemplacement', '=', 'historique_equipements.idsousemplacement')
+        $historiques = HistoriqueEquipement::leftjoin('sous_emplacements as s', 's.idsousemplacement', '=', 'historique_equipements.idsousemplacement')
         ->join('equipements as eq', 'eq.idequipement', '=', 'historique_equipements.idequipement')
         ->join('emplacements as e', 'eq.idemplacement', '=', 'e.idemplacement')
         ->select(
@@ -140,7 +141,7 @@ class CarnetController extends Controller
 
         $equipement = Equipement::find($idequipement);
 
-        $sous_emplacements = SousEmplacement::where('idemplacement', $historiques->first()->idemplacement)->get();
+        $sous_emplacements = SousEmplacement::where('idemplacement', $equipement->idemplacement)->get();
 
         return view('maintenance.carnet.fiche_carnet', compact('historiques', 'equipement', 'sous_emplacements'));
 
@@ -152,24 +153,36 @@ class CarnetController extends Controller
 
         $sousemplacement = explode('/', $stringvalue, 2);
         // dd(count($sousemplacement));
+        // dd($sousemplacement[1]);
 
         $date_now = now();
-        if(count($sousemplacement) == 1){
+        if($stringvalue!=null && count($sousemplacement) == 1){
+
+            $s = SousEmplacement::create([
+                'nom' => $sousemplacement[0],
+                'idemplacement' => $idemplacement,
+            ]);
 
             HistoriqueEquipement::create([
                 'description' => 'equipement',
                 'idequipement' => $idequipement,
                 'datecreation' => $date_now,
+                'idsousemplacement' => $s->idsousemplacement,
             ]);
-
-            SousEmplacement::create([
-                'nom' => $sousemplacement[0],
-                'idemplacement' => $idemplacement,
-            ]);
+            
             return back()->with('success', 'Fiche equipement générée avec succès.');
         }
 
-dd(69);
+        if($stringvalue==null){
+        $get_exists = HistoriqueEquipement::join('equipements as e', 'e.idequipement', '=', 'historique_equipements.idequipement')
+            ->join('emplacements as em', 'em.idemplacement', '=', 'e.idemplacement')
+            ->leftJoin('sous_emplacements as s', 's.idemplacement', '=', 'e.idemplacement')
+            ->where('historique_equipements.idequipement', $idequipement)
+            // ->where('s.idsousemplacement', $sousemplacement[1])
+            ->whereMonth('historique_equipements.datecreation', $date_now->month)
+            ->whereYear('historique_equipements.datecreation', $date_now->year)
+            ->exists();
+        }else{
         $get_exists = HistoriqueEquipement::join('equipements as e', 'e.idequipement', '=', 'historique_equipements.idequipement')
             ->join('emplacements as em', 'em.idemplacement', '=', 'e.idemplacement')
             ->leftJoin('sous_emplacements as s', 's.idemplacement', '=', 'e.idemplacement')
@@ -178,20 +191,23 @@ dd(69);
             ->whereMonth('historique_equipements.datecreation', $date_now->month)
             ->whereYear('historique_equipements.datecreation', $date_now->year)
             ->exists();
+        }
 
         if ($get_exists) {
             return back()->with('warning', 'La fiche pour ce mois existe déjà.');
+        }
+
+        if($request->input('sousemplacement')){
+             SousEmplacement::create([
+            'nom' => $sousemplacement[0],
+            'idemplacement' => $idemplacement,
+            ]);
         }
 
         HistoriqueEquipement::create([
             'description' => 'equipement',
             'idequipement' => $idequipement,
             'datecreation' => $date_now,
-        ]);
-
-        SousEmplacement::create([
-            'nom' => $sousemplacement[0],
-            'idemplacement' => $idemplacement,
         ]);
 
         return back()->with('success', 'Fiche equipement du mois générée avec succès.');

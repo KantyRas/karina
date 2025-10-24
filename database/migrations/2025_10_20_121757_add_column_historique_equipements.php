@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('historique_equipements', function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\SousEmplacement::class, 'idsousemplacement')
             ->nullable()
-                  ->constrained('historique_equipements', 'idhistoriqueequipement')
+                  ->constrained('sous_emplacements', 'idsousemplacement')
                   ->onDelete('cascade'); 
         });
     }
