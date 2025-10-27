@@ -2,10 +2,10 @@
 @section('title','Carnet')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Tous les carnets des equipements</h1>
+        <h1 class="page-header">Tous les equipements</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <a href="{{ route('carnet.create_carnet') }}" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Nouveau carnet
+                <i class="fa fa-plus"></i> Nouveau Item
             </a>
         </div>
     </div>
@@ -21,7 +21,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Equipement</th>
+                                <th>Item</th>
                                 <th>Emplacement</th>
                                 <th>Employe responsable</th>
                                 <th>Matricule</th>
@@ -29,7 +29,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($equipements as $e)    
+                            @foreach ($equipements as $e)
                             <tr class="odd gradeX">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $e->nomequipement }}</td>

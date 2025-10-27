@@ -87,7 +87,7 @@
                                     <textarea class="form-control" name="motif"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Déscription</label>
+                                    <label>Description</label>
                                     <textarea class="form-control" name="description"></textarea>
                                 </div>
                             </div>

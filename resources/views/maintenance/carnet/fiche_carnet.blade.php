@@ -31,9 +31,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($historiques as $historique)
+                            @foreach ($historiques as $index => $historique)
                             <tr>
-                                <td>.</td>
+                                <td>{{$index + 1}}</td>
                                 <td>{{ \Carbon\Carbon::create()->month($historique->mois)->locale('fr')->monthName }}</td>
                                 <td>{{ $historique->annee }}</td>
                                 <td>{{ $historique->datecreation }}</td>
