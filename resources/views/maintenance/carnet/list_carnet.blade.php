@@ -2,11 +2,27 @@
 @section('title','Carnet')
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Tous les equipements</h1>
-        <div class="text-right" style="margin-bottom:15px;">
-            <a href="{{ route('carnet.create_carnet') }}" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Nouveau Item
-            </a>
+        <h1 class="page-header">Tous les équipements</h1>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Importer les équipements</strong>
+            </div>
+            <div class="panel-body">
+                <form action="#" method="POST" enctype="multipart/form-data" class="form-inline text-center">
+                    @csrf
+                    <div class="form-group" style="margin-right:10px;">
+                        <label for="fichier" class="sr-only">Fichier Excel :</label>
+                        <input type="file" name="fichier" id="fichier" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-upload"></i> Importer
+                    </button>
+                    <a href="{{ route('carnet.create_carnet') }}" class="btn btn-primary" style="margin-left:10px;">
+                        <i class="fa fa-plus"></i> Nouveau Item
+                    </a>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row">

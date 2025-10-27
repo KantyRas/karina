@@ -5,9 +5,12 @@
             Historiques de la fiche du Carnet : {{ $equipement->nomequipement }}
         </h1>
         <div class="text-right" style="margin-bottom:15px;">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#genererFicheModal">
-                <i class="fa fa-file-text"></i> Génerer fiche
-            </button>
+            <form action="{{ route('carnet.generate_historique_equipement', $equipement->idequipement) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-file-text"></i> Génerer fiche
+                </button>
+            </form>
         </div>
     </div>
     {{-- Tableau des fiches mensuelles/annuelles --}}
@@ -24,9 +27,6 @@
                                 <th>Mois</th>
                                 <th>Année</th>
                                 <th>Date création</th>
-                                {{-- @if ($historiques->first()->sous_emplacement) --}}
-                                <th>Sous emplacement</th>
-                                {{-- @endif --}}
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -37,9 +37,6 @@
                                 <td>{{ \Carbon\Carbon::create()->month($historique->mois)->locale('fr')->monthName }}</td>
                                 <td>{{ $historique->annee }}</td>
                                 <td>{{ $historique->datecreation }}</td>
-                                {{-- @if ( $historique->sous_emplacement ) --}}
-                                <td>{{ $historique->sous_emplacement }}</td>
-                                {{-- @endif --}}
                                 <td>
                                     <a href="{{ route('carnet.fiche_saisie', $historique->idhistoriqueequipement) }}"
                                        class="btn btn-primary btn-sm">
@@ -56,48 +53,4 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="genererFicheModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Choisissez une action</h5>
-                </div>
-
-                <form action="{{ route('carnet.generate_historique_equipement', $equipement->idequipement) }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        Sous-emplacement
-                        <select name="sousemplacement" class="form-select sousemplacement ">
-                            @foreach ($sous_emplacements as $s)
-                                <option value={{$s->nom}}{{'/'}}{{$s->idsousemplacement}}>{{$s->nom}}</option>
-                            @endforeach
-                        </select>
-                        <input type="hidden" name="idemplacement" value="{{ $equipement->idemplacement }}">
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Valider</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-@endsection
-@section('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            new TomSelect(".sousemplacement", {
-                placeholder: "Choisissez un sous-emplacement...",
-                create: true,
-                maxOptions: 10,
-                allowEmptyOption: true,
-                sortField: { field: "text", direction: "asc" },
-                plugins: ['dropdown_input'],
-            });
-        });
-    </script>
 @endsection
