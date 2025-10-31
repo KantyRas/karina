@@ -25,26 +25,32 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Date</th>
+                                <th>Date demande</th>
+                                <th>Date souhaite</th>
                                 <th>Demandeur</th>
+                                <th>Departement - Section</th>
                                 <th>Type d’intervention</th>
                                 <th>Statut</th>
-                                <th>Technicien</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($demandes as $d)
                                 <tr class="odd gradeX">
                                     <td>1</td>
-                                    <td>08/10/2025</td>
-                                    <td>Jean Dupont</td>
-                                    <td>Maintenance électrique</td>
-                                    <td>@include('maintenance.shared.status', ['status' => 0])</td>
-                                    <td>Marc Andry</td>
+                                    <td>{{ $d->datedemande }}</td>
+                                    <td>{{ $d->datesouhaite }}</td>
+                                    <td>{{ $d->demandeur->username }}</td>
+                                    <td>
+                                        {{ $d->section->departement->nom }} /
+                                        {{ $d->section->nomsection }}
+                                    </td>
+                                    <td>{{ $d->typeintervention->type }}</td>
+                                    <td>@include('maintenance.shared.status', ['status' => $d->statut])</td>
                                     <td>
                                         <a href="#"
                                            class="btn btn-primary btn-circle"
-                                           title="Voir">
+                                           title="Détails">
                                             <i class="fa fa-file"></i>
                                         </a>
                                         <a href="#"
@@ -63,6 +69,7 @@
                                         </form>
                                     </td>
                                 </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

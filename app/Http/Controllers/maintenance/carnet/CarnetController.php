@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\maintenance\carnet;
 
 use App\Http\Controllers\Controller;
+use App\Imports\MultiSheetEquipementImport;
 use Illuminate\Http\Request;
 use App\Models\Equipement;
 use App\Models\ParametreEquipement;
@@ -17,6 +18,7 @@ use App\Http\Requests\EquipementRequest;
 use App\Http\Requests\DetailEquipementRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CarnetController extends Controller
 {
@@ -258,6 +260,14 @@ class CarnetController extends Controller
         }
 
         return back()->with('success', 'Enregistré avec succès.');
+    }
+    public function importEquipement(Request $request)
+    {
+        $request->validate([
+            'fichier' => 'required|mimes:xlsx,xls'
+        ]);
+        Excel::import(new MultiSheetEquipementImport, $request->file('fichier'));
+        return back()->with('success', 'Importation terminée avec succès !');
     }
 
 }
