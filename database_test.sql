@@ -509,5 +509,47 @@ GROUP BY h.idhistoriquereleve, h.description, h.datecreation
 ORDER BY h.datecreation DESC;
 
 
+SELECT * FROM parametre_equipement_details
+WHERE EXTRACT(MONTH FROM dateajout) = EXTRACT(MONTH FROM NOW())
+  AND EXTRACT(DAY FROM dateajout) = 23
+  AND EXTRACT(HOUR FROM dateajout) <= 12;
 
 
+join parametre_equipements_detail -> parametre_equipements
+join parametre_equipements -> frequence
+
+create view v_cron as
+select ped.id, pe.idparametreequipement, pe.nomparametre, ped.valeur, ped.dateajout, he.idhistoriqueequipement, pe.idequipement, pe.idfrequence from parametre_equipement_details ped
+right join historique_equipements he on he.idhistoriqueequipement = ped.idhistoriqueequipement 
+right join parametre_equipements pe on pe.idparametreequipement = ped.idparametreequipement and he.idequipement = pe.idequipement;
+
+
+select ped.id, ped.valeur, ped.dateajout, he.idhistoriqueequipement, pe.idparametreequipement, e.idequipement, e.nomequipement from parametre_equipement_details ped
+left join historique_equipements he on ped.idhistoriqueequipement = he.idhistoriqueequipement
+left join parametre_equipements pe on pe.idparametreequipement = ped.idparametreequipement
+left join equipements e on e.idequipement = pe.idequipement;
+
+CREATE VIEW v_cron as
+SELECT 
+    ped.id as id_detail,
+    ped.valeur,
+    ped.dateajout,
+    he.idhistoriqueequipement,
+    pe.idparametreequipement,
+    pe.nomparametre,
+    pe.idfrequence,
+    e.idequipement AS idequipement_equipement,
+    e.nomequipement
+FROM historique_equipements he
+JOIN equipements e 
+    ON e.idequipement = he.idequipement
+LEFT JOIN parametre_equipements pe 
+    ON pe.idequipement = he.idequipement 
+LEFT JOIN parametre_equipement_details ped 
+    ON ped.idparametreequipement = pe.idparametreequipement
+   AND ped.idhistoriqueequipement = he.idhistoriqueequipement 
+LEFT JOIN frequences f on f.idfrequence = pe.idfrequence;
+
+-- where pe.idfrequence = 1;
+
+select idequipement, idfrequence from v_cron where idfrequence = 1 group by idequipement, idfrequence;
