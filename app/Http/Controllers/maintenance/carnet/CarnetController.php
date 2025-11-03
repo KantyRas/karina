@@ -110,6 +110,7 @@ class CarnetController extends Controller
         $resultats = $query
                     ->where('idfrequence', $idfrequence)
                     ->where('idequipement', $historique->idequipement)
+                    ->where('idhistoriqueequipement', $idhistorique)
                     ->groupBy(DB::raw('DATE(dateajout)'))
                     ->orderBy(DB::raw('DATE(dateajout)'))
                     ->get();
