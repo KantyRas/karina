@@ -12,7 +12,6 @@ class MultiSheetEquipementImport implements WithMultipleSheets
     {
         return [
             'Equipements' => new \App\Imports\EquipementImport(),
-            'Employe_responsable' => new \App\Imports\EmployeResponsableImport(),
             'parametre_equipement' => new \App\Imports\ParametreEquipementImport(),
         ];
     }

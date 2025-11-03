@@ -9,7 +9,7 @@
                 <strong>Importer les équipements</strong>
             </div>
             <div class="panel-body">
-                <form action="#" method="POST" enctype="multipart/form-data" class="form-inline text-center">
+                <form action="{{ route('carnet.equipement.import') }}" method="POST" enctype="multipart/form-data" class="form-inline text-center">
                     @csrf
                     <div class="form-group" style="margin-right:10px;">
                         <label for="fichier" class="sr-only">Fichier Excel :</label>

@@ -226,14 +226,16 @@ create table type_interventions(
     idtypeintervention serial primary key,
     type varchar(75) default 'Autres'
 );
+insert into type_interventions(type) values ('Urgent'),('Non urgent'),('Autres');
 
 create table demande_interventions(  -- demande en cours --
     iddemandeintervention serial primary key,
     iddemandeur int references users(idUser), -- celui qui a besoin de l'intervention de la maintenance (user connecté)
-    idreceveur int references users(idUser), -- admin application Laravel (maintenance) = chef de departement maintenance (iduser = 1)
+    idrolereceveur int references roles(idrole), -- admin application Laravel (maintenance) = chef de departement maintenance (iduser = 1)
+    idsection int references sections(idsection),
     idtypeintervention int references type_interventions(idtypeintervention),
     datedemande timestamp default current_time,
-    date_souhaite date,
+    datesouhaite date,
     description text,
     motif text,
     statut int default 0  -- (0=en attente, 1=validé par le dept_maintenance, 3=rejetté)
@@ -242,8 +244,9 @@ create table fiche_interventions(
     idficheintervention serial primary key,
     iddemandeintervention int references demande_interventions(idDemandeIntervention),
     idemployeassigne int references employes(idEmploye),
-    dateplanifie date,
-    date_intervention date
+    datecreation date default now(),
+    dateplanifie timestamp,
+    dateintervention timestamp
 );
 -- Gestion articles --
 create table depots(

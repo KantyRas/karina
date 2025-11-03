@@ -74,6 +74,7 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/releve/exportpdf/{idhistoriquereleve}',[ReleveController::class,'exportPdfReleveMensuel'])->name('releve_exportpdf');
         Route::post('/carnet/generer/{id}',[CarnetController::class,'genererHistorique'])->name('generate_historique_equipement');
         Route::post('/carnet/ajoutDetail',[CarnetController::class,'insertDetail'])->name('ajout_detail_equipement');
+        Route::post('/importdata',[CarnetController::class,'importEquipement'])->name('equipement.import');
     });
 
     Route::prefix('demandes')->group(function(){
@@ -90,6 +91,7 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/notifications/reads', [DemandeController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
         Route::get('/',[InterventionController::class,'index'])->name('demande.intervention.liste_intervention');
         Route::get('/create',[InterventionController::class,'create'])->name('demande.intervention.create_intervention');
+        Route::post('/store',[InterventionController::class,'store'])->name('demande.intervention.store_intervention');
     });
 
 
