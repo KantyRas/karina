@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fiche_interventions', function (Blueprint $table) {
             $table->id('idficheintervention');
-            $table->foreignIdFor(\App\Models\DemandeIntervention::class, 'iddemandintervention')
+            $table->foreignIdFor(\App\Models\DemandeIntervention::class, 'iddemandeintervention')
                 ->constrained('demande_interventions', 'iddemandeintervention')
                 ->onDelete('cascade');
             $table->foreignIdFor(\App\Models\Employe::class, 'idemployeassigne')
@@ -21,7 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->date('datecreation');
             $table->timestamp('dateplanifie');
-            $table->timestamp('dateintervention');
+            $table->timestamp('dateintervention')->default(null)->nullable();;
             $table->timestamps();
         });
     }

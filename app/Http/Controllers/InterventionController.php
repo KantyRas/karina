@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DemandeInterventionRequest;
+use App\Http\Requests\FicheInterventionRequest;
 use App\Models\DemandeIntervention;
 use App\Models\Departement;
+use App\Models\Employe;
+use App\Models\FicheIntervention;
 use App\Models\TypeIntervention;
 use Illuminate\Http\Request;
 
@@ -28,5 +31,44 @@ class InterventionController extends Controller
         $validated = $request->validated();
         $demande = DemandeIntervention::create($validated);
         return to_route('demande.intervention.liste_intervention')->with('success','Demande d\'intervention créer avec succès');
+    }
+    public function get_detail_intervention($iddemandeintervention)
+    {
+        $details = DemandeIntervention::with('demandeur','receveurrole','section.departement','typeintervention')->findOrFail($iddemandeintervention);
+        return view('maintenance.intervention.detail_intervention',compact('details'));
+    }
+    public function get_form_ficheintervention($iddemandeintervention)
+    {
+        $employes = Employe::all();
+        return view('maintenance.intervention.form_ficheintervention',[
+            'iddemandeintervention' => $iddemandeintervention,
+            'employes' => $employes,
+        ]);
+    }
+    public function storeFicheIntervention(FicheInterventionRequest $request)
+    {
+        $validated = $request->validated();
+        //dd($validated);
+        $fiche_intervention = FicheIntervention::create($validated);
+        return back()->with('success','Bon d\'intervention créer avec succès');
+    }
+    public function get_detail_ficheintervention($iddemandeintervention): \Illuminate\Http\JsonResponse
+    {
+        $fiche = FicheIntervention::with('employe')
+            ->where('iddemandeintervention', $iddemandeintervention)
+            ->first();
+
+        if (!$fiche) {
+            return response()->json(['error' => 'Aucune fiche trouvée pour cette demande.'], 404);
+        }
+
+        return response()->json([
+            'idfiche' => $fiche->idficheintervention,
+            'iddemande' => $fiche->iddemandeintervention,
+            'employe' => $fiche->employe->matricule ?? 'Non assigné',
+            'datecreation' => $fiche->datecreation,
+            'dateplanifie' => $fiche->dateplanifie,
+            'dateintervention' => $fiche->dateintervention,
+        ]);
     }
 }

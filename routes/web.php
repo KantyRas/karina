@@ -92,8 +92,11 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/',[InterventionController::class,'index'])->name('demande.intervention.liste_intervention');
         Route::get('/create',[InterventionController::class,'create'])->name('demande.intervention.create_intervention');
         Route::post('/store',[InterventionController::class,'store'])->name('demande.intervention.store_intervention');
+        Route::get('/details/intervention/{iddemandeintervention}',[InterventionController::class,'get_detail_intervention'])->name('demande.intervention.detail_intervention');
+        Route::get('/ficheintervention/{iddemandeintervention}',[InterventionController::class,'get_form_ficheintervention'])->name('demande.intervention.ficheintervention');
+        Route::post('/ficheintervention/store',[InterventionController::class,'storeFicheIntervention'])->name('demande.intervention.store_ficheintervention');
+        Route::get('/ficheintervention/details/{iddemandeintervention}',[InterventionController::class,'get_detail_ficheintervention'])->name('demande.intervention.detail_ficheintervention');
     });
-
 
     Route::prefix('articles')->group(function(){
         Route::resource('article', ArticleController::class)->except(['show']);

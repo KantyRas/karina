@@ -48,7 +48,7 @@
                                     <td>{{ $d->typeintervention->type }}</td>
                                     <td>@include('maintenance.shared.status', ['status' => $d->statut])</td>
                                     <td>
-                                        <a href="#"
+                                        <a href="{{ route('demande.intervention.detail_intervention', $d->iddemandeintervention) }}"
                                            class="btn btn-primary btn-circle"
                                            title="Détails">
                                             <i class="fa fa-file"></i>
