@@ -19,6 +19,7 @@ class RoleSeeder extends Seeder
             ['role' => 'Compliance'],
             ['role' => 'Responsable Achat'],
             ['role' => 'Technicien'],
+            ['role' => 'User simple'],
         ]);
     }
 }

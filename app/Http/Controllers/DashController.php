@@ -15,6 +15,12 @@ class DashController extends Controller
         $demandeTotal = DB::table('demande_travaux')->count();
         $demandeEnCours = DB::table('demande_travaux')->where('statut', 0)->count();
         $demandeAccepte = DB::table('demande_travaux')->where('statut', 1)->count();
+        $demandeIntervention = DB::table('demande_interventions')->count();
+        $demandeInterventionEnCours = DB::table('demande_interventions')->where('statut', 0)->count();
+        $demandeInterventionAccepte = DB::table('demande_interventions')->where('statut', 1)->count();
+        $demandeAchat = DB::table('demande_achats')->count();
+        $demandeAchatEnCours = DB::table('demande_achats')->where('statut', 0)->count();
+        $demandeAchatAccepte = DB::table('demande_achats')->where('statut', 1)->count();
         $user = DB::table('users')->count();
         $article = DB::table('articles')->count();
 
@@ -24,6 +30,12 @@ class DashController extends Controller
             'demandeTotal',
             'demandeEnCours',
             'demandeAccepte',
+            'demandeIntervention',
+            'demandeInterventionEnCours',
+            'demandeInterventionAccepte',
+            'demandeAchat',
+            'demandeAchatEnCours',
+            'demandeAchatAccepte',
             'user',
             'article',
         ));

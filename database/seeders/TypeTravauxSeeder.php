@@ -14,9 +14,9 @@ class TypeTravauxSeeder extends Seeder
     public function run(): void
     {
         DB::table('type_travaux')->insert([
-            ['type' => 'REPARATION'],
-            ['type' => 'RENNOVATION'],
-            ['type' => 'CONFECTION'],
+            ['type' => 'REPARATION', 'duree' => 10],
+            ['type' => 'RENNOVATION', 'duree' => 15],
+            ['type' => 'CONFECTION', 'duree' => 7],
         ]);
     }
 }

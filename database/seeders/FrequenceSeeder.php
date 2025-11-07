@@ -14,9 +14,12 @@ class FrequenceSeeder extends Seeder
     public function run(): void
     {
         DB::table('frequences')->insert([
-            ['frequence' => 'Journalier'],
-            ['frequence' => 'Hebdomadaire'],
-            ['frequence' => 'Mensuel'],
+            ['frequence' => 'JOURNALIER'],
+            ['frequence' => 'HEBDOMADAIRE'],
+            ['frequence' => 'MENSUEL'],
+            ['frequence' => 'ANNUEL'],
+            ['frequence' => 'TRIMESTRIEL'],
+            ['frequence' => 'SEMESTRIEL'],
         ]);
     }
 }

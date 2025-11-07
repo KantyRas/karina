@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('demandeur', 100)->nullable();
             $table->date('datedemande');
             $table->date('datesouhaite');
+            $table->date('datereelle')->nullable();
             $table->string('numeroserie', 100)->nullable();
             $table->integer('statut')->default(0);
             $table->text('motif');

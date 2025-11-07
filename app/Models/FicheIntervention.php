@@ -15,7 +15,7 @@ class FicheIntervention extends Model
 
     public function demandeintervention()
     {
-        return $this->belongsTo(DemandeIntervention::class, 'iddemandeintervention', 'iddemandeintervention');
+        return $this->hasOne(DemandeIntervention::class, 'iddemandeintervention', 'iddemandeintervention');
     }
     public function employe()
     {

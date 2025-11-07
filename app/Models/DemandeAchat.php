@@ -20,6 +20,7 @@ class DemandeAchat extends Model
         'idreceveur',
         'iddemande_travaux',
         'datedemande',
+        'statut',
     ];
 
     // Relation avec User pour le demandeur (many-to-one)

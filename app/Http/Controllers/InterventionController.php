@@ -39,6 +39,11 @@ class InterventionController extends Controller
     }
     public function get_form_ficheintervention($iddemandeintervention)
     {
+        $ficheExistante = FicheIntervention::where('iddemandeintervention', $iddemandeintervention)->first();
+
+        if ($ficheExistante) {
+            return redirect()->back()->with('warning', 'Un bon d’intervention existe déjà pour cette demande.');
+        }
         $employes = Employe::all();
         return view('maintenance.intervention.form_ficheintervention',[
             'iddemandeintervention' => $iddemandeintervention,
@@ -50,7 +55,7 @@ class InterventionController extends Controller
         $validated = $request->validated();
         //dd($validated);
         $fiche_intervention = FicheIntervention::create($validated);
-        return back()->with('success','Bon d\'intervention créer avec succès');
+        return $this->index();
     }
     public function get_detail_ficheintervention($iddemandeintervention): \Illuminate\Http\JsonResponse
     {
@@ -70,5 +75,25 @@ class InterventionController extends Controller
             'dateplanifie' => $fiche->dateplanifie,
             'dateintervention' => $fiche->dateintervention,
         ]);
+    }
+    public function getDateIntervention($iddemandeintervention,Request $request)
+    {
+        $fiche = FicheIntervention::where('iddemandeintervention', $iddemandeintervention)->first();
+
+        if (!empty($fiche->dateintervention)) {
+            return back()->with('warning', 'Cette intervention est déjà terminée.');
+        }
+
+        $fiche->update([
+            'dateintervention' => $request->input('dateintervention')
+        ]);
+
+        return back()->with('success', 'Date d’intervention enregistrée avec succès.');
+    }
+    public function validerFicheIntervention($iddemandeintervention)
+    {
+        $demande_intervention = DemandeIntervention::findOrFail($iddemandeintervention);
+        $demande_intervention->update(['statut' => 1]);
+        return back()->with('success','Demande intervention validée.');
     }
 }

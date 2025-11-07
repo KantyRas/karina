@@ -15,5 +15,6 @@ class TypeTravaux extends Model
 
     protected $fillable = [
         'type',
+        'duree',
     ];
 }

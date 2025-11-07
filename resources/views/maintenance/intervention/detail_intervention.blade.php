@@ -93,7 +93,7 @@
 
             <div class="text-right" style="margin-top: 20px;">
                 @if($details->statut == 0)
-                    <a href="#" class="btn btn-success">
+                    <a href="{{ route('demande.intervention.valider_ficheintervention',$details->iddemandeintervention) }}" class="btn btn-success">
                         <i class="fa fa-check"></i> Valider
                     </a>
                     <a href="#" class="btn btn-danger">
@@ -126,12 +126,13 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        <i class="fa fa-times"></i> Fermer
-                    </button>
-                    <button type="button" class="btn btn-primary" id="btnPrint">
-                        <i class="fa fa-print"></i> Imprimer
-                    </button>
+                    <form action="{{ route('demande.intervention.getdate',$details->iddemandeintervention) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="dateintervention" value="{{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-check-circle"></i> Terminer
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -158,8 +159,7 @@
                     <table class="table table-bordered table-striped">
                         <tbody>
                             <tr><th>Numéro de fiche</th><td>${data.idfiche}</td></tr>
-                            <tr><th>Demande associée</th><td>${data.iddemande}</td></tr>
-                            <tr><th>Employé matricule</th><td>${data.employe}</td></tr>
+                            <tr><th>Employé assigné</th><td>${data.employe}</td></tr>
                             <tr><th>Date de création</th><td>${data.datecreation ?? '—'}</td></tr>
                             <tr><th>Date planifiée</th><td>${data.dateplanifie ?? '—'}</td></tr>
                             <tr><th>Date d’intervention</th><td>${data.dateintervention ?? '—'}</td></tr>

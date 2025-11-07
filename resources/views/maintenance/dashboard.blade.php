@@ -60,7 +60,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-cogs fa-3x"></i>
+                            <i class="fa fa-gear fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{ $equipement }}</div>
@@ -132,6 +132,82 @@
                 <a href="{{ route('demande.liste_demande_travaux') }}">
                     <div class="panel-footer">
                         <span class="pull-left">Voir les demandes</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- Demandes interventions -->
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-gears fa-3x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ $demandeIntervention }}</div>
+                            <div>Demandes d'intervention</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sous-statistiques -->
+                <div class="panel-body" style="padding: 8px 15px;">
+                    <div class="row text-center">
+                        <div class="col-xs-6">
+                            <strong style="color:#f0ad4e;">{{ $demandeInterventionEnCours }}</strong><br>
+                            <small>En cours</small>
+                        </div>
+                        <div class="col-xs-6">
+                            <strong style="color:#5cb85c;">{{ $demandeInterventionAccepte }}</strong><br>
+                            <small>Terminées</small>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{{ route('demande.intervention.liste_intervention') }}">
+                    <div class="panel-footer">
+                        <span class="pull-left">Voir les interventions</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- Demandes interventions -->
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-shopping-cart fa-3x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ $demandeAchat }}</div>
+                            <div>Demandes d'achats</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sous-statistiques -->
+                <div class="panel-body" style="padding: 8px 15px;">
+                    <div class="row text-center">
+                        <div class="col-xs-6">
+                            <strong style="color:#f0ad4e;">{{ $demandeAchatEnCours }}</strong><br>
+                            <small>En cours</small>
+                        </div>
+                        <div class="col-xs-6">
+                            <strong style="color:#5cb85c;">{{ $demandeAchatAccepte }}</strong><br>
+                            <small>Validées - Livrées</small>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{{ route('demande.index') }}">
+                    <div class="panel-footer">
+                        <span class="pull-left">Voir les demandes d'achats</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>

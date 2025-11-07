@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\DemandeTravauxValider;
 use App\Notifications\NewDemandeAchat;
 use App\Notifications\NewDemandeTravaux;
+use App\Notifications\ValiderDemandeAchat;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FicheJoint;
 use Illuminate\Http\Request;
@@ -78,9 +79,25 @@ class DemandeController extends Controller
             ]);
         }
         if (!empty($validated['iddemande_travaux'])) {
-            $this->updateValider($validated['iddemande_travaux']);
+            $this->updateValider($validated['iddemande_travaux'], $request);
         }
         return to_route('demande.index')->with('success','Demande achat créer avec succès');
+    }
+    public function updateValiderAchat($iddemandeachat)
+    {
+        $demande = DemandeAchat::findOrFail($iddemandeachat);
+        $demande->update(['statut' => 1]);
+        $demandeur = User::find($demande->iddemandeur);
+        if ($demandeur) {
+            $demandeur->notify(new ValiderDemandeAchat($demande));
+        }
+        return back()->with('success','Demande d\'achat validé avec succès');
+    }
+    public function refuserDemandeAchat($iddemandeachat)
+    {
+        $demande = DemandeAchat::findOrFail($iddemandeachat);
+        $demande->update(['statut' => 2]);
+        return back();
     }
     public function get_detail_achat($iddemandeachat)
     {
@@ -152,7 +169,7 @@ class DemandeController extends Controller
         ]);
     }
 
-    public function updateValider($iddemandetravaux) {
+    public function updateValider($iddemandetravaux,Request $request) {
         $demande = DemandeTravaux::findOrFail($iddemandetravaux);
         $demande->update(['statut' => 1]);
         $demandeur = User::find($demande->iddemandeur);
@@ -174,6 +191,27 @@ class DemandeController extends Controller
         DemandeTravaux::where('iddemandetravaux', $iddemandetravaux)->update(['statut' => 2]);
         return to_route('demande.liste_demande_travaux')->with('succes','Demande refusé');
     }
+    public function updateDate(Request $request, $iddemandetravaux)
+    {
+        $request->validate([
+            'datereelle' => 'required|date',
+            'action' => 'required|string',
+        ]);
+
+        $demande = DemandeTravaux::findOrFail($iddemandetravaux);
+        $demande->update([
+            'datereelle' => $request->datereelle
+        ]);
+
+        if ($request->action === 'achat') {
+            return redirect()->route('demande.create', ['id' => $demande->iddemandetravaux]);
+        } elseif ($request->action === 'valider') {
+            return redirect()->route('demande.valider', $demande->iddemandetravaux);
+        }
+
+        return back()->with('error', 'Action inconnue');
+    }
+
 
     public function storetravaux(DemandeTravauxRequest $request){
 

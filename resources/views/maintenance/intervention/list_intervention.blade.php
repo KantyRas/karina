@@ -25,9 +25,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Demandeur</th>
                                 <th>Date demande</th>
                                 <th>Date souhaite</th>
-                                <th>Demandeur</th>
                                 <th>Departement - Section</th>
                                 <th>Type d’intervention</th>
                                 <th>Statut</th>
@@ -37,10 +37,10 @@
                             <tbody>
                             @foreach($demandes as $d)
                                 <tr class="odd gradeX">
-                                    <td>1</td>
+                                    <td>{{ $d->iddemandeintervention }}</td>
+                                    <td>{{ $d->demandeur->username }}</td>
                                     <td>{{ $d->datedemande }}</td>
                                     <td>{{ $d->datesouhaite }}</td>
-                                    <td>{{ $d->demandeur->username }}</td>
                                     <td>
                                         {{ $d->section->departement->nom }} /
                                         {{ $d->section->nomsection }}

@@ -29,6 +29,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->date('datedemande');
+            $table->integer('statut')->default(0);
             $table->timestamps();
         });
     }

@@ -81,6 +81,8 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::resource('demande', DemandeController::class)->except(['show']);
         Route::get('/details/{iddemandeachat}',[DemandeController::class,'get_detail_achat'])->name('demande.detail');
         Route::get('/details/pdf/{iddemandeachat}',[DemandeController::class,'exportPdf'])->name('demande.exportPdf');
+        Route::get('/achat/validation/{iddemandeachat}', [DemandeController::class,'updateValiderAchat'])->name('demande.valider_achat');
+        Route::get('/achat/refus/{iddemandeachat}', [DemandeController::class,'refuserDemandeAchat'])->name('demande.refuser_achat');
         Route::get('/travaux',[DemandeController::class,'index_travaux'])->name('demande.liste_demande_travaux');
         Route::get('/travaux/ajout',[DemandeController::class,'ajout_travaux'])->name('demande.form_demande_travaux');
         Route::post('/travaux/store',[DemandeController::class,'storeTravaux'])->name('demande.store_travaux');
@@ -88,6 +90,7 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/get_responsable/{iddepartement}', [DemandeController::class,'getResponsable'])->name('demande.getResponsable');
         Route::get('/travaux/details/validation/{iddemandetravaux}', [DemandeController::class,'updateValider'])->name('demande.valider');
         Route::get('/travaux/details/refus/{iddemandetravaux}', [DemandeController::class,'refuserdemande'])->name('demande.refuser');
+        Route::post('/demandes/update-date/{iddemandetravaux}', [DemandeController::class, 'updateDate'])->name('demande.update_date');
         Route::get('/notifications/reads', [DemandeController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
         Route::get('/',[InterventionController::class,'index'])->name('demande.intervention.liste_intervention');
         Route::get('/create',[InterventionController::class,'create'])->name('demande.intervention.create_intervention');
@@ -96,6 +99,8 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/ficheintervention/{iddemandeintervention}',[InterventionController::class,'get_form_ficheintervention'])->name('demande.intervention.ficheintervention');
         Route::post('/ficheintervention/store',[InterventionController::class,'storeFicheIntervention'])->name('demande.intervention.store_ficheintervention');
         Route::get('/ficheintervention/details/{iddemandeintervention}',[InterventionController::class,'get_detail_ficheintervention'])->name('demande.intervention.detail_ficheintervention');
+        Route::get('/ficheintervention/valider/{iddemandeintervention}',[InterventionController::class,'validerFicheIntervention'])->name('demande.intervention.valider_ficheintervention');
+        Route::post('ficheintervention/getdate/{iddemandeintervention}',[InterventionController::class,'getDateIntervention'])->name('demande.intervention.getdate');
     });
 
     Route::prefix('articles')->group(function(){
