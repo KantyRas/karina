@@ -1,6 +1,9 @@
 @extends('maintenance.basefront')
 @section('title', 'Détails de la demande d\'achat')
 @section('content')
+    @php
+        $user = Auth::user();
+    @endphp
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fw-bold text-primary mb-0">
             <i class="fa fa-file-text me-2"></i> Détails de la Demande d'Achat
@@ -8,6 +11,15 @@
     </div>
     <hr>
     <div class="text-right" style="margin-bottom:15px;">
+{{--        && $user->iduser == $details->idreceveur--}}
+        @if($details->statut == 0 )
+            <a href="{{ route('demande.valider_achat', $details->iddemandeachat) }}" class="btn btn-success">
+                <i class="fa fa-check"></i> Valider
+            </a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#refusModal">
+                <i class="fa fa-times"></i> Refuser
+            </button>
+        @endif
         <a href="{{ route('demande.exportPdf', $details->iddemandeachat) }}" class="btn btn-warning">
             <i class="fa fa-download"></i> Exporter en PDF
         </a>
@@ -74,6 +86,28 @@
                     @endforelse
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="refusModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
+                </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            @csrf
+                                Raison de refus ?
+                                <textarea class="form-control" name="refus"></textarea>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary"> Valider</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
             </div>
         </div>
     </div>

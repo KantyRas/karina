@@ -58,6 +58,10 @@
                             <td>{{ $details->datesouhaite }}</td>
                         </tr>
                         <tr>
+                            <th>Date réelle</th>
+                            <td>{{ $details->datereelle ?? '-' }}</td>
+                        </tr>
+                        <tr>
                             <th>Nº de série</th>
                             <td>{{ $details->numeroserie ?? '-' }}</td>
                         </tr>
@@ -116,24 +120,27 @@
                 <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
               </div>
 
-              <div class="modal-body">
-                Souhaitez-vous valider la demande avec ou sans achat de matériel ?
-              </div>
+                <form action="{{ route('demande.update_date', $details->iddemandetravaux) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="datereelle" class="form-label fw-bold">Date réelle de livraison</label>
+                            <input type="date" class="form-control" name="datereelle" id="datereelle" required>
+                        </div>
+                    </div>
 
-              <div class="modal-footer">
-                <!-- Achat Matériel -->
-                <a href="{{ route('demande.create') }}?id={{$details->iddemandetravaux}}" class="btn btn-primary">
-                    <i class="fa fa-plus"></i> Achats matériels
-                </a>
+                    <div class="modal-footer">
+                        <button type="submit" name="action" value="achat" class="btn btn-primary">
+                            <i class="fa fa-plus"></i> Achats matériels
+                        </button>
 
-                <!-- Valider sans Achat -->
-                <a href="{{ route('demande.valider', $details->iddemandetravaux ) }}" class="btn btn-success">
-                    Valider sans achat
-                </a>
+                        <button type="submit" name="action" value="valider" class="btn btn-success">
+                            Valider sans achat
+                        </button>
 
-                <!-- Fermer -->
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-              </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                </form>
 
             </div>
         </div>

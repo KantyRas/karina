@@ -27,6 +27,7 @@
                                 <th>Demandeur</th>
                                 <th>Date demande</th>
                                 <th>Demande travaux</th>
+                                <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -44,6 +45,9 @@
                                     @else
                                         -
                                     @endif
+                                </td>
+                                <td>
+                                    @include('maintenance.shared.status', ['status' => $d->statut])
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ route('demande.detail',$d->iddemandeachat) }}"

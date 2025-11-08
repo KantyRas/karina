@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\maintenance\admin;
 
+use App\Exports\EmployesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeRequest;
 use App\Models\Employe;
 use App\Models\Fonction;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeController extends Controller
 {
     public function index()
     {
         $employe = Employe::with('fonction')->get();
-        
+
         return view('maintenance.admin.list_employe',[
             'employe' => $employe,
         ]);
@@ -47,6 +49,10 @@ class EmployeController extends Controller
     {
         $employe->delete();
         return to_route('admin.personnel.employe.index');
-        
+
+    }
+    public function exportExcelEmploye()
+    {
+        Excel::download(new EmployesExport, 'employes.xlsx');
     }
 }

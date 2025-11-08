@@ -23,6 +23,7 @@ class DemandeTravaux extends Model
         'demandeur',
         'datedemande',
         'datesouhaite',
+        'datereelle',
         'numeroserie',
         'statut',
         'motif',

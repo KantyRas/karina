@@ -4,6 +4,9 @@
     <div class="col-lg-12">
         <h1 class="page-header">Employés</h1>
         <div class="text-right" style="margin-bottom:15px;">
+            <a href="{{ route('admin.personnel.employe_export') }}" class="btn btn-warning">
+                <i class="fa fa-download"></i> Exporter
+            </a>
             <a href="{{ route('admin.personnel.employe.create') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Ajout nouveau employé
             </a>

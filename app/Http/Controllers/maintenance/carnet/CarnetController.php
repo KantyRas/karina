@@ -104,7 +104,10 @@ class CarnetController extends Controller
                     ->select(DB::raw('DATE(dateajout) as dateajout'));
 
         foreach ($params as $param) {
-            $query->addSelect(DB::raw("MAX(CASE WHEN nomparametre = '".addslashes($param)."' THEN valeur END) AS \"$param\""));
+            //$query->addSelect(DB::raw("MAX(CASE WHEN nomparametre = '".addslashes($param)."' THEN valeur END) AS \"$param\""));
+            $safeParam = str_replace("'", "''", $param);
+            $alias = str_replace('"', '""', $param);
+            $query->addSelect(DB::raw("MAX(CASE WHEN nomparametre = '$safeParam' THEN valeur END) AS \"$alias\""));
         }
 
         $resultats = $query

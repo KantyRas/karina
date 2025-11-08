@@ -34,7 +34,7 @@
                                 <hr>
                                 <div class="form-group">
                                     <label>Date de livraison souhaitée</label>
-                                    <input type="date" class="form-control" name="datesouhaite">
+                                    <input type="date" class="form-control" name="datesouhaite" id="dateSouhaite">
                                 </div>
                                 <div class="form-group">
                                     <label>Fichiers attachés (si nécessaire)</label>
@@ -61,10 +61,13 @@
                                 <input type="hidden" name="datedemande" value={{ \carbon\Carbon::now()->toDateString() }}>
                                 <div class="form-group">
                                     <label>Travaux demandés</label>
-                                    <select class="form-control" name="idtypetravaux">
+                                    <select class="form-control" name="idtypetravaux" id="travauxSelect">
                                         <option value="">--Choisir--</option>
                                         @foreach ($typetravaux as $travaux)
-                                        <option value="{{ $travaux->idtypetravaux }}">{{ $travaux->type }}</option>
+                                        <option value="{{ $travaux->idtypetravaux }}"
+                                                data-duree="{{ $travaux->duree }}">
+                                            {{ $travaux->type }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -137,5 +140,29 @@
                 });
         }
     });
+     document.addEventListener('DOMContentLoaded', function() {
+         const travauxSelect = document.getElementById('travauxSelect');
+         const dateInput = document.getElementById('dateSouhaite');
+
+         travauxSelect.addEventListener('change', function() {
+             const selectedOption = travauxSelect.options[travauxSelect.selectedIndex];
+             const duree = selectedOption.getAttribute('data-duree');
+
+             if (duree && !isNaN(duree)) {
+                 const today = new Date();
+                 today.setDate(today.getDate() + parseInt(duree));
+
+                 // Format yyyy-mm-dd
+                 const year = today.getFullYear();
+                 const month = String(today.getMonth() + 1).padStart(2, '0');
+                 const day = String(today.getDate()).padStart(2, '0');
+
+                 dateInput.value = `${year}-${month}-${day}`;
+             } else {
+                 // Si aucune durée définie
+                 dateInput.value = '';
+             }
+         });
+     });
 </script>
 @endsection

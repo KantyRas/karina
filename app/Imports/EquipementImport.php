@@ -15,7 +15,6 @@ class EquipementImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         $equipementNom = Str::of($row['equipement'])->trim();
-        $code = Str::of($row['code'])->trim();
         $emplacementNom = Str::of($row['emplacement'])->trim();
 
         $emplacement = Emplacement::firstOrCreate(
@@ -28,7 +27,6 @@ class EquipementImport implements ToModel, WithHeadingRow
         if (!$existing) {
             $equipement = Equipement::create([
                 'nomequipement' => $equipementNom,
-                'code' => $code,
                 'idemplacement' => $emplacement->idemplacement,
             ]);
         } else {
