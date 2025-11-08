@@ -46,6 +46,7 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::resource('role',RoleController::class)->except(['show']);
         Route::resource('user',UserController::class)->except(['show']);
         Route::resource('fonction',FonctionController::class)->except(['show']);
+        Route::get('/employe/export',[EmployeController::class,'exportExcelEmploye'])->name('employe_export');
     });
 
     Route::prefix('gestions')->name('util.gestion.')->group(function(){
