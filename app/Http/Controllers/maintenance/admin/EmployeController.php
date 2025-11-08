@@ -53,6 +53,6 @@ class EmployeController extends Controller
     }
     public function exportExcelEmploye()
     {
-        Excel::download(new EmployesExport, 'employes.xlsx');
+        return Excel::download(new EmployesExport, 'employes.xlsx');
     }
 }

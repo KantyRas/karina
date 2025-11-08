@@ -12,13 +12,13 @@ use App\Models\HistoriqueEquipement;
 use App\Models\Employe;
 use App\Models\EmployeEquipement;
 use App\Models\Emplacement;
-use App\Models\SousEmplacement;
 use App\Models\Frequence;
 use App\Http\Requests\EquipementRequest;
 use App\Http\Requests\DetailEquipementRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CarnetController extends Controller
 {
@@ -276,7 +276,7 @@ class CarnetController extends Controller
 
     public function verifiercutoff(){
 
-        // logique: 
+        // logique:
         // excecuter a 14h
         // resultat = select * from v_cron where extract date from v_cron = date now and where idfrequence = 1 "journalier"
         // equipement = select idequipement from v_cron where idfrequence = 1 journalier (maka equipement rehetra izay manana carnet journalier)
@@ -321,7 +321,7 @@ class CarnetController extends Controller
         ->select('e.idequipement as idequipement_equipement')
         ->where('pe.idfrequence', 1)
         ->groupBy('e.idequipement')
-        ->get(); 
+        ->get();
 
         // if tsy misy: inserer tous dans nv table
         // else comparer avec
