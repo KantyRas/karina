@@ -556,3 +556,6 @@ LEFT JOIN frequences f on f.idfrequence = pe.idfrequence;
 -- where pe.idfrequence = 1;
 
 select idequipement, idfrequence from v_cron where idfrequence = 1 group by idequipement, idfrequence;
+
+select idequipement_equipement, nomequipement, idfrequence, idhistoriqueequipement, DATE(dateajout) from v_cron 
+group by idequipement_equipement, nomequipement, idfrequence, idhistoriqueequipement, DATE(dateajout);

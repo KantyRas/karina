@@ -18,6 +18,7 @@ use App\Http\Requests\EquipementRequest;
 use App\Http\Requests\DetailEquipementRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class CarnetController extends Controller
 {
@@ -273,44 +274,54 @@ class CarnetController extends Controller
     public function verifiercutoff(){
 
         // logique: 
+        // excecuter a 14h
         // resultat = select * from v_cron where extract date from v_cron = date now and where idfrequence = 1 "journalier"
         // equipement = select idequipement from v_cron where idfrequence = 1 journalier (maka equipement rehetra izay manana carnet journalier)
         // si resultat misy comparena resultat sy equipement de ze tsy ao anaty resultat ampidirina anaty table
         //  vita
 
         // select * from v_cron where DATE(dateajout) = DATE(now()) and idfrequence = 1;
+        // select idequipement_equipement from v_cron where idfrequence = 1 group by idequipement_equipement;
 
         $now = Carbon::now();
-
-        // journalier
-        // $existant = ParametreEquipementDetail::whereRaw('EXTRACT(MONTH FROM dateajout) = ?', ($now->month))
-        // ->whereRaw('EXTRACT(DAY FROM dateajout) = ?', ($now->day))
-        // ->whereRaw('EXTRACT(HOUR FROM dateajout) <= ?', [10])
-        // ->get();
 
         $existant = DB::table('historique_equipements as he')
         ->join('equipements as e', 'e.idequipement', '=', 'he.idequipement')
         ->leftJoin('parametre_equipements as pe', 'pe.idequipement', '=', 'he.idequipement')
-        ->leftJoin('parametre_equipement_details as ped', function($join) {
+        ->leftJoin('parametre_equipement_details as ped', function ($join) {
             $join->on('ped.idparametreequipement', '=', 'pe.idparametreequipement')
-                ->on('ped.idhistoriqueequipement', '=', 'he.idhistoriqueequipement');
+                 ->on('ped.idhistoriqueequipement', '=', 'he.idhistoriqueequipement');
         })
         ->leftJoin('frequences as f', 'f.idfrequence', '=', 'pe.idfrequence')
-        ->whereNull('ped.dateajout')
-        ->where('pe.idfrequence', 1) 
         ->select(
-            'ped.id as id_detail',
-            'ped.valeur',
             'ped.dateajout',
             'he.idhistoriqueequipement',
-            'pe.idparametreequipement',
-            'pe.nomparametre',
-            'pe.idfrequence',
             'e.idequipement as idequipement_equipement',
-            'e.nomequipement'
+            'e.nomequipement',
+            'pe.idfrequence',
+
         )
+        ->whereRaw('DATE(ped.dateajout) = DATE(NOW())')
+        ->where('pe.idfrequence', 1)
+        ->groupBy('ped.dateajout', 'e.idequipement', 'e.nomequipement', 'pe.idfrequence', 'he.idhistoriqueequipement')
         ->get();
 
+        // maka idequipement rehetra izay manana frequence journaliere
+        $equipement = DB::table('historique_equipements as he')
+        ->join('equipements as e', 'e.idequipement', '=', 'he.idequipement')
+        ->leftJoin('parametre_equipements as pe', 'pe.idequipement', '=', 'he.idequipement')
+        ->leftJoin('parametre_equipement_details as ped', function ($join) {
+            $join->on('ped.idparametreequipement', '=', 'pe.idparametreequipement')
+                 ->on('ped.idhistoriqueequipement', '=', 'he.idhistoriqueequipement');
+        })
+        ->leftJoin('frequences as f', 'f.idfrequence', '=', 'pe.idfrequence')
+        ->select('e.idequipement as idequipement_equipement')
+        ->where('pe.idfrequence', 1)
+        ->groupBy('e.idequipement')
+        ->get(); 
+
+        // if tsy misy: inserer tous dans nv table
+        // else comparer avec
 
         if($existant->isEmpty() ){
             return;
