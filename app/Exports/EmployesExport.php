@@ -17,12 +17,12 @@ class EmployesExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Matricule',
-            'Nom',
-            'Prénom',
-            'Fonction',
-            'Email',
-            'Téléphone',
+            'matricule',
+            'nom',
+            'prenom',
+            'fonction',
+            'email',
+            'telephone',
         ];
     }
 

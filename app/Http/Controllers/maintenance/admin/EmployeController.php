@@ -5,6 +5,7 @@ namespace App\Http\Controllers\maintenance\admin;
 use App\Exports\EmployesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeRequest;
+use App\Imports\EmployesImport;
 use App\Models\Employe;
 use App\Models\Fonction;
 use Illuminate\Http\Request;
@@ -50,6 +51,14 @@ class EmployeController extends Controller
         $employe->delete();
         return to_route('admin.personnel.employe.index');
 
+    }
+    public function importExcelEmploye(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+        Excel::import(new EmployesImport, $request->file('file'));
+        return back()->with('success','Importation réussi.');
     }
     public function exportExcelEmploye()
     {
