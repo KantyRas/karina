@@ -36,12 +36,49 @@ class CarnetController extends Controller
         $emplacement = Emplacement::all();
         $employe = Employe::all();
         $frequence = Frequence::all();
+        $equipement = new Equipement();
 
         return view('maintenance.carnet.ajout_carnet',[
+            'equipements' => $equipement,
             'emplacements' => $emplacement,
             'employes' => $employe,
             'frequences' => $frequence,
         ]);
+    }
+    public function edit($idequipement)
+    {
+        $equipement = Equipement::with('parametres')->find($idequipement);
+        $emplacement = Emplacement::all();
+        $employe = Employe::all();
+        $frequence = Frequence::all();
+        return view('maintenance.carnet.ajout_carnet',[
+            'equipements' => $equipement,
+            'emplacements' => $emplacement,
+            'employes' => $employe,
+            'frequences' => $frequence,
+        ]);
+    }
+    public function update(EquipementRequest $request,$idequipement)
+    {
+        $validated = $request->validated();
+        $equipement = Equipement::findOrFail($idequipement);
+        $equipement->update([
+            'nomequipement' => $validated['nomequipement'],
+            'idemplacement' => $validated['idemplacement'],
+        ]);
+        $equipement->employes()->detach();
+        $equipement->parametres()->delete();
+        foreach ($validated['idemploye'] as $employeId) {
+            $equipement->employes()->attach($employeId);
+        }
+        foreach ($validated['parametres'] as $parametre) {
+            $equipement->parametres()->create([
+                'nomparametre' => $parametre['nomparametre'],
+                'idfrequence' => $parametre['idfrequence'],
+            ]);
+        }
+        return to_route('carnet.liste_carnet')
+            ->with('success', 'Équipement mis à jour avec succès.');
     }
     public function store(EquipementRequest $request){
         $validated = $request->validated();

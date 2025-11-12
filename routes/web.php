@@ -64,6 +64,8 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/',[CarnetController::class,'index'])->name('liste_carnet');
         Route::get('/create',[CarnetController::class,'create'])->name('create_carnet');
         Route::post('/store',[CarnetController::class,'store'])->name('store');
+        Route::get('/edit/{idequipement}',[CarnetController::class,'edit'])->name('edit_carnet');
+        Route::put('/update/{idequipement}', [CarnetController::class, 'update'])->name('update_carnet');
         Route::get('/fiche/historique/{id}',[CarnetController::class,'showHistorique'])->name('fiche_carnet_historique');
         Route::get('/fiche/saisie/{idhistoriqueequipement}',[CarnetController::class,'getDetailEquipement'])->name('fiche_saisie');
         Route::get('/releves',[ReleveController::class,'index'])->name('liste_releve');
