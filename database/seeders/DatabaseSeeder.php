@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TypeDemandeSeeder::class,
             TypeTravauxSeeder::class,
+            TypeInterventionSeeder::class,
             DepartementSeeder::class,
             SectionSeeder::class,
         ]);

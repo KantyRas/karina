@@ -58,7 +58,7 @@
                                         title="Checklist">
                                             <i class="fa fa-list-alt"></i>
                                         </a>
-                                        <a href="#"
+                                        <a href="{{ route('carnet.edit_carnet', $e->idequipement) }}"
                                         class="btn btn-success btn-circle"
                                         title="Modifier">
                                             <i class="fa fa-pencil"></i>

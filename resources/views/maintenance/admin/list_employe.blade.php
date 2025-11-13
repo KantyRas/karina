@@ -3,6 +3,17 @@
 @section('content')
     <div class="col-lg-12">
         <h1 class="page-header">Employés</h1>
+        <div class="text-left">
+            <form action="{{ route('admin.personnel.employe_import') }}" method="POST" enctype="multipart/form-data" class="form-inline">
+                @csrf
+                <div class="form-group mr-2">
+                    <input type="file" name="file" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-upload"></i> Importer
+                </button>
+            </form>
+        </div>
         <div class="text-right" style="margin-bottom:15px;">
             <a href="{{ route('admin.personnel.employe_export') }}" class="btn btn-warning">
                 <i class="fa fa-download"></i> Exporter

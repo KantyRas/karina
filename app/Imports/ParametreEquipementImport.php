@@ -10,22 +10,22 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ParametreEquipementImport implements ToModel, WithHeadingRow
+class   ParametreEquipementImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-        $equipement = Equipement::where('nomequipement', trim($row['equipement']))->first();
+        //$equipements = Equipement::where('nomequipement', trim($row['equipement']))->get();
+        $equipements = Equipement::where('nomequipement', 'ilike', trim($row['equipement']) . '%')->get();
         $frequence = Frequence::firstOrCreate([
             'frequence' => trim($row['frequence']),
         ]);
-        if (!$equipement || !$frequence) {
-            return null;
+        foreach ($equipements as $equipement) {
+            ParametreEquipement::firstOrCreate([
+                'idequipement' => $equipement->idequipement,
+                'nomparametre' => trim($row['parametre']),
+                'idfrequence' => $frequence->idfrequence,
+            ]);
         }
-
-        return new ParametreEquipement([
-            'idequipement' => $equipement->idequipement,
-            'nomparametre' => trim($row['parametre']),
-            'idfrequence' => $frequence->idfrequence,
-        ]);
+        return null;
     }
 }
