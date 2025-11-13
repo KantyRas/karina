@@ -215,4 +215,49 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-12">
+        <h1 class="page-header">Fiche non remplies</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+
+                <div class="panel-heading d-flex gap-2">
+                    @foreach ($frequence as $f)
+                    <a href="{{ route('carnet.cutoff', ['id' =>  $f->idfrequence ]) }}" class="btn btn-primary load-fiche">
+                        {{ $f->frequence }}
+                    </a>
+                    @endforeach
+                    <!-- <button type="button" class="btn btn-primary load-fiche">
+                        Mensuel
+                    </button> -->
+                </div>
+    
+                <div class="panel-body" id="fiche-container">
+                    <table class="table table-hover" style="background-color: #ffe5e5;">
+                        <thead class="table-danger">
+                        <tr>
+                            <th>Item</th>
+                            <th>Emplacement</th>
+                            <th>Responsable</th>
+                            <th>Date</th>
+                            <th>frequence</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($fiche as $fiches)
+                            <tr>
+                                <td>{{$fiches->nomequipement}}</td>
+                                <td>{{$fiches->emplacement}}</td>
+                                <td>{{$fiches->employe}}</td>
+                                <td>{{$fiches->date_manquante}}</td>
+                                <td>{{$fiches->frequence}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

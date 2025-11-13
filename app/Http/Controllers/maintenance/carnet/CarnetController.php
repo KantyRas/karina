@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\FicheManquante;
 
 class CarnetController extends Controller
 {
@@ -175,7 +176,8 @@ class CarnetController extends Controller
         return back()->with('success', 'Importation terminée avec succès !');
     }
 
-    public function verifiercutoff(){
+    public function verifiercutoff($idfrequence){
+        FicheManquante::truncate();
 
         // logique:
         // excecuter a 14h
@@ -205,8 +207,9 @@ class CarnetController extends Controller
             'pe.idfrequence',
 
         )
-        ->whereRaw('DATE(ped.dateajout) = DATE(NOW())')
-        ->where('pe.idfrequence', 1)
+        // ->whereRaw('DATE(ped.dateajout) = \'2025-11-08\'')
+        ->whereRaw('DATE(ped.dateajout) = DATE(now())')
+        ->where('pe.idfrequence', $idfrequence)
         ->groupBy('ped.dateajout', 'e.idequipement', 'e.nomequipement', 'pe.idfrequence', 'he.idhistoriqueequipement')
         ->get();
 
@@ -219,25 +222,51 @@ class CarnetController extends Controller
                  ->on('ped.idhistoriqueequipement', '=', 'he.idhistoriqueequipement');
         })
         ->leftJoin('frequences as f', 'f.idfrequence', '=', 'pe.idfrequence')
-        ->select('e.idequipement as idequipement_equipement')
-        ->where('pe.idfrequence', 1)
-        ->groupBy('e.idequipement')
+        ->select('e.idequipement as idequipement_equipement', 'he.idhistoriqueequipement as idhistoriqueequipement', 'pe.idfrequence as idfrequence' )
+        ->where('pe.idfrequence', $idfrequence)
+        ->groupBy('e.idequipement', 'he.idhistoriqueequipement', 'pe.idfrequence')
         ->get();
 
         // if tsy misy: inserer tous dans nv table
         // else comparer avec
 
         if($existant->isEmpty() ){
-            return;
+            // echo("insert all");
 
-        }else{
-            echo("misy");
-
-            foreach ($existant as $item) {
-                // Par exemple :
-                echo $item->idequipement_equipement;
+            foreach ($equipement as $item) {
+                FicheManquante::create([
+                    'idequipement' => $item->idequipement_equipement,
+                    'date_manquante' => $now,
+                    'idhistoriqueequipement' => $item->idhistoriqueequipement,
+                    'idfrequence' => $item->idfrequence,
+                ]);
                 echo $item->idfrequence;
             }
+
+            return back();
+
+        }else{
+            // echo("miditra comparaison");
+
+            $existantIds = $existant->pluck('idequipement_equipement');
+            $equipementIds = $equipement->pluck('idequipement_equipement');
+            
+            $manquants = $equipementIds->diff($existantIds);
+            
+            $equipementManquants = $equipement->whereIn('idequipement_equipement', $manquants);
+
+            // echo $equipementManquants;
+
+            foreach ($equipementManquants as $item) {
+                FicheManquante::create([
+                    'idequipement' => $item->idequipement_equipement,
+                    'date_manquante' => $now,
+                    'idhistoriqueequipement' => $item->idhistoriqueequipement,
+                    'idfrequence' => $item->idfrequence,
+                ]);
+            }
+
+            return back();
         }
     }
 }
