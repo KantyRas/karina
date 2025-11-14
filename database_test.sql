@@ -553,9 +553,27 @@ LEFT JOIN parametre_equipement_details ped
    AND ped.idhistoriqueequipement = he.idhistoriqueequipement 
 LEFT JOIN frequences f on f.idfrequence = pe.idfrequence;
 
--- where pe.idfrequence = 1;
+create table fiche_manquante (
+    id serial primary key,
+    idequipement int references equipements(idequipement),
+    date_manquante date,
+    idfrequence int references frequences(idfrequence),
+    idhistoriqueequipement int references historique_equipements(idhistoriqueequipement)
+);
 
-select idequipement, idfrequence from v_cron where idfrequence = 1 group by idequipement, idfrequence;
-
-select idequipement_equipement, nomequipement, idfrequence, idhistoriqueequipement, DATE(dateajout) from v_cron 
-group by idequipement_equipement, nomequipement, idfrequence, idhistoriqueequipement, DATE(dateajout);
+SELECT 
+    f.date_manquante,
+    f.idhistoriqueequipement,
+    eq.idequipement,
+    eq.nomequipement,
+    ep.emplacement,
+    STRING_AGG(emp.nom || ' ' || emp.prenom, ' - ' ORDER BY nom, prenom) AS employe,
+    fq.idfrequence,
+    fq.frequence
+FROM fiche_manquante f
+JOIN equipements eq ON eq.idequipement = f.idequipement
+JOIN emplacements ep ON eq.idemplacement = ep.idemplacement
+JOIN employe_equipements empq ON empq.idequipement = eq.idequipement
+JOIN employes emp ON emp.idemploye = empq.idemploye
+JOIN frequences fq ON fq.idfrequence = f.idfrequence
+GROUP BY f.idhistoriqueequipement, eq.idequipement, eq.nomequipement, ep.emplacement, fq.idfrequence, fq.frequence, f.date_manquante;

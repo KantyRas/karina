@@ -79,6 +79,7 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::post('/carnet/generer/{id}',[CarnetController::class,'genererHistorique'])->name('generate_historique_equipement');
         Route::post('/carnet/ajoutDetail',[CarnetController::class,'insertDetail'])->name('ajout_detail_equipement');
         Route::post('/importdata',[CarnetController::class,'importEquipement'])->name('equipement.import');
+        Route::get('/cutoff/{id}',[CarnetController::class,'verifiercutoff'])->name('cutoff');
     });
 
     Route::prefix('demandes')->group(function(){
