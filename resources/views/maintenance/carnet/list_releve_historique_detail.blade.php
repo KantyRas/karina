@@ -62,7 +62,7 @@
                             <tr>
                                 <td>{{ \Carbon\Carbon::parse($row->datereleve)->day }}</td>
                                 @foreach($parametres as $parametre)
-                                    <td>{{ $row->{$parametre->nomparametre} ?? '-' }}</td>
+                                    <td>{{ $row->{$parametre->nomparametre} ?? 0 }}</td>
                                 @endforeach
                             </tr>
                         @endforeach

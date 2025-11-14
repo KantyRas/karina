@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parametretype;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
@@ -25,26 +26,28 @@ class DashController extends Controller
         $user = DB::table('users')->count();
         $article = DB::table('articles')->count();
         $fiche = $this->getFicheManquante();
-
+        $releveData = $this->getTableauReleve();
         $frequence = Frequence::all();
 
-        return view('maintenance.dashboard', compact(
-            'equipement',
-            'employe',
-            'demandeTotal',
-            'demandeEnCours',
-            'demandeAccepte',
-            'demandeIntervention',
-            'demandeInterventionEnCours',
-            'demandeInterventionAccepte',
-            'demandeAchat',
-            'demandeAchatEnCours',
-            'demandeAchatAccepte',
-            'user',
-            'article',
-            'fiche',
-            'frequence',
-        ));
+        return view('maintenance.dashboard', [
+            'equipement' => $equipement,
+            'employe' => $employe,
+            'demandeTotal' => $demandeTotal,
+            'demandeEnCours' => $demandeEnCours,
+            'demandeAccepte' => $demandeAccepte,
+            'demandeIntervention' => $demandeIntervention,
+            'demandeInterventionEnCours' => $demandeInterventionEnCours,
+            'demandeInterventionAccepte' => $demandeInterventionAccepte,
+            'demandeAchat' => $demandeAchat,
+            'demandeAchatEnCours' => $demandeAchatEnCours,
+            'demandeAchatAccepte' => $demandeAchatAccepte,
+            'user' => $user,
+            'article' => $article,
+            'fiche' => $fiche,
+            'frequence' => $frequence,
+            'tableauReleve' => $releveData['resultats'],
+            'parametresReleve' => $releveData['parametres'],
+        ]);
     }
 
     public function getFicheManquante(){
@@ -78,4 +81,58 @@ class DashController extends Controller
 
         return $ficheManquante;
     }
+    public function getTableauReleve()
+    {
+        $parametres = Parametretype::all();
+        $colonnes = [];
+        foreach ($parametres as $p) {
+            $nom = addslashes($p->nomparametre);
+            $colonnes[] = "MAX(CASE WHEN p.idparametretype = {$p->idparametretype} THEN d.valeur END) AS \"{$nom}\"";
+        }
+        $colonnesSql = implode(",\n    ", $colonnes);
+        $sql = "
+        SELECT
+            d.datereleve AS date,
+            EXTRACT(MONTH FROM d.datereleve) AS mois,
+            EXTRACT(YEAR FROM d.datereleve) AS annee,
+            $colonnesSql
+        FROM detailreleve d
+        JOIN parametretype p ON p.idparametretype = d.idparametretype
+        JOIN historiquereleve h ON h.idhistoriquereleve = d.idhistoriquereleve
+        JOIN typereleve t ON t.idtypereleve = h.idtypereleve
+        GROUP BY d.datereleve
+        ORDER BY d.datereleve
+    ";
+        $resultats = DB::select($sql);
+        //dd($resultats);
+        $previous_eau = null;
+        $previous_elec = null;
+
+        foreach ($resultats as $row) {
+            if (property_exists($row, "Releve compteur eau")) {
+                $current_eau = $row->{"Releve compteur eau"};
+                if ($previous_eau !== null) {
+                    $row->{"conso m3"} = $current_eau - $previous_eau;
+                } else {
+                    $row->{"conso m3"} = "####";
+                }
+                $previous_eau = $current_eau;
+            }
+
+            if (property_exists($row, "Releve compteur electicite")) {
+                $current_elec = $row->{"Releve compteur electicite"};
+                if ($previous_elec !== null) {
+                    $row->{"conso KWH/J"} = $current_elec - $previous_elec;
+                } else {
+                    $row->{"conso KWH/J"} = "####";
+                }
+                $previous_elec = $current_elec;
+            }
+        }
+        return [
+            'resultats' => $resultats,
+            'parametres' => $parametres
+        ];
+    }
 }
+

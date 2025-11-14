@@ -2,6 +2,14 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    <style>
+        .table-responsive thead th {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 5;
+        }
+    </style>
     <div class="col-lg-12">
         <h1 class="page-header">Tableau de bord</h1>
     </div>
@@ -232,8 +240,9 @@
                         Mensuel
                     </button> -->
                 </div>
-    
+
                 <div class="panel-body" id="fiche-container">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                     <table class="table table-hover" style="background-color: #ffe5e5;">
                         <thead class="table-danger">
                         <tr>
@@ -246,16 +255,59 @@
                         </thead>
                         <tbody>
                             @foreach ($fiche as $fiches)
-                            <tr>
-                                <td>{{$fiches->nomequipement}}</td>
-                                <td>{{$fiches->emplacement}}</td>
-                                <td>{{$fiches->employe}}</td>
-                                <td>{{$fiches->date_manquante}}</td>
-                                <td>{{$fiches->frequence}}</td>
-                            </tr>
+
+                                <tr>
+                                    <td><a href="{{ route('carnet.fiche_saisie',$fiches->idhistoriqueequipement) }}">{{$fiches->nomequipement}}</a></td>
+                                    <td>{{$fiches->emplacement}}</td>
+                                    <td>{{$fiches->employe}}</td>
+                                    <td>{{$fiches->date_manquante}}</td>
+                                    <td>{{$fiches->frequence}}</td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Tableau des Relevés
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Mois</th>
+                                <th>Année</th>
+
+                                @foreach ($parametresReleve as $p)
+                                    <th>{{ $p->nomparametre }}</th>
+                                @endforeach
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @foreach ($tableauReleve as $row)
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($row->date)->format('d/m/Y') }}</td>
+                                    <td>{{ $row->mois }}</td>
+                                    <td>{{ $row->annee }}</td>
+
+                                    @foreach ($parametresReleve as $p)
+                                        <td>{{ $row->{$p->nomparametre} ?? '-' }}</td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
