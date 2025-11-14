@@ -159,6 +159,7 @@
                     <table class="table table-bordered table-striped">
                         <tbody>
                             <tr><th>Numéro de fiche</th><td>${data.idfiche}</td></tr>
+                            <tr><th>Demande intervention Nº</th><td>${data.iddemande}</td></tr>
                             <tr><th>Employé assigné</th><td>${data.employe}</td></tr>
                             <tr><th>Date de création</th><td>${data.datecreation ?? '—'}</td></tr>
                             <tr><th>Date planifiée</th><td>${data.dateplanifie ?? '—'}</td></tr>

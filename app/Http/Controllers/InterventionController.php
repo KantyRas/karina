@@ -68,8 +68,8 @@ class InterventionController extends Controller
         }
 
         return response()->json([
-            'idfiche' => $fiche->idficheintervention,
-            'iddemande' => $fiche->iddemandeintervention,
+            'idfiche' => "FI/nº".str_pad($fiche->idficheintervention,4,0,STR_PAD_LEFT),
+            'iddemande' => "DI/nº".str_pad($fiche->iddemandeintervention,4,0,STR_PAD_LEFT),
             'employe' => $fiche->employe->matricule ?? 'Non assigné',
             'datecreation' => $fiche->datecreation,
             'dateplanifie' => $fiche->dateplanifie,

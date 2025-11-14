@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\maintenance\demande;
 
+use App\Exports\DemandeAchatExport;
 use App\Http\Controllers\Controller;
 use App\Models\DemandeAchat;
 use App\Models\DetailArticle;
@@ -22,6 +23,7 @@ use App\Models\Article;
 use App\Models\DemandeTravaux;
 use App\Models\Section;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DemandeController extends Controller
 {
@@ -216,7 +218,6 @@ class DemandeController extends Controller
     public function storetravaux(DemandeTravauxRequest $request){
 
         $demandeTravaux = DemandeTravaux::create($request->validated());
-
         if ($request->hasFile('fichiers')) {
             foreach ($request->file('fichiers') as $file) {
                 $originalName = $file->getClientOriginalName();
@@ -253,5 +254,10 @@ class DemandeController extends Controller
     {
         auth()->user()->unreadNotifications->markAsRead();
         return back()->with('success', 'Toutes les notifications ont été marquées comme lues.');
+    }
+    public function exportExcelDemandeAchat($iddemandeachat)
+    {
+        $nomFichier = 'DemandeAchat_' . str_pad($iddemandeachat, 4, '0', STR_PAD_LEFT) . '.xlsx';
+        return Excel::download(new DemandeAchatExport($iddemandeachat), $nomFichier);
     }
 }
