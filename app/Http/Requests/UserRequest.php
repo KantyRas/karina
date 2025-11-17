@@ -22,6 +22,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
+            'idemploye' => ['nullable'],
             'username' => ['required', 'max:255'],
             'email'    => ['nullable', 'email', 'max:255'],
             'role'     => ['required'],

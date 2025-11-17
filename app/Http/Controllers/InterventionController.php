@@ -10,12 +10,18 @@ use App\Models\Employe;
 use App\Models\FicheIntervention;
 use App\Models\TypeIntervention;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InterventionController extends Controller
 {
     public function index()
     {
-        $demandes = DemandeIntervention::with('demandeur','receveurrole','section.departement','typeintervention')->get();
+        $user = Auth::user();
+        $query = DemandeIntervention::with(['demandeur', 'receveurrole','section.departement','typeintervention']);
+        if(!in_array($user->role,[1,2])){
+            $query = $query->where('iddemandeur',$user->iduser);
+        }
+        $demandes = $query->get();
         return view('maintenance.intervention.list_intervention',compact('demandes'));
     }
     public function create()

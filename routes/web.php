@@ -38,8 +38,9 @@ Route::get('/', function () {
 Route::post('/loginAction',[AuthController::class,'loginAction'])->name('login.auth');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout.auth');
 
-Route::middleware(['auth', 'role:1,2,4'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/home',[DashController::class, 'Dashboard'])->name('index.dashboard');
+    Route::get('/home/releves/tableau', [DashController::class, 'ajaxTableauReleve']);
 
     Route::prefix('admin')->name('admin.personnel.')->group(function(){
         Route::resource('employe',EmployeController::class)->except(['show']);

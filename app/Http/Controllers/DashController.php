@@ -12,6 +12,12 @@ class DashController extends Controller
 {
     public function Dashboard()
     {
+        $role = auth()->user()->role;
+        if (!in_array($role, [1,2])) {
+            return view('maintenance.dashboard', [
+                'restricted' => true
+            ]);
+        }
         $equipement = DB::table('equipements')->count();
         $employe = DB::table('employes')->count();
         $demandeTotal = DB::table('demande_travaux')->count();
@@ -26,10 +32,11 @@ class DashController extends Controller
         $user = DB::table('users')->count();
         $article = DB::table('articles')->count();
         $fiche = $this->getFicheManquante();
-        $releveData = $this->getTableauReleve();
+        //$releveData = $this->getTableauReleve();
         $frequence = Frequence::all();
 
         return view('maintenance.dashboard', [
+            'restricted' => false,
             'equipement' => $equipement,
             'employe' => $employe,
             'demandeTotal' => $demandeTotal,
@@ -45,8 +52,8 @@ class DashController extends Controller
             'article' => $article,
             'fiche' => $fiche,
             'frequence' => $frequence,
-            'tableauReleve' => $releveData['resultats'],
-            'parametresReleve' => $releveData['parametres'],
+            //'tableauReleve' => $releveData['resultats'],
+            //'parametresReleve' => $releveData['parametres'],
         ]);
     }
 
@@ -128,11 +135,35 @@ class DashController extends Controller
                 }
                 $previous_elec = $current_elec;
             }
+            if (
+                property_exists($row, "Hrs de marche 250kva") &&
+                property_exists($row, "Hrs de marche 150kva") &&
+                property_exists($row, "Hrs de marche 20kva")
+            ) {
+                $h250 = (float) $row->{"Hrs de marche 250kva"};
+                $h150 = (float) $row->{"Hrs de marche 150kva"};
+                $h20  = (float) $row->{"Hrs de marche 20kva"};
+
+                $totalMinutes = $h250 + $h150 + $h20;
+                $row->{"MM Total"} = round($totalMinutes * 60, 2);
+            } else {
+                $row->{"MM Total"} = "####";
+            }
         }
         return [
             'resultats' => $resultats,
             'parametres' => $parametres
         ];
     }
+    public function ajaxTableauReleve()
+    {
+        $data = $this->getTableauReleve();
+
+        return response()->json([
+            'resultats' => $data['resultats'],
+            'parametres' => $data['parametres']
+        ]);
+    }
+
 }
 
