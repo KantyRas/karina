@@ -128,26 +128,12 @@ class DashController extends Controller
 
             if (property_exists($row, "Releve compteur electicite")) {
                 $current_elec = $row->{"Releve compteur electicite"};
-                if ($previous_elec !== null) {
+                if ($previous_elec !== null && $current_elec !== null) {
                     $row->{"conso KWH/J"} = $current_elec - $previous_elec;
                 } else {
                     $row->{"conso KWH/J"} = "####";
                 }
                 $previous_elec = $current_elec;
-            }
-            if (
-                property_exists($row, "Hrs de marche 250kva") &&
-                property_exists($row, "Hrs de marche 150kva") &&
-                property_exists($row, "Hrs de marche 20kva")
-            ) {
-                $h250 = (float) $row->{"Hrs de marche 250kva"};
-                $h150 = (float) $row->{"Hrs de marche 150kva"};
-                $h20  = (float) $row->{"Hrs de marche 20kva"};
-
-                $totalMinutes = $h250 + $h150 + $h20;
-                $row->{"MM Total"} = round($totalMinutes * 60, 2);
-            } else {
-                $row->{"MM Total"} = "####";
             }
         }
         return [

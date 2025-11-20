@@ -49,7 +49,7 @@
             background-color: #2c3e50;
             color: #fff;
             font-weight: bold;
-            /*text-transform: uppercase;*/
+            text-transform: uppercase;
             font-size: 12px;
             position: sticky;
             top: 0;
