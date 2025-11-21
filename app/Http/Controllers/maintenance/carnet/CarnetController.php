@@ -243,17 +243,6 @@ class CarnetController extends Controller
 
     public function verifiercutoff($idfrequence){
         FicheManquante::truncate();
-
-        // logique:
-        // excecuter a 14h
-        // resultat = select * from v_cron where extract date from v_cron = date now and where idfrequence = 1 "journalier"
-        // equipement = select idequipement from v_cron where idfrequence = 1 journalier (maka equipement rehetra izay manana carnet journalier)
-        // si resultat misy comparena resultat sy equipement de ze tsy ao anaty resultat ampidirina anaty table
-        //  vita
-
-        // select * from v_cron where DATE(dateajout) = DATE(now()) and idfrequence = 1;
-        // select idequipement_equipement from v_cron where idfrequence = 1 group by idequipement_equipement;
-
         $now = Carbon::now();
 
         $existant = DB::table('historique_equipements as he')
@@ -272,7 +261,6 @@ class CarnetController extends Controller
             'pe.idfrequence',
 
         )
-        // ->whereRaw('DATE(ped.dateajout) = \'2025-11-08\'')
         ->whereRaw('DATE(ped.dateajout) = DATE(now())')
         ->where('pe.idfrequence', $idfrequence)
         ->groupBy('ped.dateajout', 'e.idequipement', 'e.nomequipement', 'pe.idfrequence', 'he.idhistoriqueequipement')
@@ -305,7 +293,7 @@ class CarnetController extends Controller
                     'idhistoriqueequipement' => $item->idhistoriqueequipement,
                     'idfrequence' => $item->idfrequence,
                 ]);
-                echo $item->idfrequence;
+                //echo $item->idfrequence;
             }
 
             return back();

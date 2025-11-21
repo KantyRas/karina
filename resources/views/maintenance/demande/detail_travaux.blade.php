@@ -55,11 +55,11 @@
                         </tr>
                         <tr>
                             <th>Date de livraison souhaitée</th>
-                            <td>{{ \Carbon\Carbon::parse($details->datesouhaite)->format('d-m-Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($details->datesouhaite)->format('d/m/Y') }}</td>
                         </tr>
                         <tr>
                             <th>Date réelle</th>
-                            <td>{{ \Carbon\Carbon::parse($details->datereelle)->format('d-m-Y') ?? '-' }}</td>
+                            <td>{{ $details->datereelle ? \Carbon\Carbon::parse($details->datereelle)->format('d/m/Y') : '' }}</td>
                         </tr>
                         <tr>
                             <th>Nº de série</th>

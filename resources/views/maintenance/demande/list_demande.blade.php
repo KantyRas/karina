@@ -2,7 +2,7 @@
 @section('title', "Demandes achats")
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Mes demandes d'achats en cours</h1>
+        <h1 class="page-header">Demandes d'achats en cours</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <a href="{{ route('demande.create','') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Nouvelle demande
@@ -19,7 +19,7 @@
                     <div class="text-right" style="margin-bottom:10px;">
                         <input type="text" id="searchInput" class="form-control" placeholder="Rechercher..." style="width: 250px; display: inline-block;">
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
@@ -36,7 +36,7 @@
                             <tr class="odd gradeX">
                                 <td>Achat/nº{{ str_pad($d->iddemandeachat, 4, '0', STR_PAD_LEFT) }}</td>
                                 <td>{{ $d->demandeur->username }}</td>
-                                <td>{{ $d->datedemande }}</td>
+                                <td>{{ \Carbon\Carbon::parse($d->datedemande)->format('d/m/y') }}</td>
                                 <td style="text-align: center;">
                                     @if($d->iddemande_travaux)
                                         <a href="{{ route('demande.detail_demande_travaux', $d->iddemande_travaux) }}">

@@ -48,6 +48,7 @@
                     <i class="fa fa-table"></i> Tableau mensuel
                 </div>
                 <div class="panel-body">
+                    <div class="table-responsive" style="max-height: 800px; overflow-y: auto;">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
@@ -68,6 +69,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

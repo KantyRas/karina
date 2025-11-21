@@ -2,16 +2,21 @@
 @section('title', 'Détails intervention - Créer un bon d\'intervention')
 
 @section('content')
+    @php
+        $role = Auth::user()->role;
+    @endphp
     <div class="container-fluid">
         <div class="col-lg-12">
             <h2 class="page-header text-primary">
                 <i class="fa fa-wrench"></i> Détails de la Demande d’Intervention
             </h2>
-            <div class="text-right" style="margin-bottom:15px;">
-                <a href="{{ route('demande.intervention.ficheintervention',$details->iddemandeintervention) }}" class="btn btn-primary">
-                    <i class="fa fa-plus"></i> Bon intervention
-                </a>
-            </div>
+            @if(in_array($role,[1,2]))
+                <div class="text-right" style="margin-bottom:15px;">
+                    <a href="{{ route('demande.intervention.ficheintervention',$details->iddemandeintervention) }}" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Bon intervention
+                    </a>
+                </div>
+            @endif
         </div>
         <div class="col-md-12">
             <div class="well well-sm text-center" style="background:#ffffff; margin:15px 0;">
@@ -92,7 +97,7 @@
             </div>
 
             <div class="text-right" style="margin-top: 20px;">
-                @if($details->statut == 0)
+                @if($details->statut == 0 && in_array($role,[1,2]))
                     <a href="{{ route('demande.intervention.valider_ficheintervention',$details->iddemandeintervention) }}" class="btn btn-success">
                         <i class="fa fa-check"></i> Valider
                     </a>
@@ -129,9 +134,11 @@
                     <form action="{{ route('demande.intervention.getdate',$details->iddemandeintervention) }}" method="post">
                         @csrf
                         <input type="hidden" name="dateintervention" value="{{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}">
+                        @if(in_array($role, [1,2]))
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-check-circle"></i> Terminer
                         </button>
+                        @endif
                     </form>
                 </div>
             </div>

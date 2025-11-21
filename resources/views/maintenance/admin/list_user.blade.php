@@ -16,7 +16,7 @@
                     Comptes Utilisateurs
                 </div>
                 <div class="panel-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                             <tr>

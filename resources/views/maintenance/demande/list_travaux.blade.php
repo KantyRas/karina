@@ -2,7 +2,7 @@
 @section('title', "Demandes de travaux")
 @section('content')
     <div class="col-lg-12">
-        <h1 class="page-header">Mes demandes de travaux en cours</h1>
+        <h1 class="page-header">Demandes de travaux en cours</h1>
         <div class="text-right" style="margin-bottom:15px;">
             <a href="{{ route('demande.form_demande_travaux') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i> Nouvelle demande
@@ -19,7 +19,7 @@
                     <div class="text-right" style="margin-bottom:10px;">
                         <input type="text" id="searchInput" class="form-control" placeholder="Rechercher..." style="width: 250px; display: inline-block;">
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
@@ -39,7 +39,7 @@
                                     <td>{{ $t->section->departement->nom ?? '-' }}</td>
                                     <td>{{ $t->users->username }}</td>
                                     <td>{{ $t->typeDemande->nomtype ?? '-' }}</td>
-                                    <td>{{ $t->datesouhaite }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($t->datesouhaite)->format('d/m/y') }}</td>
                                     <td>@include('maintenance.shared.status', ['status' => $t->statut])</td>
                                     <td class="text-center">
                                         <a href="{{ route('demande.detail_demande_travaux',$t->iddemandetravaux) }}"

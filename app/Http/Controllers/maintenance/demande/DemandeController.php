@@ -186,7 +186,7 @@ class DemandeController extends Controller
                     $notification->markAsRead();
                 });
         }
-        return to_route('demande.liste_demande_travaux')->with('success','Demande validé');
+        return back()->with('success','Demande validé');
     }
 
     public function refuserDemande($iddemandetravaux) {
