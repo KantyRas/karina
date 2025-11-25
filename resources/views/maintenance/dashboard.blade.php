@@ -332,7 +332,9 @@
             </div>
         </div>
     </div>
-
+    <div class="col-lg-12">
+        <h1 class="page-header">Tableau des relevés</h1>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default custom-panel">
