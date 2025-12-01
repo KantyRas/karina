@@ -259,8 +259,10 @@ class CarnetController extends Controller
                  ->on('ped.idhistoriqueequipement', '=', 'he.idhistoriqueequipement');
         })
         ->leftJoin('frequences as f', 'f.idfrequence', '=', 'pe.idfrequence')
-        ->select('e.idequipement as idequipement_equipement', 'he.idhistoriqueequipement as idhistoriqueequipement', 'pe.idfrequence as idfrequence' )
+        ->select('e.idequipement as idequipement_equipement', 'he.idhistoriqueequipement as idhistoriqueequipement', 'pe.idfrequence as idfrequence', 'he.datecreation as datecreation' )
         ->where('pe.idfrequence', $idfrequence)
+        ->whereRaw('EXTRACT(MONTH FROM he.datecreation) = EXTRACT(MONTH FROM NOW())')
+        ->whereRaw('EXTRACT(YEAR FROM he.datecreation) = EXTRACT(YEAR FROM NOW())')
         ->groupBy('e.idequipement', 'he.idhistoriqueequipement', 'pe.idfrequence')
         ->get();
 
@@ -292,7 +294,7 @@ class CarnetController extends Controller
             
             $equipementManquants = $equipement->whereIn('idequipement_equipement', $manquants);
 
-            // echo $equipementManquants;
+            echo $equipementManquants;
 
             foreach ($equipementManquants as $item) {
                 FicheManquante::create([
