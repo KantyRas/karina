@@ -10,19 +10,26 @@
         </h3>
     </div>
     <hr>
-    <div class="text-right" style="margin-bottom:15px;">
-{{--        && $user->iduser == $details->idreceveur--}}
-        @if($details->statut == 0 )
-            <a href="{{ route('demande.valider_achat', $details->iddemandeachat) }}" class="btn btn-success">
-                <i class="fa fa-check"></i> Valider
+    <div style="padding: 10px;">
+        <div>
+            {{-- && $user->iduser == $details->idreceveur--}}
+            @if($details->statut == 0 )
+                <a href="{{ route('demande.valider_achat', $details->iddemandeachat) }}" class="btn btn-success">
+                    <i class="fa fa-check"></i> Valider
+                </a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#refusModal">
+                    <i class="fa fa-times"></i> Refuser
+                </button>
+            @endif
+        </div>
+        <div class="text-right" style="margin-top:-33px;">
+            <a href="{{ route('demande.achat_exportExcel', $details->iddemandeachat) }}" class="btn btn-success">
+                <i class="fa fa-download"></i> Exporter en Excel
             </a>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#refusModal">
-                <i class="fa fa-times"></i> Refuser
-            </button>
-        @endif
-        <a href="{{ route('demande.exportPdf', $details->iddemandeachat) }}" class="btn btn-warning">
-            <i class="fa fa-download"></i> Exporter en PDF
-        </a>
+            <a href="{{ route('demande.exportPdf', $details->iddemandeachat) }}" class="btn btn-warning">
+                <i class="fa fa-file-text"></i> Exporter en PDF
+            </a>
+        </div>
     </div>
     <div class="panel panel-default shadow-sm">
         <div class="panel-heading font-weight-bold">
@@ -97,7 +104,7 @@
                     <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
                 </div>
                     <div class="modal-body">
-                        <form action="" method="post">
+                        <form action="#" method="post">
                             @csrf
                                 Raison de refus ?
                                 <textarea class="form-control" name="refus"></textarea>

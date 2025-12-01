@@ -14,14 +14,25 @@ use App\Models\Typereleve;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ReleveController extends Controller
 {
     public function index()
     {
-        $typesReleves = Typereleve::with('parametres')->get();
-
+        $user = Auth::user();
+        $matricule = $user->employe->matricule ?? null;
+        if (empty($matricule) || in_array($user->role,[1,2])) {
+            $typesReleves = Typereleve::with('parametres')->get();
+        }
+        else {
+            $typesReleves = Typereleve::with('parametres','employes')
+                ->whereHas('employes', function($q) use ($matricule) {
+                    $q->where('matricule', 'LIKE', "%$matricule%");
+                })
+                ->get();
+        }
         return view('maintenance.carnet.list_releve', compact('typesReleves'));
     }
     public function get_releve_historique($idtypereleve)

@@ -48,6 +48,7 @@
                     <i class="fa fa-table"></i> Tableau mensuel
                 </div>
                 <div class="panel-body">
+                    <div class="table-responsive" style="max-height: 800px; overflow-y: auto;">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
@@ -62,12 +63,13 @@
                             <tr>
                                 <td>{{ \Carbon\Carbon::parse($row->datereleve)->day }}</td>
                                 @foreach($parametres as $parametre)
-                                    <td>{{ $row->{$parametre->nomparametre} ?? '-' }}</td>
+                                    <td>{{ $row->{$parametre->nomparametre} ?? 0 }}</td>
                                 @endforeach
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

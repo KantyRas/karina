@@ -523,7 +523,7 @@ join parametre_equipements -> frequence
 
 create view v_cron as
 select ped.id, pe.idparametreequipement, pe.nomparametre, ped.valeur, ped.dateajout, he.idhistoriqueequipement, pe.idequipement, pe.idfrequence from parametre_equipement_details ped
-right join historique_equipements he on he.idhistoriqueequipement = ped.idhistoriqueequipement 
+right join historique_equipements he on he.idhistoriqueequipement = ped.idhistoriqueequipement
 right join parametre_equipements pe on pe.idparametreequipement = ped.idparametreequipement and he.idequipement = pe.idequipement;
 
 
@@ -533,7 +533,7 @@ left join parametre_equipements pe on pe.idparametreequipement = ped.idparametre
 left join equipements e on e.idequipement = pe.idequipement;
 
 CREATE VIEW v_cron as
-SELECT 
+SELECT
     ped.id as id_detail,
     ped.valeur,
     ped.dateajout,
@@ -544,13 +544,13 @@ SELECT
     e.idequipement AS idequipement_equipement,
     e.nomequipement
 FROM historique_equipements he
-JOIN equipements e 
+JOIN equipements e
     ON e.idequipement = he.idequipement
-LEFT JOIN parametre_equipements pe 
-    ON pe.idequipement = he.idequipement 
-LEFT JOIN parametre_equipement_details ped 
+LEFT JOIN parametre_equipements pe
+    ON pe.idequipement = he.idequipement
+LEFT JOIN parametre_equipement_details ped
     ON ped.idparametreequipement = pe.idparametreequipement
-   AND ped.idhistoriqueequipement = he.idhistoriqueequipement 
+   AND ped.idhistoriqueequipement = he.idhistoriqueequipement
 LEFT JOIN frequences f on f.idfrequence = pe.idfrequence;
 
 create table fiche_manquante (
@@ -561,7 +561,7 @@ create table fiche_manquante (
     idhistoriqueequipement int references historique_equipements(idhistoriqueequipement)
 );
 
-SELECT 
+SELECT
     f.date_manquante,
     f.idhistoriqueequipement,
     eq.idequipement,
@@ -577,3 +577,17 @@ JOIN employe_equipements empq ON empq.idequipement = eq.idequipement
 JOIN employes emp ON emp.idemploye = empq.idemploye
 JOIN frequences fq ON fq.idfrequence = f.idfrequence
 GROUP BY f.idhistoriqueequipement, eq.idequipement, eq.nomequipement, ep.emplacement, fq.idfrequence, fq.frequence, f.date_manquante;
+
+
+SELECT
+    idequipement,
+    nomequipement,
+    code,
+    idemplacement,
+    emplacement,
+    STRING_AGG(nomemploye || ' ' || prenom, ' - ' ORDER BY nomemploye, prenom) AS nomemploye,
+    STRING_AGG(matricule, ' - ' ORDER BY matricule) AS matricule
+FROM v_liste_equipement
+WHERE matricule = '12345'
+GROUP BY idequipement, nomequipement, code, idemplacement, emplacement;
+

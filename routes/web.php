@@ -38,8 +38,9 @@ Route::get('/', function () {
 Route::post('/loginAction',[AuthController::class,'loginAction'])->name('login.auth');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout.auth');
 
-Route::middleware(['auth', 'role:1,2,4'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/home',[DashController::class, 'Dashboard'])->name('index.dashboard');
+    Route::get('/home/releves/tableau', [DashController::class, 'ajaxTableauReleve']);
 
     Route::prefix('admin')->name('admin.personnel.')->group(function(){
         Route::resource('employe',EmployeController::class)->except(['show']);
@@ -89,6 +90,7 @@ Route::middleware(['auth', 'role:1,2,4'])->group(function () {
         Route::get('/achat/validation/{iddemandeachat}', [DemandeController::class,'updateValiderAchat'])->name('demande.valider_achat');
         Route::get('/achat/refus/{iddemandeachat}', [DemandeController::class,'refuserDemandeAchat'])->name('demande.refuser_achat');
         Route::get('/travaux',[DemandeController::class,'index_travaux'])->name('demande.liste_demande_travaux');
+        Route::get('/exportexcel/{iddemandeachat}', [DemandeController::class, 'exportExcelDemandeAchat'])->name('demande.achat_exportExcel');
         Route::get('/travaux/ajout',[DemandeController::class,'ajout_travaux'])->name('demande.form_demande_travaux');
         Route::post('/travaux/store',[DemandeController::class,'storeTravaux'])->name('demande.store_travaux');
         Route::get('/travaux/details/{iddemandetravaux}',[DemandeController::class,'get_detail_travaux'])->name('demande.detail_demande_travaux');

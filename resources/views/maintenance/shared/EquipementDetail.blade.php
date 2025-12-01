@@ -10,7 +10,7 @@
     <tbody>
         @foreach ($resultats as $ligne)
         <tr>
-            <td>{{ \Carbon\Carbon::parse($ligne->dateajout)->format('d-m-Y') }}</td>
+            <td>{{ \Carbon\Carbon::parse($ligne->dateajout)->format('d/m/Y') }}</td>
             @foreach ($params as $param)
                 <td>{{ $ligne->$param }}</td>
             @endforeach

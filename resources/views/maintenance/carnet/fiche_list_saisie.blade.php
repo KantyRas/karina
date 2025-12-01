@@ -74,7 +74,9 @@
                     </ul>
                 </div>
                 <div class="panel-body" id="fiche-container">
+                    <div class="table-responsive" style="max-height: 800px; overflow-y: auto;">
                     @include('maintenance.shared.EquipementDetail')
+                    </div>
                 </div>
             </div>
         </div>

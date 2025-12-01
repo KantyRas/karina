@@ -128,28 +128,28 @@
                     <a href="{{ route('index.dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 @endif
-                @if(Auth::user()->role == 1)
+                @if(in_array($role, [1, 2]))
                 <li @class(['','active' => str_contains($routeName, 'admin.personnel.')])>
                     <a href="#"><i class="fa fa-users fa-fw"></i> Utilisateurs<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        @if(in_array($role, [1, 2]))
-                            <li>
-                                <a href="{{ route('admin.personnel.employe.index') }}">Employés</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.personnel.fonction.index') }}">Fonctions</a>
-                            </li>
+                        <li>
+                            <a href="{{ route('admin.personnel.employe.index') }}">Employés</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.personnel.fonction.index') }}">Fonctions</a>
+                        </li>
+                        @if($role == 1)
+                        <li>
+                            <a href="{{ route('admin.personnel.role.index') }}">Rôles</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.personnel.user.index') }}">Comptes</a>
+                        </li>
                         @endif
-                            <li>
-                                <a href="{{ route('admin.personnel.role.index') }}">Rôles</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.personnel.user.index') }}">Comptes</a>
-                            </li>
-                        </ul>
-                    </li>
+                    </ul>
+                </li>
                 @endif
-                @if(in_array($role, [1, 2]))
+                @if(in_array($role, [1, 2, 5]))
                 <li @class(['','active' => str_contains($routeName, 'carnet.')])>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Entreprises<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -162,7 +162,6 @@
                     </ul>
                 </li>
                 @endif
-                @if(in_array($role, [1, 2, 4]))
                 <li @class(['','active' => str_contains($routeName, 'demande.')])>
                     <a href="#"><i class="fa fa-folder"></i> Demandes<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -170,18 +169,19 @@
                         <li>
                             <a href="{{ route('demande.liste_demande_travaux') }}">Grands Travaux</a>
                         </li>
-                        <li>
-                            <a href="{{ route('demande.intervention.liste_intervention') }}">Interventions</a>
-                        </li>
                         @endif
+                        @if(in_array($role, [1, 2, 4]))
                         <li>
                             <a href="{{ route('demande.index') }}">Achats</a>
                         </li>
+                        @endif
+                        <li>
+                            <a href="{{ route('demande.intervention.liste_intervention') }}">Interventions</a>
+                        </li>
                     </ul>
                 </li>
-                @endif
+                @if(in_array($role, [1, 2]))
                 <li @class(['','active' => str_contains($routeName, 'util.gestion.')])>
-                @if(Auth::user()->role == 1)
                     <a href="#"><i class="fa fa-gears"></i> Gestions utiles<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>

@@ -34,6 +34,8 @@ class DemandeTravauxRequest extends FormRequest
             // 'statut' => ['required'],
             'motif' => ['required'],
             'description' => ['required'],
+            'fichiers' => ['nullable', 'array'],
+            'fichiers.*' => ['file','mimes:jpg,jpeg,png,pdf,doc,docx,xlsx,zip','max:10240'],
         ];
     }
 }

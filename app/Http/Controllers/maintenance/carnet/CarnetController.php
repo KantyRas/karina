@@ -15,6 +15,7 @@ use App\Models\Emplacement;
 use App\Models\Frequence;
 use App\Http\Requests\EquipementRequest;
 use App\Http\Requests\DetailEquipementRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -24,9 +25,17 @@ use App\Models\FicheManquante;
 class CarnetController extends Controller
 {
     public function index(){
+        $user = Auth::user();
+        $matricule = $user->employe->matricule ?? null;
 
-        $equipements = DB::table('v_liste_equipement_regroupe')->get();
-
+        if (empty($matricule) || in_array($user->role,[1,2])) {
+            $equipements = DB::table('v_liste_equipement_regroupe')->get();
+        }
+        else {
+            $equipements = DB::table('v_liste_equipement_regroupe')
+                ->where('matricule', 'LIKE', "%$matricule%")
+                ->get();
+        }
         return view('maintenance.carnet.list_carnet',[
             'equipements' => $equipements,
         ]);
@@ -45,41 +54,6 @@ class CarnetController extends Controller
             'employes' => $employe,
             'frequences' => $frequence,
         ]);
-    }
-    public function edit($idequipement)
-    {
-        $equipement = Equipement::with('parametres')->find($idequipement);
-        $emplacement = Emplacement::all();
-        $employe = Employe::all();
-        $frequence = Frequence::all();
-        return view('maintenance.carnet.ajout_carnet',[
-            'equipements' => $equipement,
-            'emplacements' => $emplacement,
-            'employes' => $employe,
-            'frequences' => $frequence,
-        ]);
-    }
-    public function update(EquipementRequest $request,$idequipement)
-    {
-        $validated = $request->validated();
-        $equipement = Equipement::findOrFail($idequipement);
-        $equipement->update([
-            'nomequipement' => $validated['nomequipement'],
-            'idemplacement' => $validated['idemplacement'],
-        ]);
-        $equipement->employes()->detach();
-        $equipement->parametres()->delete();
-        foreach ($validated['idemploye'] as $employeId) {
-            $equipement->employes()->attach($employeId);
-        }
-        foreach ($validated['parametres'] as $parametre) {
-            $equipement->parametres()->create([
-                'nomparametre' => $parametre['nomparametre'],
-                'idfrequence' => $parametre['idfrequence'],
-            ]);
-        }
-        return to_route('carnet.liste_carnet')
-            ->with('success', 'Équipement mis à jour avec succès.');
     }
     public function store(EquipementRequest $request){
         $validated = $request->validated();
@@ -109,7 +83,61 @@ class CarnetController extends Controller
         }
         return to_route('carnet.liste_carnet')->with('success', 'Equipement inseré');
     }
+    public function edit($idequipement)
+    {
+        $equipement = Equipement::with(['employes', 'parametres.details'])->findOrFail($idequipement);
+        $emplacements = Emplacement::all();
+        $employes = Employe::all();
+        $frequences = Frequence::all();
 
+        $hasDetails = $equipement->parametres->contains(function($param) {
+            return $param->details->count() > 0;
+        });
+        if ($hasDetails) {
+            return back()->with('warning', "Attention : vous ne pouvez pas modifier ceci car des enregistrements existent déjà.");
+        }
+        return view('maintenance.carnet.edit_carnet', [
+            'equipements' => $equipement,
+            'emplacements' => $emplacements,
+            'employes' => $employes,
+            'frequences' => $frequences,
+        ]);
+    }
+    public function update(EquipementRequest $request, $idequipement)
+    {
+        $validated = $request->validated();
+        $equipement = Equipement::findOrFail($idequipement);
+        $equipement->update([
+            'nomequipement' => $validated['nomequipement'],
+            'idemplacement' => $validated['idemplacement'],
+        ]);
+        $equipement->employes()->sync($validated['idemploye']);
+
+        $existingParams = $equipement->parametres->keyBy('idparametreequipement');
+        $submittedParams = collect($validated['parametres']);
+        foreach ($submittedParams as $param) {
+            if (isset($param['idparametreequipement']) && $existingParams->has($param['idparametreequipement'])) {
+                $existingParam = $existingParams->get($param['idparametreequipement']);
+                $existingParam->update([
+                    'nomparametre' => $param['nomparametre'],
+                    'idfrequence' => $param['idfrequence'],
+                ]);
+                $existingParams->forget($param['idparametreequipement']);
+            } else {
+                ParametreEquipement::create([
+                    'idequipement' => $equipement->idequipement,
+                    'nomparametre' => $param['nomparametre'],
+                    'idfrequence' => $param['idfrequence'],
+                ]);
+            }
+        }
+        foreach ($existingParams as $paramToDelete) {
+            if ($paramToDelete->details()->count() == 0) {
+                $paramToDelete->delete();
+            }
+        }
+        return to_route('carnet.liste_carnet')->with('success', 'Equipement mis à jour');
+    }
     public function getDetailEquipement($idhistorique, Request $request)
     {
 
@@ -215,17 +243,6 @@ class CarnetController extends Controller
 
     public function verifiercutoff($idfrequence){
         FicheManquante::truncate();
-
-        // logique:
-        // excecuter a 14h
-        // resultat = select * from v_cron where extract date from v_cron = date now and where idfrequence = 1 "journalier"
-        // equipement = select idequipement from v_cron where idfrequence = 1 journalier (maka equipement rehetra izay manana carnet journalier)
-        // si resultat misy comparena resultat sy equipement de ze tsy ao anaty resultat ampidirina anaty table
-        //  vita
-
-        // select * from v_cron where DATE(dateajout) = DATE(now()) and idfrequence = 1;
-        // select idequipement_equipement from v_cron where idfrequence = 1 group by idequipement_equipement;
-
         $now = Carbon::now();
 
         $existant = DB::table('historique_equipements as he')
@@ -244,7 +261,6 @@ class CarnetController extends Controller
             'pe.idfrequence',
 
         )
-        // ->whereRaw('DATE(ped.dateajout) = \'2025-11-08\'')
         ->whereRaw('DATE(ped.dateajout) = DATE(now())')
         ->where('pe.idfrequence', $idfrequence)
         ->groupBy('ped.dateajout', 'e.idequipement', 'e.nomequipement', 'pe.idfrequence', 'he.idhistoriqueequipement')
@@ -279,7 +295,7 @@ class CarnetController extends Controller
                     'idhistoriqueequipement' => $item->idhistoriqueequipement,
                     'idfrequence' => $item->idfrequence,
                 ]);
-                echo $item->idfrequence;
+                //echo $item->idfrequence;
             }
 
             return back();
@@ -289,9 +305,9 @@ class CarnetController extends Controller
 
             $existantIds = $existant->pluck('idequipement_equipement');
             $equipementIds = $equipement->pluck('idequipement_equipement');
-            
+
             $manquants = $equipementIds->diff($existantIds);
-            
+
             $equipementManquants = $equipement->whereIn('idequipement_equipement', $manquants);
 
             echo $equipementManquants;

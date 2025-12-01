@@ -20,7 +20,7 @@
                     <div class="text-right" style="margin-bottom:10px;">
                         <input type="text" id="searchInput" class="form-control" placeholder="Rechercher..." style="width: 250px; display: inline-block;">
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
@@ -39,8 +39,8 @@
                                 <tr class="odd gradeX">
                                     <td>{{ $d->iddemandeintervention }}</td>
                                     <td>{{ $d->demandeur->username }}</td>
-                                    <td>{{ $d->datedemande }}</td>
-                                    <td>{{ $d->datesouhaite }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($d->datedemande)->format('d/m/y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($d->datesouhaite)->format('d/m/y') }}</td>
                                     <td>
                                         {{ $d->section->departement->nom }} /
                                         {{ $d->section->nomsection }}

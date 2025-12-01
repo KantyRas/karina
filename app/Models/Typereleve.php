@@ -20,4 +20,8 @@ class Typereleve extends Model
     {
         return $this->hasMany(Parametretype::class, 'idtypereleve');
     }
+    public function employes()
+    {
+        return $this->belongsToMany(Employe::class, 'employetypereleves', 'idtypereleve', 'idemploye');
+    }
 }

@@ -39,10 +39,10 @@
                             <label>Date planifiée</label>
                             <input type="datetime-local" name="dateplanifie" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label>Date intervention effective</label>
-                            <input type="datetime-local" name="dateintervention" class="form-control">
-                        </div>
+{{--                        <div class="form-group">--}}
+{{--                            <label>Date intervention effective</label>--}}
+{{--                            <input type="datetime-local" name="dateintervention" class="form-control">--}}
+{{--                        </div>--}}
                         <div class="text-right" style="margin-top: 20px;">
                             <button type="reset" class="btn btn-outline-secondary px-4">
                                 <i class="fa fa-undo me-1"></i> Réinitialiser

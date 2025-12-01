@@ -10,12 +10,18 @@ use App\Models\Employe;
 use App\Models\FicheIntervention;
 use App\Models\TypeIntervention;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InterventionController extends Controller
 {
     public function index()
     {
-        $demandes = DemandeIntervention::with('demandeur','receveurrole','section.departement','typeintervention')->get();
+        $user = Auth::user();
+        $query = DemandeIntervention::with(['demandeur', 'receveurrole','section.departement','typeintervention']);
+        if(!in_array($user->role,[1,2])){
+            $query = $query->where('iddemandeur',$user->iduser);
+        }
+        $demandes = $query->get();
         return view('maintenance.intervention.list_intervention',compact('demandes'));
     }
     public function create()
@@ -68,8 +74,8 @@ class InterventionController extends Controller
         }
 
         return response()->json([
-            'idfiche' => $fiche->idficheintervention,
-            'iddemande' => $fiche->iddemandeintervention,
+            'idfiche' => "FI/nº".str_pad($fiche->idficheintervention,4,0,STR_PAD_LEFT),
+            'iddemande' => "DI/nº".str_pad($fiche->iddemandeintervention,4,0,STR_PAD_LEFT),
             'employe' => $fiche->employe->matricule ?? 'Non assigné',
             'datecreation' => $fiche->datecreation,
             'dateplanifie' => $fiche->dateplanifie,
