@@ -55,11 +55,6 @@
                                        title="Détails">
                                         <i class="fa fa-file"></i>
                                     </a>
-                                    <a href="#"
-                                       class="btn btn-success btn-circle"
-                                       title="Modifier">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
                                     <form action="" method="POST" style="display:inline-block; margin-left:3px;">
                                         @csrf
                                         @method('DELETE')

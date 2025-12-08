@@ -26,12 +26,8 @@
                     </p>
                     <div>
                         <a href="{{ route('carnet.historique_releve',$type->idtypereleve) }}"
-                           class="btn btn-primary  btn-sm me-2">
+                           class="btn btn-success  btn-sm me-2">
                             Voir détails
-                        </a>
-                        <a href="#"
-                           class="btn btn-warning btn-sm">
-                            <i class="fa fa-edit"></i> Modifier
                         </a>
                     </div>
                 </div>

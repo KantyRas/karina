@@ -216,12 +216,19 @@ class DemandeController extends Controller
 
 
     public function storetravaux(DemandeTravauxRequest $request){
-
         $demandeTravaux = DemandeTravaux::create($request->validated());
         if ($request->hasFile('fichiers')) {
             foreach ($request->file('fichiers') as $file) {
+                if (!$file->isValid()) {
+                    dd('Erreur sur un fichier uploadé : ' . $file->getErrorMessage());
+                }
                 $originalName = $file->getClientOriginalName();
-                $path = $file->store('fiche_joint', 'public');
+
+                try {
+                    $path = $file->store('fiche_joint', 'public');
+                } catch (\Exception $e) {
+                    dd('Erreur lors de l\'enregistrement du fichier : ' . $e->getMessage());
+                }
 
                 FicheJoint::create([
                     'fichier' => $path,

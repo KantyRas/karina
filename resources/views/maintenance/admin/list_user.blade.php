@@ -35,11 +35,6 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->roleRelation?->role }}</td>
                                     <td class="text-center">
-                                        <a href="#"
-                                           class="btn btn-primary btn-circle"
-                                           title="Détails">
-                                            <i class="fa fa-list-alt"></i>
-                                        </a>
                                         <a href="{{ route('admin.personnel.user.edit',$user) }}"
                                            class="btn btn-success btn-circle"
                                            title="Modifier">

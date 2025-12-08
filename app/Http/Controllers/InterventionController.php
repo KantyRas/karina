@@ -59,9 +59,10 @@ class InterventionController extends Controller
     public function storeFicheIntervention(FicheInterventionRequest $request)
     {
         $validated = $request->validated();
-        //dd($validated);
+        //dd($validated['iddemandeintervention']);
         $fiche_intervention = FicheIntervention::create($validated);
-        return $this->index();
+        //return $this->get_detail_intervention($validated['iddemandeintervention']);
+        return to_route('demande.intervention.detail_intervention', $validated['iddemandeintervention']);
     }
     public function get_detail_ficheintervention($iddemandeintervention): \Illuminate\Http\JsonResponse
     {
