@@ -67,7 +67,7 @@
                                     <span class="label label-warning">En attente</span>
                                 @elseif($details->statut == 1)
                                     <span class="label label-success">Validé</span>
-                                @elseif($details->statut == 3)
+                                @elseif($details->statut == 2)
                                     <span class="label label-danger">Rejeté</span>
                                 @else
                                     <span class="label label-default">Inconnu</span>
@@ -101,7 +101,7 @@
                     <a href="{{ route('demande.intervention.valider_ficheintervention',$details->iddemandeintervention) }}" class="btn btn-success">
                         <i class="fa fa-check"></i> Valider
                     </a>
-                    <a href="#" class="btn btn-danger">
+                    <a href="{{ route('demande.intervention.refuser',$details->iddemandeintervention) }}" class="btn btn-danger">
                         <i class="fa fa-times"></i> Rejeter
                     </a>
                 @endif

@@ -104,10 +104,10 @@
                     <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
                 </div>
                     <div class="modal-body">
-                        <form action="#" method="post">
+                        <form action="{{ route('demande.refuser_achat', $details->iddemandeachat) }}" method="post">
                             @csrf
                                 Raison de refus ?
-                                <textarea class="form-control" name="refus"></textarea>
+                                <textarea class="form-control" name="raisonrefus"></textarea>
 
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary"> Valider</button>

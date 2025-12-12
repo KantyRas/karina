@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/details/{iddemandeachat}',[DemandeController::class,'get_detail_achat'])->name('demande.detail');
         Route::get('/details/pdf/{iddemandeachat}',[DemandeController::class,'exportPdf'])->name('demande.exportPdf');
         Route::get('/achat/validation/{iddemandeachat}', [DemandeController::class,'updateValiderAchat'])->name('demande.valider_achat');
-        Route::get('/achat/refus/{iddemandeachat}', [DemandeController::class,'refuserDemandeAchat'])->name('demande.refuser_achat');
+        Route::post('/achat/refus/{iddemandeachat}', [DemandeController::class,'refuserDemandeAchat'])->name('demande.refuser_achat');
         Route::get('/travaux',[DemandeController::class,'index_travaux'])->name('demande.liste_demande_travaux');
         Route::get('/exportexcel/{iddemandeachat}', [DemandeController::class, 'exportExcelDemandeAchat'])->name('demande.achat_exportExcel');
         Route::get('/travaux/ajout',[DemandeController::class,'ajout_travaux'])->name('demande.form_demande_travaux');
@@ -96,7 +96,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/travaux/details/{iddemandetravaux}',[DemandeController::class,'get_detail_travaux'])->name('demande.detail_demande_travaux');
         Route::get('/get_responsable/{iddepartement}', [DemandeController::class,'getResponsable'])->name('demande.getResponsable');
         Route::get('/travaux/details/validation/{iddemandetravaux}', [DemandeController::class,'updateValider'])->name('demande.valider');
-        Route::get('/travaux/details/refus/{iddemandetravaux}', [DemandeController::class,'refuserdemande'])->name('demande.refuser');
+        Route::post('/travaux/details/refus/{iddemandetravaux}', [DemandeController::class,'refuserdemande'])->name('demande.refuser');
         Route::post('/demandes/update-date/{iddemandetravaux}', [DemandeController::class, 'updateDate'])->name('demande.update_date');
         Route::get('/notifications/reads', [DemandeController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
         Route::get('/',[InterventionController::class,'index'])->name('demande.intervention.liste_intervention');
@@ -108,6 +108,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ficheintervention/details/{iddemandeintervention}',[InterventionController::class,'get_detail_ficheintervention'])->name('demande.intervention.detail_ficheintervention');
         Route::get('/ficheintervention/valider/{iddemandeintervention}',[InterventionController::class,'validerFicheIntervention'])->name('demande.intervention.valider_ficheintervention');
         Route::post('ficheintervention/getdate/{iddemandeintervention}',[InterventionController::class,'getDateIntervention'])->name('demande.intervention.getdate');
+        Route::get('ficheintervention/refuser/{iddemandeintervention}',[InterventionController::class,'refuserFicheIntervention'])->name('demande.intervention.refuser');
     });
 
     Route::prefix('articles')->group(function(){

@@ -95,10 +95,14 @@ class DemandeController extends Controller
         }
         return back()->with('success','Demande d\'achat validé avec succès');
     }
-    public function refuserDemandeAchat($iddemandeachat)
+    public function refuserDemandeAchat($iddemandeachat,Request $request)
     {
-        $demande = DemandeAchat::findOrFail($iddemandeachat);
-        $demande->update(['statut' => 2]);
+        $raison = $request->input('raisonrefus');
+        //dd($raison);
+        DemandeAchat::where('iddemandeachat', $iddemandeachat)->update([
+            'statut' => 2,
+            'raisonrefus' => $raison
+        ]);
         return back();
     }
     public function get_detail_achat($iddemandeachat)
@@ -189,8 +193,12 @@ class DemandeController extends Controller
         return back()->with('success','Demande validé');
     }
 
-    public function refuserDemande($iddemandetravaux) {
-        DemandeTravaux::where('iddemandetravaux', $iddemandetravaux)->update(['statut' => 2]);
+    public function refuserDemande($iddemandetravaux,Request $request) {
+        $raison = $request->input('raisonrefus');
+        DemandeTravaux::where('iddemandetravaux', $iddemandetravaux)->update([
+            'statut' => 2,
+            'raisonrefus' => $raison
+        ]);
         return to_route('demande.liste_demande_travaux')->with('succes','Demande refusé');
     }
     public function updateDate(Request $request, $iddemandetravaux)

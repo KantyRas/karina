@@ -103,4 +103,10 @@ class InterventionController extends Controller
         $demande_intervention->update(['statut' => 1]);
         return back()->with('success','Demande intervention validée.');
     }
+    public function refuserFicheIntervention($iddemandeintervention)
+    {
+        $demande_intervention = DemandeIntervention::findOrFail($iddemandeintervention);
+        $demande_intervention->update(['statut' => 2]);
+        return back();
+    }
 }

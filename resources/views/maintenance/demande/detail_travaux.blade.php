@@ -153,19 +153,21 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="validerModalLabel">Choisissez une action</h5>
                 </div>
+                <form action="{{ route('demande.refuser', $details->iddemandetravaux) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        Raison de refus ?
+                        <textarea class="form-control" name="raisonrefus">Raison de refus</textarea>
+                    </div>
 
-                <div class="modal-body">
-                    Raison de refus ?
-                    <textarea class="form-control" name="refus">Raison de refus</textarea>
-                </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Valider
+                        </button>
 
-                <div class="modal-footer">
-                    <a href="{{ route('demande.refuser', $details->iddemandetravaux) }}" class="btn btn-primary">
-                        Valider
-                    </a>
-
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                </form>
 
             </div>
         </div>
