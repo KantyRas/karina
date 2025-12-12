@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Parametretype;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use App\Models\Frequence;
@@ -18,43 +19,53 @@ class DashController extends Controller
                 'restricted' => true
             ]);
         }
-        $equipement = DB::table('equipements')->count();
-        $employe = DB::table('employes')->count();
-        $demandeTotal = DB::table('demande_travaux')->count();
-        $demandeEnCours = DB::table('demande_travaux')->where('statut', 0)->count();
-        $demandeAccepte = DB::table('demande_travaux')->where('statut', 1)->count();
-        $demandeIntervention = DB::table('demande_interventions')->count();
-        $demandeInterventionEnCours = DB::table('demande_interventions')->where('statut', 0)->count();
-        $demandeInterventionAccepte = DB::table('demande_interventions')->where('statut', 1)->count();
-        $demandeAchat = DB::table('demande_achats')->count();
-        $demandeAchatEnCours = DB::table('demande_achats')->where('statut', 0)->count();
-        $demandeAchatAccepte = DB::table('demande_achats')->where('statut', 1)->count();
-        $user = DB::table('users')->count();
-        $article = DB::table('articles')->count();
+        $statsBase = [
+            'equipement' => DB::table('equipements')->count(),
+            'employe'    => DB::table('employes')->count(),
+            'user'       => DB::table('users')->count(),
+            'article'    => DB::table('articles')->count(),
+        ];
+        $demandeTravaux = DB::table('demande_travaux')
+            ->selectRaw('
+            COUNT(*) as total,
+            SUM(CASE WHEN statut = 0 THEN 1 ELSE 0 END) as encours,
+            SUM(CASE WHEN statut = 1 THEN 1 ELSE 0 END) as accepte
+        ')
+            ->first();
+        $demandeInterventions = DB::table('demande_interventions')
+            ->selectRaw('
+            COUNT(*) as total,
+            SUM(CASE WHEN statut = 0 THEN 1 ELSE 0 END) as encours,
+            SUM(CASE WHEN statut = 1 THEN 1 ELSE 0 END) as accepte
+        ')
+            ->first();
+        $demandeAchat = DB::table('demande_achats')
+            ->selectRaw('
+            COUNT(*) as total,
+            SUM(CASE WHEN statut = 0 THEN 1 ELSE 0 END) as encours,
+            SUM(CASE WHEN statut = 1 THEN 1 ELSE 0 END) as accepte
+        ')
+            ->first();
         $fiche = $this->getFicheManquante();
-        //$releveData = $this->getTableauReleve();
-        $frequence = Frequence::all();
-
-        return view('maintenance.dashboard', [
+        $frequence = Frequence::select('idfrequence','frequence')->get();
+        return view('maintenance.dashboard', array_merge($statsBase, [
             'restricted' => false,
-            'equipement' => $equipement,
-            'employe' => $employe,
-            'demandeTotal' => $demandeTotal,
-            'demandeEnCours' => $demandeEnCours,
-            'demandeAccepte' => $demandeAccepte,
-            'demandeIntervention' => $demandeIntervention,
-            'demandeInterventionEnCours' => $demandeInterventionEnCours,
-            'demandeInterventionAccepte' => $demandeInterventionAccepte,
-            'demandeAchat' => $demandeAchat,
-            'demandeAchatEnCours' => $demandeAchatEnCours,
-            'demandeAchatAccepte' => $demandeAchatAccepte,
-            'user' => $user,
-            'article' => $article,
+
+            'demandeTotal' => $demandeTravaux->total,
+            'demandeEnCours' => $demandeTravaux->encours,
+            'demandeAccepte' => $demandeTravaux->accepte,
+
+            'demandeIntervention' => $demandeInterventions->total,
+            'demandeInterventionEnCours' => $demandeInterventions->encours,
+            'demandeInterventionAccepte' => $demandeInterventions->accepte,
+
+            'demandeAchat' => $demandeAchat->total,
+            'demandeAchatEnCours' => $demandeAchat->encours,
+            'demandeAchatAccepte' => $demandeAchat->accepte,
+
             'fiche' => $fiche,
             'frequence' => $frequence,
-            //'tableauReleve' => $releveData['resultats'],
-            //'parametresReleve' => $releveData['parametres'],
-        ]);
+        ]));
     }
 
     public function getFicheManquante(){
@@ -65,16 +76,15 @@ class DashController extends Controller
         ->join('employe_equipements as empq', 'empq.idequipement', '=', 'eq.idequipement')
         ->join('employes as emp', 'emp.idemploye', '=', 'empq.idemploye')
         ->join('frequences as fq', 'fq.idfrequence', '=', 'f.idfrequence')
-        ->select(
+        ->select([
             'f.date_manquante',
             'f.idhistoriqueequipement',
             'eq.idequipement',
             'eq.nomequipement',
             'ep.emplacement',
             DB::raw("STRING_AGG(DISTINCT emp.nom || ' ' || emp.prenom, ' - ') AS employe"),
-            'fq.idfrequence',
             'fq.frequence'
-        )
+        ])
         ->groupBy(
             'f.idhistoriqueequipement',
             'eq.idequipement',
@@ -90,7 +100,9 @@ class DashController extends Controller
     }
     public function getTableauReleve()
     {
-        $parametres = Parametretype::all();
+        $parametres = Cache::remember('parametretype_all', 3600, function () {
+            return Parametretype::select('idparametretype','nomparametre')->get();
+        });
         $colonnes = [];
         foreach ($parametres as $p) {
             $nom = addslashes($p->nomparametre);
@@ -143,7 +155,9 @@ class DashController extends Controller
     }
     public function ajaxTableauReleve()
     {
-        $data = $this->getTableauReleve();
+        $data = Cache::remember('tableau_releve', 60, function () {
+            return $this->getTableauReleve();
+        });
 
         return response()->json([
             'resultats' => $data['resultats'],
